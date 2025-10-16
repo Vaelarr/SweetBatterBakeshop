@@ -10,8 +10,6 @@ This application follows the **MVC design pattern** for clean separation of conc
 - **View:** User interface components (`view/` package)  
 - **Controller:** Application logic and coordination (`controller/` package)
 
-For detailed architecture documentation, see [MVC_ARCHITECTURE.md](MVC_ARCHITECTURE.md)
-
 ## 📂 Project Structure
 
 ```
