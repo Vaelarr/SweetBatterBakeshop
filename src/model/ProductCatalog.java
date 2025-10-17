@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductCatalog {
+public class ProductCatalog implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Product> products;
 
     public ProductCatalog() {
@@ -71,5 +73,21 @@ public class ProductCatalog {
         categories.add("Cookies");
         categories.add("Breads");
         return categories;
+    }
+
+    // Admin methods
+    public void addProduct(Product product) {
+        products.add(product);
+    }
+
+    public boolean removeProduct(Product product) {
+        return products.remove(product);
+    }
+
+    public Product getProductByName(String name) {
+        return products.stream()
+                .filter(p -> p.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }

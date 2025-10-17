@@ -5,14 +5,55 @@ import view.CatalogueView;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Optional;
 
 public class CatalogueController {
     private CatalogueView view;
     private ShoppingCart cart;
+    private SerializationUtil<ShoppingCart> cartSerializer;
+    private static final String CART_FILE = "shopping_cart.ser";
 
     public CatalogueController(CatalogueView view, ShoppingCart cart) {
         this.view = view;
         this.cart = cart;
+        this.cartSerializer = new SerializationUtil<>();
+        loadCart(); // Load saved cart on initialization
+    }
+    
+    /**
+     * Loads the shopping cart from file if it exists.
+     * Uses generics and Optional for type-safe deserialization.
+     */
+    private void loadCart() {
+        Optional<ShoppingCart> loadedCart = cartSerializer.load(CART_FILE);
+        if (loadedCart.isPresent()) {
+            // Transfer items from loaded cart to current cart
+            ShoppingCart saved = loadedCart.get();
+            for (int i = 0; i < saved.getItems().size(); i++) {
+                cart.getItems().add(saved.getItems().get(i));
+            }
+            System.out.println("Cart loaded successfully with " + cart.getItems().size() + " items");
+        }
+    }
+    
+    /**
+     * Saves the current shopping cart to file.
+     * Automatically called after cart modifications.
+     */
+    private void saveCart() {
+        if (cartSerializer.save(cart, CART_FILE)) {
+            System.out.println("Cart saved successfully");
+        } else {
+            System.err.println("Failed to save cart");
+        }
+    }
+    
+    /**
+     * Clears the saved cart file.
+     * Called after successful checkout.
+     */
+    private void clearSavedCart() {
+        cartSerializer.delete(CART_FILE);
     }
 
     public void addToCart(Product product) {
@@ -159,6 +200,7 @@ public class CatalogueController {
                     String specialNote = noteArea.getText().trim();
                     
                     cart.addItem(product, quantity, toppings.toString(), specialNote);
+                    saveCart(); // Auto-save after adding item
                     view.updateCartDisplay();
                     dialog.dispose();
                     showModernMessage("Success", quantity + "x " + product.getName() + " added to cart!", false);
@@ -311,6 +353,7 @@ public class CatalogueController {
             int selectedIndex = cartList.getSelectedIndex();
             if (selectedIndex >= 0) {
                 cart.removeItem(selectedIndex);
+                saveCart(); // Auto-save after removing item
                 listModel.remove(selectedIndex);
                 view.updateCartDisplay();
                 totalLabel.setText("TOTAL: ₱" + String.format("%.2f", cart.getTotal()));
@@ -382,6 +425,7 @@ public class CatalogueController {
                 int newQty = Integer.parseInt(field.getText().trim());
                 if (newQty > 0) {
                     cart.updateQuantity(itemIndex, newQty);
+                    saveCart(); // Auto-save after updating quantity
                     listModel.set(itemIndex, cart.getItems().get(itemIndex).toString());
                     view.updateCartDisplay();
                     totalLabel.setText("TOTAL: ₱" + String.format("%.2f", cart.getTotal()));
@@ -542,6 +586,7 @@ public class CatalogueController {
             confirmDialog.dispose();
             showModernMessage("Payment Successful", "Thank you for your order!\nSalamat po!", false);
             cart.clear();
+            clearSavedCart(); // Clear saved cart after successful checkout
             view.updateCartDisplay();
         });
 

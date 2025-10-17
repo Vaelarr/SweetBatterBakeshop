@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import controller.AdminController;
 
 public class MainView extends JFrame {
     private CardLayout cardLayout;
@@ -12,9 +13,9 @@ public class MainView extends JFrame {
         setTitle("Sweet Batter Bakeshop - Transaction System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        // Set to full screen
+        // Set to fullscreen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(false); // Keep window decorations (title bar, buttons)
+        setUndecorated(true); // Remove window decorations for fullscreen experience
         
         setResizable(true);
         setMinimumSize(new Dimension(1200, 800));
@@ -62,14 +63,52 @@ public class MainView extends JFrame {
 
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
-        titlePanel.setBackground(new Color(0xA9907E));
+        titlePanel.setOpaque(false);
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         subtitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         titlePanel.add(titleLabel);
         titlePanel.add(Box.createRigidArea(new Dimension(0, 8)));
         titlePanel.add(subtitleLabel);
 
+        // Add close button for fullscreen mode
+        JButton closeButton = new JButton("✕") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                if (getModel().isPressed()) {
+                    g2d.setColor(new Color(200, 50, 50));
+                } else if (getModel().isRollover()) {
+                    g2d.setColor(new Color(220, 80, 80));
+                } else {
+                    g2d.setColor(new Color(169, 144, 126, 100));
+                }
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8);
+                super.paintComponent(g);
+            }
+        };
+        closeButton.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        closeButton.setForeground(Color.WHITE);
+        closeButton.setPreferredSize(new Dimension(50, 50));
+        closeButton.setFocusPainted(false);
+        closeButton.setBorderPainted(false);
+        closeButton.setContentAreaFilled(false);
+        closeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        closeButton.setToolTipText("Exit Application");
+        closeButton.addActionListener(e -> {
+            int choice = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.YES_NO_OPTION
+            );
+            if (choice == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
+
         headerPanel.add(titlePanel, BorderLayout.WEST);
+        headerPanel.add(closeButton, BorderLayout.EAST);
         panel.add(headerPanel, BorderLayout.NORTH);
 
         // Center - Main Menu
@@ -99,6 +138,9 @@ public class MainView extends JFrame {
         JButton aboutBtn = createMenuButton("ℹ️ About Us", new Color(100, 100, 100));
         aboutBtn.addActionListener(e -> showAboutDialog());
 
+        JButton adminBtn = createMenuButton("🔐 Admin Access", new Color(139, 69, 19));
+        adminBtn.addActionListener(e -> openAdminPanel());
+
         JButton exitBtn = createMenuButton("🚪 Exit", new Color(60, 60, 60));
         exitBtn.addActionListener(e -> {
             int choice = JOptionPane.showConfirmDialog(
@@ -119,6 +161,8 @@ public class MainView extends JFrame {
         menuPanel.add(browseBtn);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         menuPanel.add(aboutBtn);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        menuPanel.add(adminBtn);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         menuPanel.add(exitBtn);
 
@@ -191,6 +235,12 @@ public class MainView extends JFrame {
             "About Sweet Batter Bakeshop",
             JOptionPane.INFORMATION_MESSAGE
         );
+    }
+
+    private void openAdminPanel() {
+        dispose(); // Close main view
+        AdminController adminController = new AdminController();
+        adminController.showLoginDialog();
     }
 
     public void showPanel(String panelName) {
