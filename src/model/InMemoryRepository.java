@@ -70,12 +70,3 @@ public class InMemoryRepository<T extends IdentifiableEntity> implements Reposit
                 .collect(Collectors.toList());
     }
 }
-
-/**
- * Base interface for entities with identifiable IDs.
- * Allows generic repository operations on entities with IDs.
- */
-interface IdentifiableEntity {
-    Long getId();
-    void setId(Long id);
-}

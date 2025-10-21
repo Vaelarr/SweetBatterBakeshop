@@ -269,13 +269,71 @@ Complete documentation available:
 - **[QUICKSTART.md](QUICKSTART.md)** - Quick start guide for developers
 - **[CHECKOUT_IMPROVEMENTS.md](CHECKOUT_IMPROVEMENTS.md)** - Receipt formatting details
 - **[SERIALIZATION_AND_GENERICS.md](SERIALIZATION_AND_GENERICS.md)** - Serialization & generics implementation
+- **[DATABASE_SETUP.md](DATABASE_SETUP.md)** - 🆕 Database setup guide for review system
+
+## 🌟 New Feature: Restaurant Review System
+
+**Version 4.1** introduces a fully functional review system with MySQL database integration!
+
+### Features
+- ✅ **Database Integration** - MySQL via XAMPP with automatic setup
+- ✅ **CRUD Operations** - Create, Read, Update, Delete reviews
+- ✅ **Data Persistence** - Reviews stored permanently in database
+- ✅ **Input Validation** - Comprehensive validation for all fields
+- ✅ **Error Handling** - Graceful handling of database errors
+- ✅ **Repository Pattern** - Consistent with existing architecture
+- ✅ **Generic Types** - Type-safe operations using generics
+
+### Quick Start
+
+#### Prerequisites
+1. XAMPP with MySQL installed and running
+2. MySQL JDBC Driver (see `lib/README.md`)
+
+#### Run the Review App
+```bash
+# Compile
+javac -cp "lib/mysql-connector-j-8.0.33.jar" -d bin -sourcepath src src/RestaurantReviewApp.java
+
+# Run (Linux/Mac)
+java -cp "bin:lib/mysql-connector-j-8.0.33.jar" RestaurantReviewApp
+
+# Run (Windows)
+java -cp "bin;lib/mysql-connector-j-8.0.33.jar" RestaurantReviewApp
+```
+
+#### Test In-Memory Mode
+```bash
+javac -d bin -sourcepath src src/ReviewModelTest.java
+java -cp bin ReviewModelTest
+```
+
+### Database Schema
+```sql
+CREATE TABLE reviews (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    restaurant VARCHAR(255) NOT NULL,
+    reviewer VARCHAR(255) NOT NULL,
+    rating INT NOT NULL,
+    review TEXT NOT NULL
+);
+```
+
+### Architecture
+- **Review** - Entity model with validation
+- **DatabaseConnector** - MySQL connection management
+- **ReviewDatabaseRepository** - Database CRUD implementation
+- **ReviewManager** - Business logic layer
+- **RestaurantReviewApp** - Command-line interface
+
+For complete setup instructions, see **[DATABASE_SETUP.md](DATABASE_SETUP.md)**
 
 ## 🔮 Future Enhancements
 
 Potential features to add:
 
 **Customer Features:**
-- Database integration (MySQL/PostgreSQL)
+- ✅ ~~Database integration (MySQL/PostgreSQL)~~ (COMPLETED - Review System)
 - User authentication and profiles
 - Payment gateway integration (GCash, PayMaya)
 - Order history and tracking
@@ -292,6 +350,13 @@ Potential features to add:
 - Export reports to PDF/Excel
 - Customer analytics dashboard
 
+**Review System Enhancements:**
+- Photo uploads with reviews
+- Reply to reviews (admin feature)
+- Review verification (purchase required)
+- Rating breakdowns (taste, service, value)
+- Email notifications for new reviews
+
 ## Folder Structure
 
 The workspace contains the following folders:
@@ -300,12 +365,15 @@ The workspace contains the following folders:
 - `src/view/` - User interface components
 - `src/controller/` - Application controllers
 - `bin/` - Compiled output files
-- `lib/` - External dependencies (currently none)
+- `lib/` - External dependencies (MySQL JDBC driver)
 - `images/` - Application assets (logo, icons)
 
 ## Dependency Management
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+**External Dependencies:**
+- MySQL Connector/J 8.0.33 (for database connectivity)
 
 ## 📄 License
 
@@ -313,6 +381,7 @@ Educational use only. Created for OOP Final Project 2025.
 
 ---
 
+**Version 4.1 (Database Integration)** - MySQL database support for review system with CRUD operations  
 **Version 4.0 (Fullscreen Experience)** - All views now fullscreen with custom controls  
 **Version 3.0 (Serialization & Generics)** - Added data persistence and type-safe generics  
 **Version 2.0 (MVC)** - Refactored with Model-View-Controller architecture  
@@ -323,7 +392,8 @@ Educational use only. Created for OOP Final Project 2025.
 - **Language:** Java (JDK 8+)
 - **GUI Framework:** Java Swing
 - **Architecture:** MVC (Model-View-Controller)
-- **Data Persistence:** Java Serialization
+- **Data Persistence:** Java Serialization + MySQL Database
+- **Database:** MySQL (via XAMPP)
 - **Design Patterns:** Repository Pattern, Generics
 - **UI Features:** Custom painting, gradients, rounded corners
 - **Window Mode:** Fullscreen (undecorated) with custom controls
