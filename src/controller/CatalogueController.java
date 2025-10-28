@@ -19,7 +19,7 @@ public class CatalogueController {
         this.cartSerializer = new SerializationUtil<>();
         loadCart(); // Load saved cart on initialization
     }
-    
+
     /**
      * Loads the shopping cart from file if it exists.
      * Uses generics and Optional for type-safe deserialization.
@@ -29,13 +29,12 @@ public class CatalogueController {
         if (loadedCart.isPresent()) {
             // Transfer items from loaded cart to current cart
             ShoppingCart saved = loadedCart.get();
-            for (int i = 0; i < saved.getItems().size(); i++) {
-                cart.getItems().add(saved.getItems().get(i));
-            }
+            cart.addAll(saved.getItems());
+            view.updateCartDisplay();
             System.out.println("Cart loaded successfully with " + cart.getItems().size() + " items");
         }
     }
-    
+
     /**
      * Saves the current shopping cart to file.
      * Automatically called after cart modifications.
@@ -47,7 +46,7 @@ public class CatalogueController {
             System.err.println("Failed to save cart");
         }
     }
-    
+
     /**
      * Clears the saved cart file.
      * Called after successful checkout.
@@ -58,9 +57,10 @@ public class CatalogueController {
 
     public void addToCart(Product product) {
         // Create custom modern input dialog with customization options - FULL SCREEN
-        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(view.getParentComponent()), "Customize Your Order", true);
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(view.getParentComponent()),
+                "Customize Your Order", true);
         dialog.setLayout(new BorderLayout());
-        
+
         // Make dialog full screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         dialog.setSize(screenSize);
@@ -80,9 +80,8 @@ public class CatalogueController {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(0xA9907E),
-                    0, getHeight(), new Color(0x8B7355)
-                );
+                        0, 0, new Color(0xA9907E),
+                        0, getHeight(), new Color(0x8B7355));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -118,9 +117,8 @@ public class CatalogueController {
         JTextField quantityField = new JTextField("1", 10);
         quantityField.setFont(new Font("Segoe UI", Font.PLAIN, 24));
         quantityField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(0xA9907E), 2),
-            BorderFactory.createEmptyBorder(10, 20, 10, 20)
-        ));
+                BorderFactory.createLineBorder(new Color(0xA9907E), 2),
+                BorderFactory.createEmptyBorder(10, 20, 10, 20)));
         qtyPanel.add(qtyLabel);
         qtyPanel.add(quantityField);
 
@@ -130,7 +128,7 @@ public class CatalogueController {
         JLabel toppingsLabel = new JLabel("Add Toppings (Optional):");
         toppingsLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         toppingsLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        
+
         JPanel toppingsPanel = new JPanel(new GridLayout(2, 3, 30, 20));
         toppingsPanel.setBackground(new Color(250, 250, 250));
         toppingsPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
@@ -141,36 +139,34 @@ public class CatalogueController {
         JCheckBox nutsBox = new JCheckBox("Crushed Nuts");
         JCheckBox berriesBox = new JCheckBox("Fresh Berries");
         JCheckBox creamBox = new JCheckBox("Whipped Cream");
-        
-        JCheckBox[] toppingBoxes = {sprinklesBox, chocolateBox, caramelBox, nutsBox, berriesBox, creamBox};
+
+        JCheckBox[] toppingBoxes = { sprinklesBox, chocolateBox, caramelBox, nutsBox, berriesBox, creamBox };
         for (JCheckBox box : toppingBoxes) {
             box.setFont(new Font("Segoe UI", Font.PLAIN, 20));
             box.setBackground(new Color(250, 250, 250));
             box.setFocusPainted(false);
             toppingsPanel.add(box);
         }
-        
+
         toppingsContainer.add(toppingsLabel, BorderLayout.NORTH);
         toppingsContainer.add(toppingsPanel, BorderLayout.CENTER);
 
-        // Special note
         JPanel noteContainer = new JPanel(new BorderLayout());
         noteContainer.setBackground(Color.WHITE);
         JLabel noteLabel = new JLabel("Special Request/Note (Optional):");
         noteLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         noteLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        
+
         JTextArea noteArea = new JTextArea(4, 40);
         noteArea.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         noteArea.setLineWrap(true);
         noteArea.setWrapStyleWord(true);
         JScrollPane noteScroll = new JScrollPane(noteArea);
         noteScroll.setBorder(BorderFactory.createLineBorder(new Color(0xA9907E), 2));
-        
+
         noteContainer.add(noteLabel, BorderLayout.NORTH);
         noteContainer.add(noteScroll, BorderLayout.CENTER);
 
-        // Add all to content
         contentPanel.add(pricePanel);
         contentPanel.add(Box.createVerticalStrut(30));
         contentPanel.add(qtyPanel);
@@ -180,7 +176,6 @@ public class CatalogueController {
         contentPanel.add(noteContainer);
         contentPanel.add(Box.createVerticalStrut(40));
 
-        // Buttons at bottom
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));
         bottomPanel.setBackground(Color.WHITE);
 
@@ -192,13 +187,14 @@ public class CatalogueController {
                     StringBuilder toppings = new StringBuilder();
                     for (JCheckBox box : toppingBoxes) {
                         if (box.isSelected()) {
-                            if (toppings.length() > 0) toppings.append(", ");
+                            if (toppings.length() > 0)
+                                toppings.append(", ");
                             toppings.append(box.getText());
                         }
                     }
-                    
+
                     String specialNote = noteArea.getText().trim();
-                    
+
                     cart.addItem(product, quantity, toppings.toString(), specialNote);
                     saveCart(); // Auto-save after adding item
                     view.updateCartDisplay();
@@ -218,7 +214,6 @@ public class CatalogueController {
         bottomPanel.add(confirmBtn);
         bottomPanel.add(cancelBtn);
 
-        // Scrollable content
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setBorder(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -228,13 +223,12 @@ public class CatalogueController {
         mainContainer.add(bottomPanel, BorderLayout.SOUTH);
 
         dialog.add(mainContainer);
-        
+
         dialog.getRootPane().registerKeyboardAction(
-            e -> dialog.dispose(),
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_IN_FOCUSED_WINDOW
-        );
-        
+                e -> dialog.dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
+
         quantityField.requestFocus();
         quantityField.selectAll();
         dialog.setVisible(true);
@@ -246,17 +240,16 @@ public class CatalogueController {
             return;
         }
 
-        JDialog cartDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(view.getParentComponent()), "Shopping Cart", true);
+        JDialog cartDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(view.getParentComponent()),
+                "Shopping Cart", true);
         cartDialog.setLayout(new BorderLayout());
-        
-        // Make dialog full screen
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         cartDialog.setSize(screenSize);
         cartDialog.setLocationRelativeTo(view.getParentComponent());
         cartDialog.setUndecorated(false);
         cartDialog.getRootPane().setBorder(BorderFactory.createLineBorder(new Color(0xA9907E), 3));
 
-        // Header with gradient
         JPanel headerPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -264,9 +257,8 @@ public class CatalogueController {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(0xA9907E),
-                    0, getHeight(), new Color(0x8B7355)
-                );
+                        0, 0, new Color(0xA9907E),
+                        0, getHeight(), new Color(0x8B7355));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -278,15 +270,14 @@ public class CatalogueController {
         JLabel headerLabel = new JLabel("Your Shopping Cart");
         headerLabel.setFont(new Font("Segoe UI", Font.BOLD, 42));
         headerLabel.setForeground(Color.WHITE);
-        
+
         JLabel cartCount = new JLabel(cart.getItems().size() + " item(s)");
         cartCount.setFont(new Font("Segoe UI", Font.PLAIN, 24));
         cartCount.setForeground(new Color(255, 255, 255, 200));
-        
+
         headerPanel.add(headerLabel, BorderLayout.WEST);
         headerPanel.add(cartCount, BorderLayout.EAST);
 
-        // Content wrapper - centered
         JPanel contentWrapper = new JPanel(new GridBagLayout());
         contentWrapper.setBackground(Color.WHITE);
 
@@ -294,34 +285,82 @@ public class CatalogueController {
         contentPanel.setPreferredSize(new Dimension(1200, screenSize.height - 300));
         contentPanel.setBackground(Color.WHITE);
 
-        // Cart Items List
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        DefaultListModel<CartItem> listModel = new DefaultListModel<>();
         for (CartItem item : cart.getItems()) {
-            listModel.addElement(item.toString());
+            listModel.addElement(item);
         }
 
-        JList<String> cartList = new JList<>(listModel);
-        cartList.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        JList<CartItem> cartList = new JList<>(listModel);
+        cartList.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         cartList.setBackground(Color.WHITE);
         cartList.setForeground(Color.BLACK);
         cartList.setSelectionBackground(new Color(169, 144, 126, 100));
         cartList.setSelectionForeground(Color.BLACK);
-        cartList.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
-        cartList.setFixedCellHeight(60);
-        
+        cartList.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        cartList.setCellRenderer(new ListCellRenderer<CartItem>() {
+            @Override
+            public Component getListCellRendererComponent(JList<? extends CartItem> list, CartItem value, int index,
+                    boolean isSelected, boolean cellHasFocus) {
+                JPanel panel = new JPanel(new BorderLayout());
+                panel.setBackground(isSelected ? new Color(169, 144, 126, 50) : Color.WHITE);
+                panel.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(230, 230, 230)),
+                        BorderFactory.createEmptyBorder(12, 18, 12, 18)));
+
+                JLabel title = new JLabel(value.getProduct().getName() + " x" + value.getQuantity());
+                title.setFont(new Font("Segoe UI", Font.BOLD, 20));
+                title.setForeground(Color.BLACK);
+
+                JLabel price = new JLabel("₱" + String.format("%.2f", value.getSubtotal()));
+                price.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                price.setForeground(new Color(0xA9907E));
+
+                JPanel north = new JPanel(new BorderLayout());
+                north.setOpaque(false);
+                north.add(title, BorderLayout.WEST);
+                north.add(price, BorderLayout.EAST);
+
+                panel.add(north, BorderLayout.NORTH);
+
+                // // Optional details (toppings / note)
+                // StringBuilder details = new StringBuilder();
+                // if (value.getToppings() != null && !value.getToppings().trim().isEmpty()) {
+                //     details.append("Toppings: ").append(value.getToppings());
+                // }
+                // if (value.getSpecialNote() != null && !value.getSpecialNote().trim().isEmpty()) {
+                //     if (details.length() > 0)
+                //         details.append("  ");
+                //     details.append("Note: ").append(value.getSpecialNote());
+                // }
+                // if (details.length() > 0) {
+                //     JLabel detailLabel = new JLabel(
+                //             "<html><span style='color:#646464; font-family:Segoe UI; font-size:12px;'>"
+                //                     + details.toString() + "</span></html>");
+                //     panel.add(detailLabel, BorderLayout.SOUTH);
+                // }
+
+                return panel;
+            }
+        });
+
+        cartList.setFixedCellHeight(-1);
+        cartList.setVisibleRowCount(5);
+        cartList.setPrototypeCellValue(new CartItem(new Product("Sample", 0, ""), 1, "", ""));
+
+        // Use a scroll pane for the list
         JScrollPane scrollPane = new JScrollPane(cartList);
-        scrollPane.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(30, 0, 20, 0),
-            BorderFactory.createLineBorder(new Color(0xA9907E), 2)
-        ));
+        scrollPane.setPreferredSize(new Dimension(1000, 450));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(1000, 450));
 
         // Total Panel
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 30, 20));
         totalPanel.setBackground(new Color(250, 250, 250));
         totalPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(2, 0, 0, 0, new Color(0xA9907E)),
-            BorderFactory.createEmptyBorder(25, 30, 25, 30)
-        ));
+                BorderFactory.createMatteBorder(2, 0, 0, 0, new Color(0xA9907E)),
+                BorderFactory.createEmptyBorder(25, 30, 25, 30)));
 
         JLabel totalLabel = new JLabel("TOTAL: ₱" + String.format("%.2f", cart.getTotal()));
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
@@ -330,14 +369,22 @@ public class CatalogueController {
 
         contentPanel.add(scrollPane, BorderLayout.CENTER);
         contentPanel.add(totalPanel, BorderLayout.SOUTH);
+        contentPanel.setMinimumSize(new Dimension(800, 500));
+        contentPanel.setPreferredSize(new Dimension(1200, screenSize.height - 300));
 
-        contentWrapper.add(contentPanel);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        contentWrapper.add(contentPanel, gbc);
 
         // Buttons Panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 30));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
-        
+
         JButton updateBtn = createLargeDialogButton("Update Quantity", new Color(0xA9907E));
         updateBtn.addActionListener(e -> {
             int selectedIndex = cartList.getSelectedIndex();
@@ -381,18 +428,18 @@ public class CatalogueController {
         mainContainer.add(buttonPanel, BorderLayout.SOUTH);
 
         cartDialog.add(mainContainer);
-        
+
         // ESC key to close
         cartDialog.getRootPane().registerKeyboardAction(
-            e -> cartDialog.dispose(),
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_IN_FOCUSED_WINDOW
-        );
-        
+                e -> cartDialog.dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
+
         cartDialog.setVisible(true);
     }
 
-    private void showUpdateQuantityDialog(JDialog parentDialog, int itemIndex, DefaultListModel<String> listModel, JLabel totalLabel, JLabel cartCount) {
+    private void showUpdateQuantityDialog(JDialog parentDialog, int itemIndex, DefaultListModel<CartItem> listModel,
+            JLabel totalLabel, JLabel cartCount) {
         JDialog dialog = new JDialog(parentDialog, "Update Quantity", true);
         dialog.setSize(420, 280);
         dialog.setLocationRelativeTo(parentDialog);
@@ -412,9 +459,8 @@ public class CatalogueController {
         field.setHorizontalAlignment(JTextField.CENTER);
         field.setMaximumSize(new Dimension(180, 50));
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
-            BorderFactory.createEmptyBorder(10, 18, 10, 18)
-        ));
+                BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+                BorderFactory.createEmptyBorder(10, 18, 10, 18)));
 
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         btnPanel.setBackground(Color.WHITE);
@@ -426,7 +472,7 @@ public class CatalogueController {
                 if (newQty > 0) {
                     cart.updateQuantity(itemIndex, newQty);
                     saveCart(); // Auto-save after updating quantity
-                    listModel.set(itemIndex, cart.getItems().get(itemIndex).toString());
+                    listModel.set(itemIndex, cart.getItems().get(itemIndex));
                     view.updateCartDisplay();
                     totalLabel.setText("TOTAL: ₱" + String.format("%.2f", cart.getTotal()));
                     dialog.dispose();
@@ -463,8 +509,9 @@ public class CatalogueController {
         }
 
         // Create modern confirmation dialog - FULL SCREEN
-        JDialog confirmDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(view.getParentComponent()), "Confirm Order", true);
-        
+        JDialog confirmDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(view.getParentComponent()),
+                "Confirm Order", true);
+
         // Make dialog full screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         confirmDialog.setSize(screenSize);
@@ -483,9 +530,8 @@ public class CatalogueController {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(0xA9907E),
-                    0, getHeight(), new Color(0x8B7355)
-                );
+                        0, 0, new Color(0xA9907E),
+                        0, getHeight(), new Color(0x8B7355));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -497,11 +543,11 @@ public class CatalogueController {
         JLabel headerLabel = new JLabel("Order Summary & Receipt");
         headerLabel.setFont(new Font("Segoe UI", Font.BOLD, 38));
         headerLabel.setForeground(Color.WHITE);
-        
+
         JLabel totalHeader = new JLabel("Total: ₱" + String.format("%.2f", cart.getTotal()));
         totalHeader.setFont(new Font("Segoe UI", Font.BOLD, 28));
         totalHeader.setForeground(new Color(255, 255, 255, 230));
-        
+
         headerPanel.add(headerLabel, BorderLayout.WEST);
         headerPanel.add(totalHeader, BorderLayout.EAST);
 
@@ -515,33 +561,34 @@ public class CatalogueController {
         receipt.append("╔════════════════════════════════════════════════╗\n");
         receipt.append("║      SWEET BATTER BAKESHOP - RECEIPT          ║\n");
         receipt.append("╚════════════════════════════════════════════════╝\n\n");
-        
+
         java.time.LocalDateTime now = java.time.LocalDateTime.now();
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy  hh:mm a");
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                .ofPattern("MMM dd, yyyy  hh:mm a");
         receipt.append("Date: ").append(now.format(formatter)).append("\n");
-        receipt.append("Order ID: #").append(String.format("%05d", (int)(Math.random() * 99999))).append("\n");
+        receipt.append("Order ID: #").append(String.format("%05d", (int) (Math.random() * 99999))).append("\n");
         receipt.append("================================================\n\n");
         receipt.append("ITEMS ORDERED:\n");
         receipt.append("------------------------------------------------\n\n");
-        
+
         for (CartItem item : cart.getItems()) {
             receipt.append(String.format("• %s\n", item.getProduct().getName()));
             receipt.append(String.format("  Quantity: %d x ₱%.2f\n", item.getQuantity(), item.getProduct().getPrice()));
-            
+
             // Add toppings if any
             if (item.getToppings() != null && !item.getToppings().trim().isEmpty()) {
                 receipt.append(String.format("  Toppings: %s\n", item.getToppings()));
             }
-            
+
             // Add special note if any
             if (item.getSpecialNote() != null && !item.getSpecialNote().trim().isEmpty()) {
                 receipt.append(String.format("  Special Note: %s\n", item.getSpecialNote()));
             }
-            
+
             receipt.append(String.format("  Subtotal: ₱%.2f\n", item.getSubtotal()));
             receipt.append("\n");
         }
-        
+
         receipt.append("------------------------------------------------\n");
         receipt.append(String.format("%-30s ₱%.2f\n", "SUBTOTAL:", cart.getTotal()));
         receipt.append(String.format("%-30s ₱%.2f\n", "Tax (0%):", 0.00));
@@ -562,12 +609,11 @@ public class CatalogueController {
         receiptArea.setBackground(new Color(255, 255, 255));
         receiptArea.setForeground(Color.BLACK);
         receiptArea.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(0xA9907E), 2),
-            BorderFactory.createEmptyBorder(40, 60, 40, 60)
-        ));
+                BorderFactory.createLineBorder(new Color(0xA9907E), 2),
+                BorderFactory.createEmptyBorder(40, 60, 40, 60)));
         receiptArea.setLineWrap(false);
         receiptArea.setWrapStyleWord(false);
-        
+
         JScrollPane scrollPane = new JScrollPane(receiptArea);
         scrollPane.setBorder(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -581,7 +627,7 @@ public class CatalogueController {
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 35, 0));
 
-        JButton confirmBtn = createLargeDialogButton("✓ Confirm Order", new Color(40, 167, 69));
+        JButton confirmBtn = createLargeDialogButton("Confirm Order", new Color(40, 167, 69));
         confirmBtn.addActionListener(e -> {
             confirmDialog.dispose();
             showModernMessage("Payment Successful", "Thank you for your order!\nSalamat po!", false);
@@ -590,7 +636,7 @@ public class CatalogueController {
             view.updateCartDisplay();
         });
 
-        JButton cancelBtn = createLargeDialogButton("✕ Cancel", new Color(220, 53, 69));
+        JButton cancelBtn = createLargeDialogButton("Cancel", new Color(220, 53, 69));
         cancelBtn.addActionListener(e -> confirmDialog.dispose());
 
         buttonPanel.add(confirmBtn);
@@ -601,14 +647,13 @@ public class CatalogueController {
         mainContainer.add(buttonPanel, BorderLayout.SOUTH);
 
         confirmDialog.add(mainContainer);
-        
+
         // ESC key to close
         confirmDialog.getRootPane().registerKeyboardAction(
-            e -> confirmDialog.dispose(),
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_IN_FOCUSED_WINDOW
-        );
-        
+                e -> confirmDialog.dispose(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
+
         confirmDialog.setVisible(true);
     }
 
@@ -668,7 +713,7 @@ public class CatalogueController {
         dialog.setLocationRelativeTo(view.getParentComponent());
         dialog.setUndecorated(false);
         dialog.getRootPane().setBorder(BorderFactory.createLineBorder(
-            isError ? new Color(220, 53, 69) : new Color(0xA9907E), 2));
+                isError ? new Color(220, 53, 69) : new Color(0xA9907E), 2));
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

@@ -30,6 +30,10 @@ public class Product implements Serializable {
         this.available = stock > 0;
     }
 
+    public Product(String string, int i, String string2) {
+        //TODO Auto-generated constructor stub
+    }
+
     public String getName() {
         return name;
     }

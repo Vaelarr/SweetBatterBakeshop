@@ -22,8 +22,7 @@ public class CatalogueView extends JPanel {
         this.mainView = mainView;
         this.catalog = new ProductCatalog();
         this.cart = new ShoppingCart();
-        this.controller = new CatalogueController(this, cart);
-        
+
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
@@ -39,6 +38,7 @@ public class CatalogueView extends JPanel {
         JPanel bottomPanel = createBottomPanel();
         add(bottomPanel, BorderLayout.SOUTH);
 
+        this.controller = new CatalogueController(this, cart);
         // Initialize products display
         displayProducts();
     }
@@ -51,9 +51,8 @@ public class CatalogueView extends JPanel {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(0xA9907E),
-                    0, getHeight(), new Color(0x8B7355)
-                );
+                        0, 0, new Color(0xA9907E),
+                        0, getHeight(), new Color(0x8B7355));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -68,11 +67,11 @@ public class CatalogueView extends JPanel {
         // Category Filter
         JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         filterPanel.setOpaque(false);
-        
+
         JLabel categoryLabel = new JLabel("Category: ");
         categoryLabel.setFont(new Font("Segoe UI", Font.PLAIN, 19));
         categoryLabel.setForeground(Color.WHITE);
-        
+
         JComboBox<String> categoryCombo = new JComboBox<String>(catalog.getCategories().toArray(new String[0])) {
             @Override
             public void updateUI() {
@@ -96,9 +95,8 @@ public class CatalogueView extends JPanel {
         categoryCombo.setBackground(Color.WHITE);
         categoryCombo.setForeground(Color.BLACK);
         categoryCombo.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.WHITE, 1),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
+                BorderFactory.createLineBorder(Color.WHITE, 1),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         categoryCombo.setFocusable(false);
         categoryCombo.setCursor(new Cursor(Cursor.HAND_CURSOR));
         categoryCombo.addActionListener(e -> {
@@ -133,18 +131,17 @@ public class CatalogueView extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(245, 245, 245));
         panel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)),
-            BorderFactory.createEmptyBorder(25, 40, 25, 40)
-        ));
+                BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(25, 40, 25, 40)));
 
         // Left side - Cart info
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftPanel.setBackground(new Color(245, 245, 245));
-        
+
         cartCountLabel = new JLabel("Cart: 0 items");
         cartCountLabel.setFont(new Font("Segoe UI", Font.PLAIN, 19));
         cartCountLabel.setForeground(Color.BLACK);
-        
+
         leftPanel.add(cartCountLabel);
 
         // Center - Total
@@ -185,10 +182,10 @@ public class CatalogueView extends JPanel {
 
     public void displayProducts() {
         productsPanel.removeAll();
-        
-        List<Product> products = selectedCategory.equals("All") 
-            ? catalog.getAllProducts() 
-            : catalog.getProductsByCategory(selectedCategory);
+
+        List<Product> products = selectedCategory.equals("All")
+                ? catalog.getAllProducts()
+                : catalog.getProductsByCategory(selectedCategory);
 
         for (Product product : products) {
             JPanel productCard = createProductCard(product);
@@ -204,9 +201,8 @@ public class CatalogueView extends JPanel {
         card.setLayout(new BorderLayout(0, 0));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
-            BorderFactory.createEmptyBorder(0, 0, 0, 0)
-        ));
+                BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+                BorderFactory.createEmptyBorder(0, 0, 0, 0)));
 
         // Product Image Preview
         JPanel imagePanel = createProductImage(product);
@@ -296,7 +292,7 @@ public class CatalogueView extends JPanel {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
+
                 // Create gradient background based on category
                 Color startColor, endColor;
                 switch (product.getCategory()) {
@@ -324,14 +320,13 @@ public class CatalogueView extends JPanel {
                         startColor = new Color(245, 245, 245);
                         endColor = new Color(220, 220, 220);
                 }
-                
+
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, startColor,
-                    0, getHeight(), endColor
-                );
+                        0, 0, startColor,
+                        0, getHeight(), endColor);
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
-                
+
                 // Draw product icon
                 g2d.setColor(new Color(255, 255, 255, 180));
                 String icon = getProductIcon(product.getCategory());
@@ -349,12 +344,18 @@ public class CatalogueView extends JPanel {
 
     private String getProductIcon(String category) {
         switch (category) {
-            case "Cakes": return "★";
-            case "Cupcakes": return "◆";
-            case "Pastries": return "●";
-            case "Cookies": return "■";
-            case "Breads": return "▲";
-            default: return "◆";
+            case "Cakes":
+                return "★";
+            case "Cupcakes":
+                return "◆";
+            case "Pastries":
+                return "●";
+            case "Cookies":
+                return "■";
+            case "Breads":
+                return "▲";
+            default:
+                return "◆";
         }
     }
 
@@ -372,11 +373,12 @@ public class CatalogueView extends JPanel {
         button.setPreferredSize(new Dimension(140, 50));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setBorder(BorderFactory.createEmptyBorder());
-        
+
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(bgColor.brighter());
             }
+
             public void mouseExited(MouseEvent e) {
                 button.setBackground(bgColor);
             }

@@ -42,6 +42,13 @@ public class ShoppingCart implements Serializable {
         return new ArrayList<>(items);
     }
 
+    public void addAll(List<CartItem> itemsToAdd) {
+        if (itemsToAdd == null || itemsToAdd.isEmpty()) {
+            return;
+        }
+        items.addAll(itemsToAdd);
+    }
+
     public double getTotal() {
         double total = 0;
         for (CartItem item : items) {
