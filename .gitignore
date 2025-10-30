@@ -22,3 +22,4 @@ build/
 # Ignore OS-specific junk
 .DS_Store
 Thumbs.db
+/target/

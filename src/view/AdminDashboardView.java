@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import model.*;
 import controller.AdminController;
+import util.FlatLafUtil;
 
 public class AdminDashboardView extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -37,6 +38,8 @@ public class AdminDashboardView extends JFrame {
     private JComboBox<String> reportTypeCombo;
 
     public AdminDashboardView(Admin admin, AdminController controller) {
+        // ensure FlatLaf is initialized for admin UI
+        FlatLafUtil.setupLookAndFeel();
         this.currentAdmin = admin;
         this.controller = controller;
         initComponents();

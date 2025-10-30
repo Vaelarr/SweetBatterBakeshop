@@ -1,15 +1,18 @@
 package view;
 
+import util.FlatLafUtil;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import controller.AdminController;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class MainView extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
     public MainView() {
+        // Ensure FlatLaf is initialized before creating Swing components
+        FlatLafUtil.setupLookAndFeel();
         setTitle("Sweet Batter Bakeshop - Transaction System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -53,29 +56,43 @@ public class MainView extends JFrame {
         headerPanel.setLayout(new BorderLayout());
         headerPanel.setBorder(BorderFactory.createEmptyBorder(35, 60, 35, 60));
 
-        JLabel titleLabel = new JLabel("Sweet Batter Bakeshop");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 52));
-        titleLabel.setForeground(Color.WHITE);
+
+
+    // FlatLaf SVG Icon example (uses a built-in FlatLaf icon, you can use your own SVGs as well)
+    JLabel iconLabel = new JLabel(new FlatSVGIcon("com/formdev/flatlaf/icons/Cupcake.svg", 48, 48));
+
+    JLabel titleLabel = new JLabel("Sweet Batter Bakeshop");
+    titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 52));
+    titleLabel.setForeground(Color.WHITE);
 
         JLabel subtitleLabel = new JLabel("Freshly Baked Goodness Every Day");
         subtitleLabel.setFont(new Font("Segoe UI Light", Font.PLAIN, 22));
         subtitleLabel.setForeground(new Color(255, 255, 255, 230));
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
-        titlePanel.setOpaque(false);
-        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        subtitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        titlePanel.add(titleLabel);
-        titlePanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        titlePanel.add(subtitleLabel);
 
-        // Add close button for fullscreen mode
-        JButton closeButton = new JButton("Exit");
+    JPanel titlePanel = new JPanel();
+    titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+    titlePanel.setOpaque(false);
+    // Add icon and text side by side
+    titlePanel.add(iconLabel);
+    JPanel textPanel = new JPanel();
+    textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+    textPanel.setOpaque(false);
+    titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    subtitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    textPanel.add(titleLabel);
+    textPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+    textPanel.add(subtitleLabel);
+    titlePanel.add(Box.createRigidArea(new Dimension(20, 0)));
+    titlePanel.add(textPanel);
+
+
+        // Add close button for fullscreen mode with FlatLaf icon
+        JButton closeButton = new JButton(new FlatSVGIcon("com/formdev/flatlaf/icons/Close.svg", 32, 32));
         closeButton.setFont(new Font("Segoe UI", Font.BOLD, 24));
         closeButton.setForeground(Color.WHITE);
         closeButton.setBackground(new Color(0x8B7355));
-        closeButton.setPreferredSize(new Dimension(100, 50));
+        closeButton.setPreferredSize(new Dimension(60, 60));
         closeButton.setFocusPainted(false);
         closeButton.setBorderPainted(false);
         closeButton.setContentAreaFilled(false);
@@ -117,14 +134,18 @@ public class MainView extends JFrame {
         infoLabel.setForeground(new Color(100, 100, 100));
         infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Buttons
-        JButton browseBtn = createMenuButton("Browse Products", new Color(0xA9907E));
+
+        // Buttons with FlatLaf icons
+        JButton browseBtn = createMenuButton("Browse Products", new Color(0xA9907E),
+            new FlatSVGIcon("com/formdev/flatlaf/icons/List.svg", 28, 28));
         browseBtn.addActionListener(e -> showPanel("catalogue"));
 
-        JButton aboutBtn = createMenuButton("About Us", new Color(100, 100, 100));
+        JButton aboutBtn = createMenuButton("About Us", new Color(100, 100, 100),
+            new FlatSVGIcon("com/formdev/flatlaf/icons/Info.svg", 28, 28));
         aboutBtn.addActionListener(e -> showAboutDialog());
 
-        JButton adminBtn = createMenuButton("Admin Access", new Color(139, 69, 19));
+        JButton adminBtn = createMenuButton("Admin Access", new Color(139, 69, 19),
+            new FlatSVGIcon("com/formdev/flatlaf/icons/User.svg", 28, 28));
         adminBtn.addActionListener(e -> openAdminPanel());
 
         menuPanel.add(welcomeLabel);
@@ -156,8 +177,8 @@ public class MainView extends JFrame {
         return panel;
     }
 
-    private JButton createMenuButton(String text, Color color) {
-        JButton button = new JButton(text) {
+    private JButton createMenuButton(String text, Color color, Icon icon) {
+        JButton button = new JButton(text, icon) {
             @Override
             protected void paintComponent(Graphics g) {
                 if (getModel().isRollover()) {
@@ -183,6 +204,8 @@ public class MainView extends JFrame {
         button.setContentAreaFilled(false);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setIconTextGap(20);
 
         return button;
     }

@@ -1,5 +1,6 @@
 package view;
 
+import util.FlatLafUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -11,6 +12,8 @@ public class SplashScreenView extends JWindow {
 
     public SplashScreenView(int d) {
         duration = d;
+        // ensure FlatLaf is initialized for styling of splash components
+        FlatLafUtil.setupLookAndFeel();
     }
 
     public void showSplash() {

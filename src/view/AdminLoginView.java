@@ -1,5 +1,6 @@
 package view;
 
+import util.FlatLafUtil;
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,6 +17,8 @@ public class AdminLoginView extends JDialog {
 
     public AdminLoginView(JFrame parent) {
         super(parent, "Admin Login", true);
+        // ensure FlatLaf is initialized (safe to call multiple times)
+        FlatLafUtil.setupLookAndFeel();
         initComponents();
     }
 
