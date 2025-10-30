@@ -1,9 +1,9 @@
 package view;
 
 import util.FlatLafUtil;
+import util.IconUtil;
 import model.*;
 import controller.CatalogueController;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -117,12 +117,12 @@ public class CatalogueView extends JPanel {
         JButton backBtn = createStyledButton("← Back", new Color(90, 90, 90), null);
         backBtn.addActionListener(e -> mainView.showPanel("home"));
 
-        JButton viewCartBtn = createStyledButton("View Cart", new Color(110, 110, 110),
-                new FlatSVGIcon("com/formdev/flatlaf/icons/Cart.svg", 18, 18));
+    JButton viewCartBtn = createStyledButton("View Cart", new Color(110, 110, 110),
+        IconUtil.getIcon("cart", 18, 18));
         viewCartBtn.addActionListener(e -> controller.showCart());
 
-        JButton checkoutBtn = createStyledButton("Checkout", accent,
-                new FlatSVGIcon("com/formdev/flatlaf/icons/Check.svg", 18, 18));
+    JButton checkoutBtn = createStyledButton("Checkout", accent,
+        IconUtil.getIcon("check", 18, 18));
         checkoutBtn.addActionListener(e -> controller.checkout());
 
         btnPanel.add(viewCartBtn);
@@ -170,7 +170,7 @@ public class CatalogueView extends JPanel {
                 new LineBorder(new Color(230, 230, 230), 1, true),
                 new EmptyBorder(10, 10, 10, 10)));
 
-        JLabel imgLabel = new JLabel(new FlatSVGIcon("com/formdev/flatlaf/icons/Coffee.svg", 60, 60), SwingConstants.CENTER);
+    JLabel imgLabel = new JLabel(IconUtil.getIcon("coffee", 60, 60), SwingConstants.CENTER);
         JPanel imgPanel = new JPanel(new BorderLayout());
         imgPanel.setPreferredSize(new Dimension(280, 160));
         imgPanel.setBackground(new Color(0xF8F3EF));
@@ -191,8 +191,8 @@ public class CatalogueView extends JPanel {
         price.setFont(new Font("Segoe UI", Font.BOLD, 22));
         price.setForeground(accent);
 
-        JButton addBtn = createStyledButton("Add to Cart", accent,
-                new FlatSVGIcon("com/formdev/flatlaf/icons/Add.svg", 18, 18));
+    JButton addBtn = createStyledButton("Add to Cart", accent,
+        IconUtil.getIcon("add", 18, 18));
         addBtn.addActionListener(e -> controller.addToCart(product));
 
         JPanel info = new JPanel();

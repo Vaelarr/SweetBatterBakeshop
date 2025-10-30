@@ -1,10 +1,10 @@
 package view;
 
 import util.FlatLafUtil;
+import util.IconUtil;
 import javax.swing.*;
 import java.awt.*;
 import controller.AdminController;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class MainView extends JFrame {
     private CardLayout cardLayout;
@@ -59,7 +59,7 @@ public class MainView extends JFrame {
 
 
     // FlatLaf SVG Icon example (uses a built-in FlatLaf icon, you can use your own SVGs as well)
-    JLabel iconLabel = new JLabel(new FlatSVGIcon("com/formdev/flatlaf/icons/Cupcake.svg", 48, 48));
+    JLabel iconLabel = new JLabel(IconUtil.getIcon("cupcake", 48, 48));
 
     JLabel titleLabel = new JLabel("Sweet Batter Bakeshop");
     titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 52));
@@ -88,7 +88,7 @@ public class MainView extends JFrame {
 
 
         // Add close button for fullscreen mode with FlatLaf icon
-        JButton closeButton = new JButton(new FlatSVGIcon("com/formdev/flatlaf/icons/Close.svg", 32, 32));
+    JButton closeButton = new JButton(IconUtil.getIcon("close", 32, 32));
         closeButton.setFont(new Font("Segoe UI", Font.BOLD, 24));
         closeButton.setForeground(Color.WHITE);
         closeButton.setBackground(new Color(0x8B7355));
@@ -137,15 +137,15 @@ public class MainView extends JFrame {
 
         // Buttons with FlatLaf icons
         JButton browseBtn = createMenuButton("Browse Products", new Color(0xA9907E),
-            new FlatSVGIcon("com/formdev/flatlaf/icons/List.svg", 28, 28));
+            IconUtil.getIcon("list", 28, 28));
         browseBtn.addActionListener(e -> showPanel("catalogue"));
 
         JButton aboutBtn = createMenuButton("About Us", new Color(100, 100, 100),
-            new FlatSVGIcon("com/formdev/flatlaf/icons/Info.svg", 28, 28));
+            IconUtil.getIcon("info", 28, 28));
         aboutBtn.addActionListener(e -> showAboutDialog());
 
         JButton adminBtn = createMenuButton("Admin Access", new Color(139, 69, 19),
-            new FlatSVGIcon("com/formdev/flatlaf/icons/User.svg", 28, 28));
+            IconUtil.getIcon("user", 28, 28));
         adminBtn.addActionListener(e -> openAdminPanel());
 
         menuPanel.add(welcomeLabel);
