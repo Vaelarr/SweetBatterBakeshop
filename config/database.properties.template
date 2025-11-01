@@ -1,0 +1,20 @@
+# Database Configuration Template
+# Copy this file to database.properties and fill in your MySQL credentials
+
+db.url=jdbc:mysql://localhost:3306/kiosk_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+db.username=root
+db.password=
+db.driver=com.mysql.cj.jdbc.Driver
+
+# Configuration Options:
+# 
+# db.url - JDBC connection URL
+#   - Change 'localhost' if MySQL is on a different server
+#   - Change '3306' if MySQL uses a different port
+#   - Change 'kiosk_db' if you named your database differently
+#
+# db.username - MySQL username (default: root)
+#
+# db.password - YOUR MySQL password (REQUIRED - never commit with real password!)
+#
+# db.driver - JDBC driver class (should not need to change)

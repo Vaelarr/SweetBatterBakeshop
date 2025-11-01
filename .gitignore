@@ -1,25 +1,45 @@
-# Ignore compiled class files
+# Ignore compiled Java class files
 *.class
 
-# Ignore build directories (commonly used by IDEs)
+# Ignore build output folders
 bin/
 out/
 build/
+target/
 
-# Ignore log files
-*.log
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
-# Ignore IDE-specific files/folders
-# VS Code
-.vscode/
-# IntelliJ IDEA
+# IDE files (Eclipse/IntelliJ/VS Code)
+.classpath
+.project
+.settings/
 .idea/
-# Eclipse
-*.classpath
-*.project
-*.settings/
+*.iml
+.vscode/settings.json
+.vscode/launch.json
 
-# Ignore OS-specific junk
-.DS_Store
-Thumbs.db
-/target/
+# Ignore temporary files
+*.log
+*.tmp
+*.bak
+
+# Legacy data files (using MySQL now)
+data/
+*.dat
+*.ser
+
+# Database configuration (contains passwords)
+config/database.properties
+
+# Database scripts with passwords
+database/apply_schema.bat
+database/*_password.bat

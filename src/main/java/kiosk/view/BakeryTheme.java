@@ -1,0 +1,105 @@
+package main.java.kiosk.view;
+
+import java.awt.Color;
+import java.awt.Font;
+
+/**
+ * SweetBatterBakeshop - Modern Color Palette
+ * Vibrant, welcoming colors inspired by artisan bakeries and confections
+ */
+public class BakeryTheme {
+    
+    // Primary Colors - Warm and Inviting Bakery Palette
+    public static final Color PRIMARY_COLOR = new Color(0xE8927C);          // Warm Coral/Peach - inviting and fresh
+    public static final Color PRIMARY_LIGHT = new Color(0xFFF5F0);          // Soft Cream - warm background
+    public static final Color PRIMARY_DARK = new Color(0x8B4513);           // Rich Saddle Brown - premium chocolate
+    
+    // Accent Colors - Vibrant and Eye-catching
+    public static final Color ACCENT_COLOR = new Color(0xD4896D);           // Terracotta/Clay - earthy bakery warmth
+    public static final Color ACCENT_LIGHT = new Color(0xF2D2BD);           // Light Biscuit - soft accent
+    public static final Color SECONDARY_ACCENT = new Color(0xB8956A);       // Golden Wheat - harvest tones
+    
+    // Background Colors - Clean and modern
+    public static final Color BACKGROUND_COLOR = new Color(0xFFFAF5);       // Warm White - inviting base
+    public static final Color CARD_COLOR = new Color(0xFFFFFF);             // Pure White - clean cards
+    public static final Color SOFT_CREAM = new Color(0xFFF9F4);             // Cream White - subtle warmth
+    
+    // Text Colors - Rich and readable
+    public static final Color TEXT_DARK = new Color(0x3E2723);              // Dark Espresso - primary text
+    public static final Color TEXT_MEDIUM = new Color(0x5D4037);            // Medium Cocoa - secondary text
+    public static final Color TEXT_LIGHT = new Color(0x8D6E63);             // Light Brown - subtle text
+    public static final Color TEXT_WHITE = new Color(0xFFFFFF);             // Pure White - light text
+    
+    // Button Colors - Eye-catching and interactive
+    public static final Color BUTTON_PRIMARY = new Color(0xE8927C);         // Warm Coral - primary action
+    public static final Color BUTTON_PRIMARY_HOVER = new Color(0xD4896D);   // Deeper Coral - hover state
+    public static final Color BUTTON_SECONDARY = new Color(0xB8956A);       // Golden Wheat - secondary button
+    public static final Color BUTTON_SUCCESS = new Color(0x81C784);         // Fresh Mint - success actions
+    public static final Color BUTTON_WARNING = new Color(0xFFB74D);         // Warm Orange - warnings
+    
+    // Category Colors - Distinctive per category
+    public static final Color CATEGORY_BREAD = new Color(0xF4A460);         // Sandy Brown - warm bread tones
+    public static final Color CATEGORY_PASTRY = new Color(0xFFB6C1);        // Light Pink - delicate pastries
+    public static final Color CATEGORY_CAKE = new Color(0xFF69B4);          // Hot Pink - celebration cakes
+    public static final Color CATEGORY_BEVERAGE = new Color(0x8B7355);      // Coffee Brown - beverages
+    
+    // Utility Colors
+    public static final Color SUCCESS = new Color(0x81C784);                // Fresh Mint - success
+    public static final Color ERROR = new Color(0xE57373);                  // Soft Red - errors
+    public static final Color WARNING = new Color(0xFFB74D);                // Warm Orange - warnings
+    public static final Color INFO = new Color(0x64B5F6);                   // Sky Blue - information
+    
+    // Border and Shadow
+    public static final Color BORDER_LIGHT = new Color(0xE0E0E0);           // Light Grey - subtle borders
+    public static final Color BORDER_MEDIUM = new Color(0xBCAAA4);          // Warm Grey - medium borders
+    public static final Color SHADOW = new Color(0, 0, 0, 50);              // Deeper shadow for depth
+    
+    // Fonts - Modern, clear, and touch-friendly
+    public static final Font TITLE_FONT = new Font("Segoe UI", Font.BOLD, 48);
+    public static final Font SUBTITLE_FONT = new Font("Segoe UI", Font.BOLD, 32);
+    public static final Font HEADER_FONT = new Font("Segoe UI", Font.BOLD, 28);
+    public static final Font BUTTON_FONT = new Font("Segoe UI", Font.BOLD, 22);
+    public static final Font REGULAR_FONT = new Font("Segoe UI", Font.PLAIN, 18);
+    public static final Font SMALL_FONT = new Font("Segoe UI", Font.PLAIN, 16);
+    public static final Font PRICE_FONT = new Font("Segoe UI", Font.BOLD, 22);
+    public static final Font CATEGORY_FONT = new Font("Segoe UI", Font.BOLD, 24);
+    
+    // Spacing Constants - Touch-friendly spacing
+    public static final int PADDING_SMALL = 8;
+    public static final int PADDING_MEDIUM = 16;
+    public static final int PADDING_LARGE = 24;
+    public static final int PADDING_XLARGE = 32;
+    
+    public static final int BUTTON_HEIGHT = 55;
+    public static final int CARD_BORDER_RADIUS = 12;
+    public static final int BUTTON_BORDER_RADIUS = 8;
+    
+    // Prevent instantiation
+    private BakeryTheme() {
+        throw new AssertionError("Cannot instantiate BakeryTheme");
+    }
+    
+    /**
+     * Get a lighter version of a color (for hover effects)
+     */
+    public static Color lighter(Color color, float factor) {
+        return new Color(
+            Math.min((int)(color.getRed() + (255 - color.getRed()) * factor), 255),
+            Math.min((int)(color.getGreen() + (255 - color.getGreen()) * factor), 255),
+            Math.min((int)(color.getBlue() + (255 - color.getBlue()) * factor), 255),
+            color.getAlpha()
+        );
+    }
+    
+    /**
+     * Get a darker version of a color (for press effects)
+     */
+    public static Color darker(Color color, float factor) {
+        return new Color(
+            Math.max((int)(color.getRed() * (1 - factor)), 0),
+            Math.max((int)(color.getGreen() * (1 - factor)), 0),
+            Math.max((int)(color.getBlue() * (1 - factor)), 0),
+            color.getAlpha()
+        );
+    }
+}
