@@ -151,7 +151,7 @@ public class PastriesPage extends JPanel implements KioskPage {
         searchBar = new JTextField(25);
         searchBar.setPreferredSize(new Dimension(280, 45));
         searchBar.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(240, 240, 240), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             BorderFactory.createEmptyBorder(8, 12, 8, 12)
         ));
         searchBar.setText("Search products...");
@@ -229,7 +229,7 @@ public class PastriesPage extends JPanel implements KioskPage {
         cartCountLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         cartCountLabel.setForeground(Color.WHITE);
         cartCountLabel.setOpaque(true);
-        cartCountLabel.setBackground(new Color(231, 76, 60));
+        cartCountLabel.setBackground(BakeryTheme.ERROR);
         cartCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
         cartCountLabel.setPreferredSize(new Dimension(28, 28));
         cartCountLabel.setBorder(new LineBorder(Color.WHITE, 2, true));
@@ -321,7 +321,7 @@ public class PastriesPage extends JPanel implements KioskPage {
         button.setFont(SUBTITLE_FONT);
         button.setFocusPainted(false);
         button.setBorder(new CompoundBorder(
-            new LineBorder(new Color(200, 200, 200), 1, true),
+            new LineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             new EmptyBorder(10, 15, 10, 15)
         ));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -435,7 +435,7 @@ public class PastriesPage extends JPanel implements KioskPage {
         card.setLayout(new BorderLayout(0, 0));
         card.setBackground(CARD_COLOR);
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             BorderFactory.createEmptyBorder(0, 0, 10, 0)
         ));
 
@@ -460,12 +460,12 @@ public class PastriesPage extends JPanel implements KioskPage {
             // If no image available, use placeholder
             JPanel placeholder = new JPanel(new BorderLayout());
             placeholder.setPreferredSize(new Dimension(120, 120));
-            placeholder.setBackground(new Color(240, 240, 240));
+            placeholder.setBackground(BakeryTheme.SOFT_CREAM);
             placeholder.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
             JLabel placeholderText = new JLabel(itemName.substring(0, 1).toUpperCase());
             placeholderText.setFont(new Font("SansSerif", Font.BOLD, 48));
-            placeholderText.setForeground(new Color(150, 150, 150));
+            placeholderText.setForeground(BakeryTheme.TEXT_LIGHT);
             placeholderText.setHorizontalAlignment(SwingConstants.CENTER);
 
             placeholder.add(placeholderText, BorderLayout.CENTER);
@@ -504,7 +504,7 @@ public class PastriesPage extends JPanel implements KioskPage {
         decrementBtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
         decrementBtn.setPreferredSize(new Dimension(40, 35));
         decrementBtn.setFocusPainted(false);
-        decrementBtn.setBackground(new Color(220, 220, 220));
+        decrementBtn.setBackground(BakeryTheme.BORDER_MEDIUM);
         decrementBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         decrementBtn.setEnabled(currentQuantity > 0);
 
@@ -559,7 +559,9 @@ public class PastriesPage extends JPanel implements KioskPage {
     private void showAddToCartFeedback(String itemName) {
         JWindow notification = new JWindow(SwingUtilities.getWindowAncestor(this));
         JPanel content = new JPanel(new BorderLayout());
-        content.setBackground(new Color(50, 50, 50, 220));
+        content.setBackground(new Color(BakeryTheme.PRIMARY_DARK.getRed(), 
+                                        BakeryTheme.PRIMARY_DARK.getGreen(), 
+                                        BakeryTheme.PRIMARY_DARK.getBlue(), 220));
         content.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         
         JLabel messageLabel = new JLabel(itemName + " added to cart");

@@ -154,7 +154,7 @@ public class CakesPage extends JPanel implements KioskPage {
         searchBar = new JTextField(25);
         searchBar.setPreferredSize(new Dimension(280, 45));
         searchBar.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(240, 240, 240), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             BorderFactory.createEmptyBorder(8, 12, 8, 12)
         ));
         searchBar.setText("Search products...");
@@ -232,7 +232,7 @@ public class CakesPage extends JPanel implements KioskPage {
         cartCountLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         cartCountLabel.setForeground(Color.WHITE);
         cartCountLabel.setOpaque(true);
-        cartCountLabel.setBackground(new Color(231, 76, 60));
+        cartCountLabel.setBackground(BakeryTheme.ERROR);
         cartCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
         cartCountLabel.setPreferredSize(new Dimension(28, 28));
         cartCountLabel.setBorder(new LineBorder(Color.WHITE, 2, true));
@@ -324,7 +324,7 @@ public class CakesPage extends JPanel implements KioskPage {
         button.setFont(SUBTITLE_FONT);
         button.setFocusPainted(false);
         button.setBorder(new CompoundBorder(
-            new LineBorder(new Color(200, 200, 200), 1, true),
+            new LineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             new EmptyBorder(10, 15, 10, 15)
         ));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));

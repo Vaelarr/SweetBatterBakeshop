@@ -15,11 +15,11 @@ public class SplashScreen extends JWindow {
     private static final int SPLASH_WIDTH = 600;
     private static final int SPLASH_HEIGHT = 500;
     
-    // Modern Bakery theme colors - Updated
-    private static final Color PRIMARY_COLOR = new Color(232, 146, 124);  // Warm Coral
-    private static final Color ACCENT_COLOR = new Color(212, 137, 109);   // Terracotta
-    private static final Color BACKGROUND_COLOR = new Color(255, 250, 245); // Warm White
-    private static final Color TEXT_COLOR = new Color(62, 39, 35);  // Dark Espresso
+    // Modern Bakery theme colors - Using BakeryTheme constants
+    private static final Color PRIMARY_COLOR = BakeryTheme.PRIMARY_COLOR;
+    private static final Color ACCENT_COLOR = BakeryTheme.ACCENT_COLOR;
+    private static final Color BACKGROUND_COLOR = BakeryTheme.BACKGROUND_COLOR;
+    private static final Color TEXT_COLOR = BakeryTheme.TEXT_DARK;
     
     public SplashScreen() {
         setSize(SPLASH_WIDTH, SPLASH_HEIGHT);
@@ -117,7 +117,7 @@ public class SplashScreen extends JWindow {
         progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
         progressBar.setForeground(PRIMARY_COLOR);
-        progressBar.setBackground(new Color(240, 240, 240));
+        progressBar.setBackground(BakeryTheme.CARD_COLOR);
         progressBar.setFont(new Font("Segoe UI", Font.BOLD, 13));
         progressBar.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(PRIMARY_COLOR, 2, true),

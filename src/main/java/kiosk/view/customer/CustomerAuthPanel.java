@@ -76,7 +76,7 @@ public class CustomerAuthPanel extends JPanel {
         
         JLabel subtitleLabel = new JLabel("Order Custom Cakes & Bulk Orders");
         subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        subtitleLabel.setForeground(new Color(255, 255, 255, 200));
+        subtitleLabel.setForeground(BakeryTheme.lighter(Color.WHITE, 0.2f));
         subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -113,7 +113,7 @@ public class CustomerAuthPanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(CARD_BG);
         panel.setBorder(new CompoundBorder(
-            BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             new EmptyBorder(40, 50, 40, 50)
         ));
         panel.setPreferredSize(new Dimension(500, 450));
@@ -136,7 +136,7 @@ public class CustomerAuthPanel extends JPanel {
         loginEmailField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         loginEmailField.setMaximumSize(new Dimension(400, 40));
         loginEmailField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT),
             new EmptyBorder(8, 12, 8, 12)
         ));
         
@@ -154,7 +154,7 @@ public class CustomerAuthPanel extends JPanel {
         loginPasswordField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         loginPasswordField.setMaximumSize(new Dimension(400, 40));
         loginPasswordField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT),
             new EmptyBorder(8, 12, 8, 12)
         ));
         
@@ -200,7 +200,7 @@ public class CustomerAuthPanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(CARD_BG);
         panel.setBorder(new CompoundBorder(
-            BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             new EmptyBorder(40, 50, 40, 50)
         ));
         panel.setPreferredSize(new Dimension(500, 650));
@@ -294,7 +294,7 @@ public class CustomerAuthPanel extends JPanel {
         field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         field.setMaximumSize(new Dimension(400, 38));
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT),
             new EmptyBorder(8, 12, 8, 12)
         ));
         return field;
@@ -305,7 +305,7 @@ public class CustomerAuthPanel extends JPanel {
         field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         field.setMaximumSize(new Dimension(400, 38));
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT),
             new EmptyBorder(8, 12, 8, 12)
         ));
         return field;

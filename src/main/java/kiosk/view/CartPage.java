@@ -168,7 +168,7 @@ public class CartPage extends JPanel implements KioskPage {
 
         itemCountLabel = new JLabel(getItemCountText());
         itemCountLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        itemCountLabel.setForeground(new Color(255, 255, 255, 200));
+        itemCountLabel.setForeground(BakeryTheme.lighter(Color.WHITE, 0.2f));
         itemCountLabel.setBorder(BorderFactory.createEmptyBorder(5, 50, 0, 0));
 
         titlePanel.add(titleRow);

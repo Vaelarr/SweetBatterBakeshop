@@ -210,7 +210,7 @@ public class BeveragesPage extends JPanel implements KioskPage {
         cartCountLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         cartCountLabel.setForeground(Color.WHITE);
         cartCountLabel.setOpaque(true);
-        cartCountLabel.setBackground(new Color(231, 76, 60));
+        cartCountLabel.setBackground(BakeryTheme.ERROR);
         cartCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
         cartCountLabel.setPreferredSize(new Dimension(28, 28));
         cartCountLabel.setBorder(new LineBorder(Color.WHITE, 2, true));

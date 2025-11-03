@@ -13,7 +13,7 @@ public class CustomerSplashScreen extends JWindow {
     
     private final Color PRIMARY_COLOR = BakeryTheme.PRIMARY_COLOR;
     private final Color ACCENT_COLOR = BakeryTheme.ACCENT_COLOR;
-    private final Color BACKGROUND_COLOR = new Color(255, 255, 255);
+    private final Color BACKGROUND_COLOR = BakeryTheme.CARD_COLOR;
     
     private JProgressBar progressBar;
     private JLabel statusLabel;
@@ -33,7 +33,7 @@ public class CustomerSplashScreen extends JWindow {
                 // Gradient background
                 GradientPaint gradient = new GradientPaint(
                     0, 0, BACKGROUND_COLOR,
-                    0, getHeight(), new Color(250, 245, 240)
+                    0, getHeight(), BakeryTheme.SOFT_CREAM
                 );
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -72,17 +72,17 @@ public class CustomerSplashScreen extends JWindow {
         // Tagline
         JLabel taglineLabel = new JLabel("Crafting Sweet Memories, One Order at a Time");
         taglineLabel.setFont(new Font("Segoe UI", Font.ITALIC, 14));
-        taglineLabel.setForeground(new Color(100, 100, 100));
+        taglineLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         taglineLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Progress bar
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
         progressBar.setForeground(ACCENT_COLOR);
-        progressBar.setBackground(new Color(230, 230, 230));
+        progressBar.setBackground(BakeryTheme.BACKGROUND_COLOR);
         progressBar.setMaximumSize(new Dimension(400, 25));
         progressBar.setPreferredSize(new Dimension(400, 25));
-        progressBar.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        progressBar.setBorder(BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1));
         
         JPanel progressPanel = new JPanel();
         progressPanel.setOpaque(false);
@@ -91,13 +91,13 @@ public class CustomerSplashScreen extends JWindow {
         // Status label
         statusLabel = new JLabel("Initializing...");
         statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        statusLabel.setForeground(new Color(100, 100, 100));
+        statusLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Version label
         JLabel versionLabel = new JLabel("Version 1.0.0");
         versionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-        versionLabel.setForeground(new Color(150, 150, 150));
+        versionLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         versionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components with spacing

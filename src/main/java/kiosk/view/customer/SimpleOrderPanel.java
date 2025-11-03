@@ -36,8 +36,8 @@ public class SimpleOrderPanel extends JPanel {
     private final Color PRIMARY_COLOR = BakeryTheme.PRIMARY_COLOR;
     private final Color ACCENT_COLOR = BakeryTheme.ACCENT_COLOR;
     private final Color SUCCESS_COLOR = BakeryTheme.SUCCESS;
-    private final Color WARNING_COLOR = new Color(255, 152, 0);
-    private final Color ERROR_COLOR = new Color(211, 47, 47);
+    private final Color WARNING_COLOR = BakeryTheme.WARNING;
+    private final Color ERROR_COLOR = BakeryTheme.ERROR;
     private final Color BACKGROUND_COLOR = BakeryTheme.BACKGROUND_COLOR;
     private final Color CARD_BG = BakeryTheme.CARD_COLOR;
     
@@ -289,7 +289,7 @@ public class SimpleOrderPanel extends JPanel {
         productDescriptionArea.setWrapStyleWord(true);
         productDescriptionArea.setEditable(false);
         productDescriptionArea.setFont(SMALL_FONT);
-        productDescriptionArea.setBackground(new Color(245, 245, 245));
+        productDescriptionArea.setBackground(BakeryTheme.SOFT_CREAM);
         JScrollPane descScroll = new JScrollPane(productDescriptionArea);
         
         JPanel infoPanel = new JPanel(new GridLayout(2, 1, 5, 5));
@@ -446,7 +446,7 @@ public class SimpleOrderPanel extends JPanel {
         gbc.gridwidth = 2;
         JLabel minTimeLabel = new JLabel("ℹ️ Minimum time will be set based on product prep time");
         minTimeLabel.setFont(SMALL_FONT);
-        minTimeLabel.setForeground(new Color(100, 100, 100));
+        minTimeLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         fulfillmentCard.add(minTimeLabel, gbc);
         gbc.gridwidth = 1;
         
@@ -527,7 +527,7 @@ public class SimpleOrderPanel extends JPanel {
         totalPanel.add(totalLabel, BorderLayout.EAST);
         
         JPanel depositPanel = new JPanel(new BorderLayout(5, 5));
-        depositPanel.setBackground(new Color(255, 248, 225));
+        depositPanel.setBackground(BakeryTheme.lighter(BakeryTheme.WARNING, 0.8f));
         depositPanel.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(WARNING_COLOR, 1),
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
@@ -593,7 +593,7 @@ public class SimpleOrderPanel extends JPanel {
         JPanel card = new JPanel();
         card.setBackground(CARD_BG);
         card.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1),
             title,
             TitledBorder.LEFT,
             TitledBorder.TOP,
@@ -619,7 +619,7 @@ public class SimpleOrderPanel extends JPanel {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         topPanel.setBackground(CARD_BG);
         topPanel.setBorder(BorderFactory.createCompoundBorder(
-            new LineBorder(new Color(220, 220, 220), 1),
+            new LineBorder(BakeryTheme.BORDER_LIGHT, 1),
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
         
@@ -659,7 +659,7 @@ public class SimpleOrderPanel extends JPanel {
         ordersTable.getTableHeader().setFont(SUBTITLE_FONT);
         ordersTable.getTableHeader().setBackground(PRIMARY_COLOR);
         ordersTable.getTableHeader().setForeground(Color.WHITE);
-        ordersTable.setGridColor(new Color(230, 230, 230));
+        ordersTable.setGridColor(BakeryTheme.BORDER_LIGHT);
         
         // Set column widths
         ordersTable.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -682,20 +682,20 @@ public class SimpleOrderPanel extends JPanel {
                     String status = value.toString();
                     switch (status) {
                         case "PENDING":
-                            c.setBackground(new Color(255, 243, 224));
-                            c.setForeground(WARNING_COLOR.darker());
+                            c.setBackground(BakeryTheme.lighter(BakeryTheme.WARNING, 0.85f));
+                            c.setForeground(BakeryTheme.darker(WARNING_COLOR, 0.2f));
                             break;
                         case "CONFIRMED":
                         case "IN_PROGRESS":
-                            c.setBackground(new Color(225, 245, 254));
-                            c.setForeground(new Color(2, 136, 209));
+                            c.setBackground(BakeryTheme.lighter(BakeryTheme.INFO, 0.85f));
+                            c.setForeground(BakeryTheme.INFO);
                             break;
                         case "COMPLETED":
-                            c.setBackground(new Color(232, 245, 233));
-                            c.setForeground(SUCCESS_COLOR.darker());
+                            c.setBackground(BakeryTheme.lighter(BakeryTheme.SUCCESS, 0.85f));
+                            c.setForeground(BakeryTheme.darker(SUCCESS_COLOR, 0.2f));
                             break;
                         case "CANCELLED":
-                            c.setBackground(new Color(255, 235, 238));
+                            c.setBackground(BakeryTheme.lighter(BakeryTheme.ERROR, 0.85f));
                             c.setForeground(ERROR_COLOR);
                             break;
                         default:
@@ -718,7 +718,7 @@ public class SimpleOrderPanel extends JPanel {
         });
         
         JScrollPane tableScroll = new JScrollPane(ordersTable);
-        tableScroll.setBorder(new LineBorder(new Color(220, 220, 220), 1));
+        tableScroll.setBorder(new LineBorder(BakeryTheme.BORDER_LIGHT, 1));
         
         // Bottom panel with order details and actions
         JPanel bottomPanel = new JPanel(new BorderLayout(10, 10));
@@ -735,7 +735,7 @@ public class SimpleOrderPanel extends JPanel {
         orderDetailsArea.setLineWrap(true);
         orderDetailsArea.setWrapStyleWord(true);
         orderDetailsArea.setText("Select an order to view details");
-        orderDetailsArea.setBackground(new Color(250, 250, 250));
+        orderDetailsArea.setBackground(BakeryTheme.SOFT_CREAM);
         
         JScrollPane detailsScroll = new JScrollPane(orderDetailsArea);
         detailsCard.add(detailsScroll, BorderLayout.CENTER);

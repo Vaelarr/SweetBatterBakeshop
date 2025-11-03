@@ -226,7 +226,7 @@ public class KioskMainPage extends JFrame {
         JLabel cartCountLabel = new JLabel();
         cartCountLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         cartCountLabel.setOpaque(true);
-        cartCountLabel.setBackground(new Color(231, 76, 60));
+        cartCountLabel.setBackground(BakeryTheme.ERROR);
         cartCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
         cartCountLabel.setPreferredSize(new Dimension(28, 28));
         cartCountLabel.setBorder(new LineBorder(Color.WHITE, 2, true));
@@ -281,8 +281,8 @@ public class KioskMainPage extends JFrame {
                 
                 // Create multi-stop gradient background for depth
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(232, 146, 124),  // Warm coral
-                    0, getHeight(), new Color(212, 137, 109)  // Deeper terracotta
+                    0, 0, BakeryTheme.PRIMARY_COLOR,  // Soft Blush Pink
+                    0, getHeight(), BakeryTheme.PRIMARY_DARK  // Warm Brown
                 );
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -304,7 +304,7 @@ public class KioskMainPage extends JFrame {
         // Add subtle shadow effect to text
         JLabel subtitleLabel = new JLabel("✨ Handcrafted with love - Select a category to begin your order", SwingConstants.LEFT);
         subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        subtitleLabel.setForeground(new Color(255, 255, 255, 245));
+        subtitleLabel.setForeground(BakeryTheme.lighter(Color.WHITE, 0.05f));
         
         JPanel labelPanel = new JPanel(new GridLayout(2, 1, 0, 15));
         labelPanel.setOpaque(false);
@@ -324,8 +324,8 @@ public class KioskMainPage extends JFrame {
         JPanel breadsCard = createCategoryCard(
             "Breads & Rolls", 
             "🥖", 
-            new Color(244, 164, 96),  // Sandy brown
-            new Color(210, 140, 70),   // Darker for hover
+            BakeryTheme.CATEGORY_BREAD,
+            BakeryTheme.darker(BakeryTheme.CATEGORY_BREAD, 0.15f),
             e -> showBreadsPage()
         );
         
@@ -333,8 +333,8 @@ public class KioskMainPage extends JFrame {
         JPanel pastriesCard = createCategoryCard(
             "Pastries & Desserts", 
             "🥐", 
-            new Color(255, 182, 193),  // Light pink
-            new Color(255, 160, 175),   // Darker for hover
+            BakeryTheme.CATEGORY_PASTRY,
+            BakeryTheme.darker(BakeryTheme.CATEGORY_PASTRY, 0.15f),
             e -> showPastriesPage()
         );
         
@@ -342,8 +342,8 @@ public class KioskMainPage extends JFrame {
         JPanel cakesCard = createCategoryCard(
             "Cakes & Special Occasions", 
             "🎂", 
-            new Color(255, 105, 180),  // Hot pink
-            new Color(230, 90, 160),    // Darker for hover
+            BakeryTheme.CATEGORY_CAKE,
+            BakeryTheme.darker(BakeryTheme.CATEGORY_CAKE, 0.15f),
             e -> showCakesPage()
         );
         
@@ -351,8 +351,8 @@ public class KioskMainPage extends JFrame {
         JPanel beveragesCard = createCategoryCard(
             "Beverages & Extras", 
             "☕", 
-            new Color(139, 115, 85),   // Coffee brown
-            new Color(115, 95, 70),     // Darker for hover
+            BakeryTheme.CATEGORY_BEVERAGE,
+            BakeryTheme.darker(BakeryTheme.CATEGORY_BEVERAGE, 0.15f),
             e -> showBeveragesPage()
         );
         
@@ -368,16 +368,16 @@ public class KioskMainPage extends JFrame {
         JPanel card = new JPanel(new BorderLayout(0, 0));
         card.setBackground(CARD_COLOR);
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(230, 230, 230), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             BorderFactory.createEmptyBorder(0, 0, 0, 0)
         ));
         card.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Add subtle shadow effect
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(230, 230, 230), 1, true),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
             BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 3, 3, new Color(0, 0, 0, 30)),
+                BorderFactory.createMatteBorder(0, 0, 3, 3, BakeryTheme.SHADOW),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
             )
         ));
@@ -452,7 +452,7 @@ public class KioskMainPage extends JFrame {
                 card.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(accentColor, 4, true),
                     BorderFactory.createCompoundBorder(
-                        BorderFactory.createMatteBorder(0, 0, 5, 5, new Color(0, 0, 0, 50)),
+                        BorderFactory.createMatteBorder(0, 0, 5, 5, BakeryTheme.darker(BakeryTheme.SHADOW, 0.2f)),
                         BorderFactory.createEmptyBorder(3, 3, 3, 3)
                     )
                 ));
@@ -463,9 +463,9 @@ public class KioskMainPage extends JFrame {
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
                 card.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new Color(230, 230, 230), 1, true),
+                    BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 1, true),
                     BorderFactory.createCompoundBorder(
-                        BorderFactory.createMatteBorder(0, 0, 3, 3, new Color(0, 0, 0, 30)),
+                        BorderFactory.createMatteBorder(0, 0, 3, 3, BakeryTheme.SHADOW),
                         BorderFactory.createEmptyBorder(5, 5, 5, 5)
                     )
                 ));
