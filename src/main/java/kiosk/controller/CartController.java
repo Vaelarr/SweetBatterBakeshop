@@ -213,38 +213,64 @@ public class CartController implements DataPersistence<CartItem> {
      */
     public String getFormattedReceipt() {
         StringBuilder receipt = new StringBuilder();
-        
-        receipt.append("==================================\n");
-        receipt.append("           RECEIPT\n");
-        receipt.append("==================================\n\n");
-        
         LocalDateTime now = LocalDateTime.now();
-        receipt.append("Date: ").append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).append("\n\n");
+        String receiptId = "RCP" + now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         
-        receipt.append("Items:\n");
-        receipt.append("----------------------------------\n");
+        // Header with business name
+        receipt.append("\n");
+        receipt.append("========================================\n");
+        receipt.append("      SWEET BATTER BAKE SHOP\n");
+        receipt.append("         Kiosk System\n");
+        receipt.append("========================================\n\n");
         
+        // Receipt details
+        receipt.append("Receipt No: ").append(receiptId).append("\n");
+        receipt.append("Date: ").append(now.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))).append("\n");
+        receipt.append("Time: ").append(now.format(DateTimeFormatter.ofPattern("hh:mm:ss a"))).append("\n");
+        receipt.append("\n========================================\n");
+        
+        // Column headers
+        receipt.append("ITEM                   QTY   PRICE   TOTAL\n");
+        receipt.append("----------------------------------------\n");
+        
+        // Items with better formatting
         for (CartItem item : cartRepository.getAll()) {
-            receipt.append(String.format("%-25s %2d x ₱%6.2f = ₱%7.2f\n",
-                    item.getItemName(), item.getQuantity(), item.getPrice(), item.getSubtotal()));
+            String itemName = item.getItemName();
+            // Truncate long names
+            if (itemName.length() > 22) {
+                itemName = itemName.substring(0, 19) + "...";
+            }
+            receipt.append(String.format("%-22s %3d %7.2f %8.2f\n",
+                    itemName, 
+                    item.getQuantity(), 
+                    item.getPrice(), 
+                    item.getSubtotal()));
         }
         
-        receipt.append("----------------------------------\n\n");
+        receipt.append("========================================\n\n");
         
+        // Totals section
         double subtotal = getTotalPrice();
-        receipt.append(String.format("Subtotal:                      ₱%7.2f\n", subtotal));
+        receipt.append(String.format("Subtotal:                    ₱%8.2f\n", subtotal));
         
         if (discountApplied) {
             double discount = getDiscountAmount();
-            receipt.append(String.format("Discount (20%%):                ₱%7.2f\n", discount));
+            receipt.append(String.format("Discount (PWD/Senior 20%%):  -₱%8.2f\n", discount));
+            double afterDiscount = subtotal - discount;
+            receipt.append(String.format("Taxable Amount:              ₱%8.2f\n", afterDiscount));
         }
         
-        double total = getTotal();
-        receipt.append(String.format("TOTAL:                         ₱%7.2f\n\n", total));
+        // Calculate VAT (12%)
+        double taxableAmount = discountApplied ? (subtotal - getDiscountAmount()) : subtotal;
+        double vat = taxableAmount * 0.12;
+        receipt.append(String.format("VAT (12%%):                      ₱%8.2f\n", vat));
         
-        receipt.append("==================================\n");
-        receipt.append("        Thank you for shopping!\n");
-        receipt.append("==================================\n");
+        receipt.append("----------------------------------------\n");
+        
+        double total = getTotal();
+        receipt.append(String.format("TOTAL AMOUNT DUE:            ₱%8.2f\n", total));
+        
+        receipt.append("========================================\n");
         
         return receipt.toString();
     }

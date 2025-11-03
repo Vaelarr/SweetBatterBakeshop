@@ -348,7 +348,7 @@ public class CartPage extends JPanel implements KioskPage {
         
         JLabel priceLabel = new JLabel("₱" + new DecimalFormat("0.00").format(price));
         priceLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        priceLabel.setForeground(new Color(60, 60, 60));
+        priceLabel.setForeground(BakeryTheme.TEXT_DARK);
         
         pricePanel.add(priceTagLabel);
         pricePanel.add(priceLabel);
@@ -395,7 +395,7 @@ public class CartPage extends JPanel implements KioskPage {
         JButton decrementBtn = createQuantityButton("−");
         decrementBtn.setPreferredSize(new Dimension(55, 50));
         decrementBtn.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        decrementBtn.setBackground(new Color(240, 240, 240));
+        decrementBtn.setBackground(BakeryTheme.SOFT_CREAM);
         decrementBtn.setForeground(TEXT_COLOR);
 
         JLabel quantityLabel = new JLabel(String.valueOf(quantity));
@@ -908,8 +908,8 @@ public class CartPage extends JPanel implements KioskPage {
                 g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                 int w = getWidth();
                 int h = getHeight();
-                Color color1 = new Color(245, 247, 250);
-                Color color2 = new Color(255, 255, 255);
+                Color color1 = BakeryTheme.SOFT_CREAM;
+                Color color2 = BakeryTheme.CARD_COLOR;
                 GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, w, h);
@@ -926,12 +926,12 @@ public class CartPage extends JPanel implements KioskPage {
         
         JLabel titleLabel = new JLabel("💳 Payment Method");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        titleLabel.setForeground(new Color(44, 62, 80));
+        titleLabel.setForeground(BakeryTheme.PRIMARY_DARK);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel subtitleLabel = new JLabel("Choose how you'd like to pay");
         subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        subtitleLabel.setForeground(new Color(127, 140, 141));
+        subtitleLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         headerPanel.add(titleLabel);
@@ -941,15 +941,16 @@ public class CartPage extends JPanel implements KioskPage {
         // Order summary card
         JPanel summaryCard = createModernCard();
         summaryCard.setLayout(new BoxLayout(summaryCard, BoxLayout.Y_AXIS));
+        summaryCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         
         JLabel summaryTitle = new JLabel("Order Summary");
         summaryTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        summaryTitle.setForeground(new Color(52, 73, 94));
+        summaryTitle.setForeground(BakeryTheme.TEXT_DARK);
         summaryTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         JLabel totalLabel = new JLabel(String.format("Total Amount: ₱%.2f", total));
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
-        totalLabel.setForeground(new Color(231, 76, 60));
+        totalLabel.setForeground(BakeryTheme.ACCENT_COLOR);
         totalLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         summaryCard.add(summaryTitle);
@@ -957,39 +958,49 @@ public class CartPage extends JPanel implements KioskPage {
         summaryCard.add(totalLabel);
         
         // Payment method selection with modern buttons
-        JPanel methodSelectionPanel = new JPanel(new GridLayout(1, 2, 20, 0));
+        JPanel methodSelectionPanel = new JPanel(new GridLayout(1, 3, 15, 0));
         methodSelectionPanel.setOpaque(false);
-        methodSelectionPanel.setMaximumSize(new Dimension(650, 100));
+        methodSelectionPanel.setMaximumSize(new Dimension(900, 120));
         
         // Create payment method cards
-        JPanel cashCard = createPaymentMethodCard("💵", "Cash Payment", "Pay with physical cash", true);
+        JPanel cashCard = createPaymentMethodCard("💵", "Cash", "Pay with physical cash", true);
+        JPanel cardPayCard = createPaymentMethodCard("💳", "Card", "Debit or Credit Card", false);
         JPanel ecashCard = createPaymentMethodCard("📱", "E-Wallet", "Scan QR code to pay", false);
         
         methodSelectionPanel.add(cashCard);
+        methodSelectionPanel.add(cardPayCard);
         methodSelectionPanel.add(ecashCard);
         
         ButtonGroup paymentGroup = new ButtonGroup();
         JRadioButton cashButton = new JRadioButton();
+        JRadioButton cardButton = new JRadioButton();
         JRadioButton ecashButton = new JRadioButton();
         cashButton.setSelected(true);
         paymentGroup.add(cashButton);
+        paymentGroup.add(cardButton);
         paymentGroup.add(ecashButton);
         
         // Cash payment panel
         JPanel cashPanel = createModernCard();
         cashPanel.setLayout(new BoxLayout(cashPanel, BoxLayout.Y_AXIS));
+        cashPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 400));
         
-        JLabel paymentLabel = new JLabel("Enter Payment Amount");
-        paymentLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        paymentLabel.setForeground(new Color(52, 73, 94));
+        JLabel cashInstructionLabel = new JLabel("💵 Enter Cash Payment");
+        cashInstructionLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        cashInstructionLabel.setForeground(BakeryTheme.TEXT_DARK);
+        cashInstructionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        JLabel paymentLabel = new JLabel("Payment Amount");
+        paymentLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        paymentLabel.setForeground(BakeryTheme.TEXT_DARK);
         paymentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         JTextField paymentField = new JTextField();
-        paymentField.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        paymentField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+        paymentField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        paymentField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
         paymentField.setAlignmentX(Component.LEFT_ALIGNMENT);
         paymentField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(189, 195, 199), 2),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 2),
             BorderFactory.createEmptyBorder(10, 15, 10, 15)
         ));
         
@@ -1000,7 +1011,7 @@ public class CartPage extends JPanel implements KioskPage {
         
         JLabel quickLabel = new JLabel("Quick select:");
         quickLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        quickLabel.setForeground(new Color(127, 140, 141));
+        quickLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         quickAmountPanel.add(quickLabel);
         
         double[] quickAmounts = {total, 500, 1000, 2000};
@@ -1014,50 +1025,166 @@ public class CartPage extends JPanel implements KioskPage {
         
         JLabel changeLabel = new JLabel("Change: ₱0.00");
         changeLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        changeLabel.setForeground(new Color(39, 174, 96));
+        changeLabel.setForeground(BakeryTheme.SUCCESS);
         changeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
+        cashPanel.add(cashInstructionLabel);
+        cashPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         cashPanel.add(paymentLabel);
-        cashPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        cashPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         cashPanel.add(paymentField);
-        cashPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        cashPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         cashPanel.add(quickAmountPanel);
         cashPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         cashPanel.add(changeLabel);
+        
+        // Card Payment panel with modern form
+        JPanel cardPanel = createModernCard();
+        cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS));
+        cardPanel.setVisible(false);
+        cardPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 450));
+        
+        JLabel cardInstructionLabel = new JLabel("💳 Enter Card Details");
+        cardInstructionLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        cardInstructionLabel.setForeground(BakeryTheme.TEXT_DARK);
+        cardInstructionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Card Number Field
+        JLabel cardNumberLabel = new JLabel("Card Number");
+        cardNumberLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cardNumberLabel.setForeground(BakeryTheme.TEXT_DARK);
+        
+        JTextField cardNumberField = new JTextField();
+        cardNumberField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        cardNumberField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        cardNumberField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 2),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
+        
+        // Card Holder Name Field
+        JLabel cardHolderLabel = new JLabel("Card Holder Name");
+        cardHolderLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cardHolderLabel.setForeground(BakeryTheme.TEXT_DARK);
+        
+        JTextField cardHolderField = new JTextField();
+        cardHolderField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        cardHolderField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        cardHolderField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 2),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
+        
+        // Expiry and CVV row
+        JPanel cardDetailsRow = new JPanel(new GridLayout(1, 2, 15, 0));
+        cardDetailsRow.setOpaque(false);
+        cardDetailsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+        
+        // Expiry Date Panel
+        JPanel expiryPanel = new JPanel();
+        expiryPanel.setLayout(new BoxLayout(expiryPanel, BoxLayout.Y_AXIS));
+        expiryPanel.setOpaque(false);
+        
+        JLabel expiryLabel = new JLabel("Expiry Date (MM/YY)");
+        expiryLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        expiryLabel.setForeground(BakeryTheme.TEXT_DARK);
+        expiryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        JTextField expiryField = new JTextField();
+        expiryField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        expiryField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        expiryField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 2),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
+        
+        expiryPanel.add(expiryLabel);
+        expiryPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        expiryPanel.add(expiryField);
+        
+        // CVV Panel
+        JPanel cvvPanel = new JPanel();
+        cvvPanel.setLayout(new BoxLayout(cvvPanel, BoxLayout.Y_AXIS));
+        cvvPanel.setOpaque(false);
+        
+        JLabel cvvLabel = new JLabel("CVV");
+        cvvLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cvvLabel.setForeground(BakeryTheme.TEXT_DARK);
+        cvvLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        JPasswordField cvvField = new JPasswordField();
+        cvvField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        cvvField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        cvvField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 2),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
+        
+        cvvPanel.add(cvvLabel);
+        cvvPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        cvvPanel.add(cvvField);
+        
+        cardDetailsRow.add(expiryPanel);
+        cardDetailsRow.add(cvvPanel);
+        
+        // Security notice
+        JLabel securityNotice = new JLabel("🔒 Your payment information is secure and encrypted");
+        securityNotice.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        securityNotice.setForeground(BakeryTheme.SUCCESS);
+        securityNotice.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        // Add all card components
+        cardPanel.add(cardInstructionLabel);
+        cardPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        cardPanel.add(cardNumberLabel);
+        cardPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        cardPanel.add(cardNumberField);
+        cardPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        cardPanel.add(cardHolderLabel);
+        cardPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        cardPanel.add(cardHolderField);
+        cardPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        cardPanel.add(cardDetailsRow);
+        cardPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        cardPanel.add(securityNotice);
         
         // QR Code panel with modern design
         JPanel qrPanel = createModernCard();
         qrPanel.setLayout(new BoxLayout(qrPanel, BoxLayout.Y_AXIS));
         qrPanel.setVisible(false);
+        qrPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 450));
         
         JLabel qrInstructionLabel = new JLabel("📲 Scan to Pay");
         qrInstructionLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        qrInstructionLabel.setForeground(new Color(52, 73, 94));
+        qrInstructionLabel.setForeground(BakeryTheme.TEXT_DARK);
         qrInstructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel qrSubtext = new JLabel("Use your mobile banking app to scan this QR code");
         qrSubtext.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        qrSubtext.setForeground(new Color(127, 140, 141));
+        qrSubtext.setForeground(BakeryTheme.TEXT_LIGHT);
         qrSubtext.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // QR code container with border
         JPanel qrContainer = new JPanel();
         qrContainer.setBackground(Color.WHITE);
         qrContainer.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(189, 195, 199), 2),
+            BorderFactory.createLineBorder(BakeryTheme.BORDER_LIGHT, 2),
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
+        qrContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel qrCodeLabel = new JLabel();
         qrCodeLabel.setPreferredSize(new Dimension(200, 200));
+        qrCodeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        qrCodeLabel.setVerticalAlignment(SwingConstants.CENTER);
         qrContainer.add(qrCodeLabel);
         
         JLabel qrAmountLabel = new JLabel(String.format("Amount: ₱%.2f", total));
         qrAmountLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        qrAmountLabel.setForeground(new Color(231, 76, 60));
+        qrAmountLabel.setForeground(BakeryTheme.ACCENT_COLOR);
         qrAmountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JButton completeQrPaymentButton = createModernButton("✓ I've Completed Payment", new Color(39, 174, 96));
+        JButton completeQrPaymentButton = createModernButton("✓ I've Completed Payment", BakeryTheme.SUCCESS);
         completeQrPaymentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         completeQrPaymentButton.setMaximumSize(new Dimension(300, 50));
         
@@ -1078,30 +1205,54 @@ public class CartPage extends JPanel implements KioskPage {
         cashCard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cashButton.setSelected(true);
-                updatePaymentMethodSelection(cashCard, ecashCard, cashPanel, qrPanel);
+                cashPanel.setVisible(true);
+                cardPanel.setVisible(false);
+                qrPanel.setVisible(false);
+            }
+        });
+        
+        cardPayCard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cardButton.setSelected(true);
+                cashPanel.setVisible(false);
+                cardPanel.setVisible(true);
+                qrPanel.setVisible(false);
             }
         });
         
         ecashCard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ecashButton.setSelected(true);
-                updatePaymentMethodSelection(ecashCard, cashCard, qrPanel, cashPanel);
+                cashPanel.setVisible(false);
+                cardPanel.setVisible(false);
+                qrPanel.setVisible(true);
             }
         });
         
-        // Add components to main panel
+        // Add components to main panel with consistent spacing
         paymentPanel.add(headerPanel);
         paymentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
         paymentPanel.add(summaryCard);
         paymentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
         paymentPanel.add(methodSelectionPanel);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
-        paymentPanel.add(cashPanel);
-        paymentPanel.add(qrPanel);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        
+        // Payment details panel container - only one is visible at a time
+        JPanel paymentDetailsContainer = new JPanel();
+        paymentDetailsContainer.setLayout(new BoxLayout(paymentDetailsContainer, BoxLayout.Y_AXIS));
+        paymentDetailsContainer.setOpaque(false);
+        paymentDetailsContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        paymentDetailsContainer.add(cashPanel);
+        paymentDetailsContainer.add(cardPanel);
+        paymentDetailsContainer.add(qrPanel);
+        
+        paymentPanel.add(paymentDetailsContainer);
+        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         
         double[] paymentHolder = new double[1];
         double[] changeHolder = new double[1];
         boolean[] isEcashPayment = new boolean[1];
+        boolean[] isCardPayment = new boolean[1];
 
         // Create a final reference to the dialog we'll create
         final JDialog[] paymentDialog = new JDialog[1];
@@ -1135,20 +1286,26 @@ public class CartPage extends JPanel implements KioskPage {
                     double change = payment - total;
                     if (change >= 0) {
                         changeLabel.setText(String.format("Change: ₱%.2f", change));
-                        changeLabel.setForeground(new Color(39, 174, 96));
+                        changeLabel.setForeground(BakeryTheme.SUCCESS);
                     } else {
                         changeLabel.setText(String.format("Insufficient: ₱%.2f needed", Math.abs(change)));
-                        changeLabel.setForeground(new Color(231, 76, 60));
+                        changeLabel.setForeground(BakeryTheme.ERROR);
                     }
                 } catch (NumberFormatException ex) {
                     changeLabel.setText("Change: ₱0.00");
-                    changeLabel.setForeground(new Color(127, 140, 141));
+                    changeLabel.setForeground(BakeryTheme.TEXT_LIGHT);
                 }
             }
         });
         
-        paymentDialog[0].setContentPane(paymentPanel);
-        paymentDialog[0].setSize(750, 850);
+        // Wrap the payment panel in a scroll pane to ensure all content is accessible
+        JScrollPane paymentScrollPane = new JScrollPane(paymentPanel);
+        paymentScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        paymentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        paymentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        paymentDialog[0].setContentPane(paymentScrollPane);
+        paymentDialog[0].setSize(900, 800);
         paymentDialog[0].setLocationRelativeTo(null);
         
         // Separate handling for QR code payment
@@ -1164,8 +1321,8 @@ public class CartPage extends JPanel implements KioskPage {
         buttonPanel.setOpaque(false);
         buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
         
-        JButton confirmButton = createModernButton("Confirm Payment", new Color(52, 152, 219));
-        JButton cancelButton = createModernButton("Cancel", new Color(149, 165, 166));
+        JButton confirmButton = createModernButton("Confirm Payment", BakeryTheme.PRIMARY_COLOR);
+        JButton cancelButton = createModernButton("Cancel", BakeryTheme.BORDER_MEDIUM);
         
         confirmButton.setPreferredSize(new Dimension(200, 50));
         cancelButton.setPreferredSize(new Dimension(150, 50));
@@ -1192,6 +1349,50 @@ public class CartPage extends JPanel implements KioskPage {
                         "Invalid Input", 
                         "Please enter a valid payment amount.");
                 }
+            } else if (cardButton.isSelected()) {
+                // Validate card payment
+                String cardNumber = cardNumberField.getText().trim();
+                String cardHolder = cardHolderField.getText().trim();
+                String expiry = expiryField.getText().trim();
+                String cvv = new String(cvvField.getPassword()).trim();
+                
+                if (cardNumber.isEmpty() || cardHolder.isEmpty() || expiry.isEmpty() || cvv.isEmpty()) {
+                    showModernError(paymentDialog[0], 
+                        "Incomplete Information", 
+                        "Please fill in all card details.");
+                    return;
+                }
+                
+                // Basic card number validation (16 digits)
+                if (!cardNumber.matches("\\d{16}")) {
+                    showModernError(paymentDialog[0], 
+                        "Invalid Card Number", 
+                        "Please enter a valid 16-digit card number.");
+                    return;
+                }
+                
+                // Basic expiry validation (MM/YY format)
+                if (!expiry.matches("(0[1-9]|1[0-2])/\\d{2}")) {
+                    showModernError(paymentDialog[0], 
+                        "Invalid Expiry Date", 
+                        "Please enter expiry date in MM/YY format.");
+                    return;
+                }
+                
+                // CVV validation (3 digits)
+                if (!cvv.matches("\\d{3}")) {
+                    showModernError(paymentDialog[0], 
+                        "Invalid CVV", 
+                        "Please enter a valid 3-digit CVV.");
+                    return;
+                }
+                
+                // Card payment accepted - no change
+                paymentHolder[0] = total;
+                changeHolder[0] = 0.0;
+                isEcashPayment[0] = false;
+                isCardPayment[0] = true;
+                paymentDialog[0].dispose();
             } else {
                 showModernInfo(paymentDialog[0],
                     "E-Wallet Payment",
@@ -1205,7 +1406,6 @@ public class CartPage extends JPanel implements KioskPage {
         
         buttonPanel.add(confirmButton);
         buttonPanel.add(cancelButton);
-        paymentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         paymentPanel.add(buttonPanel);
         
         // Show the payment dialog and wait for user interaction
@@ -1217,17 +1417,22 @@ public class CartPage extends JPanel implements KioskPage {
         }
 
         // Show receipt preview with payment and change
-        JTextArea receiptArea = new JTextArea(
-            isEcashPayment[0] 
-            ? getFormattedReceiptWithEcashPayment(total) 
-            : getFormattedReceiptWithPayment(paymentHolder[0], changeHolder[0])
-        );
+        String receiptText;
+        if (isEcashPayment[0]) {
+            receiptText = getFormattedReceiptWithEcashPayment(total);
+        } else if (isCardPayment[0]) {
+            receiptText = getFormattedReceiptWithCardPayment(total);
+        } else {
+            receiptText = getFormattedReceiptWithPayment(paymentHolder[0], changeHolder[0]);
+        }
+        
+        JTextArea receiptArea = new JTextArea(receiptText);
         receiptArea.setEditable(false);
-        receiptArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        receiptArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
         JScrollPane receiptScrollPane = new JScrollPane(receiptArea);
         // Increase the preferred size to show more content without scrolling
-        receiptScrollPane.setPreferredSize(new Dimension(800, 700));
+        receiptScrollPane.setPreferredSize(new Dimension(600, 750));
 
         int option = JOptionPane.showConfirmDialog(this,
                 receiptScrollPane,
@@ -1291,9 +1496,20 @@ public class CartPage extends JPanel implements KioskPage {
     private String getFormattedReceiptWithPayment(double payment, double change) {
         StringBuilder receipt = new StringBuilder();
         receipt.append(CartManager.getFormattedReceipt());
-        receipt.append(String.format("Payment:                      ₱%7.2f\n", payment));
-        receipt.append(String.format("Change:                       ₱%7.2f\n", change));
-        receipt.append("==================================\n");
+        
+        // Payment details section
+        receipt.append("\nPAYMENT DETAILS\n");
+        receipt.append("----------------------------------------\n");
+        receipt.append(String.format("Payment Method:              CASH\n"));
+        receipt.append(String.format("Amount Tendered:             ₱%8.2f\n", payment));
+        receipt.append(String.format("Change:                      ₱%8.2f\n", change));
+        receipt.append("========================================\n\n");
+        
+        // Footer
+        receipt.append("       Thank you for your purchase!\n");
+        receipt.append("         Please come again!\n");
+        receipt.append("========================================\n");
+        
         return receipt.toString();
     }
 
@@ -1360,9 +1576,41 @@ public class CartPage extends JPanel implements KioskPage {
     private String getFormattedReceiptWithEcashPayment(double amount) {
         StringBuilder receipt = new StringBuilder();
         receipt.append(CartManager.getFormattedReceipt());
-        receipt.append(String.format("Payment Method:               E-Cash\n"));
-        receipt.append(String.format("Amount:                       ₱%7.2f\n", amount));
-        receipt.append("==================================\n");
+        
+        // Payment details section
+        receipt.append("\nPAYMENT DETAILS\n");
+        receipt.append("----------------------------------------\n");
+        receipt.append(String.format("Payment Method:              E-WALLET\n"));
+        receipt.append(String.format("Amount Paid:                 ₱%8.2f\n", amount));
+        receipt.append(String.format("Status:                      PAID\n"));
+        receipt.append("========================================\n\n");
+        
+        // Footer
+        receipt.append("       Thank you for your purchase!\n");
+        receipt.append("         Please come again!\n");
+        receipt.append("========================================\n");
+        
+        return receipt.toString();
+    }
+    
+    // Add this helper method to show card payment in the receipt
+    private String getFormattedReceiptWithCardPayment(double amount) {
+        StringBuilder receipt = new StringBuilder();
+        receipt.append(CartManager.getFormattedReceipt());
+        
+        // Payment details section
+        receipt.append("\nPAYMENT DETAILS\n");
+        receipt.append("----------------------------------------\n");
+        receipt.append(String.format("Payment Method:              CARD\n"));
+        receipt.append(String.format("Amount Charged:              ₱%8.2f\n", amount));
+        receipt.append(String.format("Status:                      APPROVED\n"));
+        receipt.append("========================================\n\n");
+        
+        // Footer
+        receipt.append("       Thank you for your purchase!\n");
+        receipt.append("         Please come again!\n");
+        receipt.append("========================================\n");
+        
         return receipt.toString();
     }
 
@@ -1567,7 +1815,7 @@ public class CartPage extends JPanel implements KioskPage {
         };
         card.setOpaque(false);
         card.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
+        // Don't set a restrictive maximum size - let content determine height
         return card;
     }
     
@@ -1588,9 +1836,9 @@ public class CartPage extends JPanel implements KioskPage {
                 
                 // Background color based on state
                 if (isSelected) {
-                    g2d.setColor(new Color(52, 152, 219, 30));
+                    g2d.setColor(BakeryTheme.lighter(BakeryTheme.PRIMARY_COLOR, 0.9f));
                 } else if (isHovered) {
-                    g2d.setColor(new Color(236, 240, 241));
+                    g2d.setColor(BakeryTheme.SOFT_CREAM);
                 } else {
                     g2d.setColor(Color.WHITE);
                 }
@@ -1598,10 +1846,10 @@ public class CartPage extends JPanel implements KioskPage {
                 
                 // Border
                 if (isSelected) {
-                    g2d.setColor(new Color(52, 152, 219));
+                    g2d.setColor(BakeryTheme.PRIMARY_COLOR);
                     g2d.setStroke(new BasicStroke(2));
                 } else {
-                    g2d.setColor(new Color(189, 195, 199));
+                    g2d.setColor(BakeryTheme.BORDER_LIGHT);
                     g2d.setStroke(new BasicStroke(1));
                 }
                 g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 12, 12);
@@ -1630,12 +1878,12 @@ public class CartPage extends JPanel implements KioskPage {
         
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        titleLabel.setForeground(new Color(44, 62, 80));
+        titleLabel.setForeground(BakeryTheme.TEXT_DARK);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel descLabel = new JLabel(description);
         descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        descLabel.setForeground(new Color(127, 140, 141));
+        descLabel.setForeground(BakeryTheme.TEXT_LIGHT);
         descLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         card.add(iconLabel);
@@ -1701,10 +1949,10 @@ public class CartPage extends JPanel implements KioskPage {
     private JButton createQuickAmountButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        button.setForeground(new Color(52, 152, 219));
-        button.setBackground(new Color(52, 152, 219, 20));
+        button.setForeground(BakeryTheme.PRIMARY_COLOR);
+        button.setBackground(BakeryTheme.lighter(BakeryTheme.PRIMARY_COLOR, 0.9f));
         button.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(52, 152, 219), 1),
+            BorderFactory.createLineBorder(BakeryTheme.PRIMARY_COLOR, 1),
             BorderFactory.createEmptyBorder(5, 12, 5, 12)
         ));
         button.setFocusPainted(false);
@@ -1713,10 +1961,10 @@ public class CartPage extends JPanel implements KioskPage {
         // Hover effect
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(52, 152, 219, 40));
+                button.setBackground(BakeryTheme.lighter(BakeryTheme.PRIMARY_COLOR, 0.8f));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(52, 152, 219, 20));
+                button.setBackground(BakeryTheme.lighter(BakeryTheme.PRIMARY_COLOR, 0.9f));
             }
         });
         
