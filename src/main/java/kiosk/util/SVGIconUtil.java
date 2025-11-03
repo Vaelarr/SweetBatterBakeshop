@@ -1,4 +1,4 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
@@ -155,3 +155,5 @@ public class SVGIconUtil {
         return label;
     }
 }
+
+

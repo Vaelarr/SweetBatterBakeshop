@@ -1,4 +1,4 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import main.java.kiosk.controller.CartController;
-import main.java.kiosk.controller.InventoryController;
-import main.java.kiosk.controller.SalesController;
-import main.java.kiosk.model.CartItem;
-import main.java.kiosk.model.InventoryItem;
-import main.java.kiosk.model.SaleTransaction;
+import kiosk.controller.CartController;
+import kiosk.controller.InventoryController;
+import kiosk.controller.SalesController;
+import kiosk.model.CartItem;
+import kiosk.model.InventoryItem;
+import kiosk.model.SaleTransaction;
 
 /**
  * Demonstration class showing MVC architecture, Generics, and Serialization features
@@ -193,3 +193,5 @@ public class MVCDemo {
         System.out.println("\n=== Demo Complete ===");
     }
 }
+
+

@@ -1,13 +1,15 @@
-package main.java.kiosk.database.dao;
+package kiosk.database.dao;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.kiosk.database.DatabaseConnection;
-import main.java.kiosk.model.CartItem;
-import main.java.kiosk.model.SaleTransaction;
+import kiosk.database.DatabaseConnection;
+import kiosk.database.DatabaseConfig;
+import kiosk.database.SqlDialect;
+import kiosk.model.CartItem;
+import kiosk.model.SaleTransaction;
 
 /**
  * Data Access Object for Sales Transactions
@@ -24,27 +26,37 @@ public class SalesDAO {
      */
     public void createTables() {
         String salesTable = "CREATE TABLE IF NOT EXISTS sales_transactions (" +
-                           "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                           SqlDialect.primaryKeyAutoIncrement("id") + ", " +
                            "transaction_id VARCHAR(50) NOT NULL UNIQUE, " +
-                           "transaction_date TIMESTAMP NOT NULL, " +
+                           "transaction_date " + SqlDialect.timestamp() + " NOT NULL, " +
                            "subtotal DECIMAL(10, 2) NOT NULL, " +
                            "discount_amount DECIMAL(10, 2) DEFAULT 0, " +
                            "total DECIMAL(10, 2) NOT NULL, " +
-                           "discount_applied BOOLEAN DEFAULT FALSE, " +
-                           "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                           "discount_applied " + (DatabaseConfig.isSqlite() ? "INTEGER" : "BOOLEAN") + " DEFAULT 0, " +
+                           SqlDialect.createdAtColumn() +
                            ")";
         
+        // For SQLite, we need to handle foreign keys differently
+        String foreignKeyClause = DatabaseConfig.isSqlite() 
+            ? "" 
+            : ", FOREIGN KEY (transaction_id) REFERENCES sales_transactions(transaction_id) ON DELETE CASCADE";
+        
         String salesItemsTable = "CREATE TABLE IF NOT EXISTS sales_items (" +
-                                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                                SqlDialect.primaryKeyAutoIncrement("id") + ", " +
                                 "transaction_id VARCHAR(50) NOT NULL, " +
                                 "item_name VARCHAR(255) NOT NULL, " +
                                 "price DECIMAL(10, 2) NOT NULL, " +
-                                "quantity INT NOT NULL, " +
-                                "subtotal DECIMAL(10, 2) NOT NULL, " +
-                                "FOREIGN KEY (transaction_id) REFERENCES sales_transactions(transaction_id) ON DELETE CASCADE" +
+                                "quantity " + SqlDialect.integer() + " NOT NULL, " +
+                                "subtotal DECIMAL(10, 2) NOT NULL" +
+                                foreignKeyClause +
                                 ")";
         
         try (Statement stmt = connection.createStatement()) {
+            // Enable foreign keys for SQLite
+            if (DatabaseConfig.isSqlite()) {
+                stmt.execute("PRAGMA foreign_keys = ON");
+            }
+            
             stmt.execute(salesTable);
             stmt.execute(salesItemsTable);
             System.out.println("Sales tables created/verified successfully.");
@@ -74,7 +86,12 @@ public class SalesDAO {
                 pstmt.setDouble(3, transaction.getSubtotal());
                 pstmt.setDouble(4, transaction.getDiscountAmount());
                 pstmt.setDouble(5, transaction.getTotal());
-                pstmt.setBoolean(6, transaction.isDiscountApplied());
+                // SQLite uses 0/1 for boolean, MySQL uses true/false
+                if (DatabaseConfig.isSqlite()) {
+                    pstmt.setInt(6, transaction.isDiscountApplied() ? 1 : 0);
+                } else {
+                    pstmt.setBoolean(6, transaction.isDiscountApplied());
+                }
                 pstmt.executeUpdate();
             }
             
@@ -261,6 +278,112 @@ public class SalesDAO {
     }
     
     /**
+     * Update a sale transaction
+     */
+    public boolean update(SaleTransaction transaction) {
+        String sql = "UPDATE sales_transactions SET transaction_date = ?, subtotal = ?, " +
+                    "discount_amount = ?, total = ?, discount_applied = ? WHERE transaction_id = ?";
+        
+        try {
+            connection.setAutoCommit(false);
+            
+            // Update main transaction
+            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                pstmt.setTimestamp(1, Timestamp.valueOf(transaction.getTransactionDate()));
+                pstmt.setDouble(2, transaction.getSubtotal());
+                pstmt.setDouble(3, transaction.getDiscountAmount());
+                pstmt.setDouble(4, transaction.getTotal());
+                if (DatabaseConfig.isSqlite()) {
+                    pstmt.setInt(5, transaction.isDiscountApplied() ? 1 : 0);
+                } else {
+                    pstmt.setBoolean(5, transaction.isDiscountApplied());
+                }
+                pstmt.setString(6, transaction.getTransactionId());
+                
+                int rowsAffected = pstmt.executeUpdate();
+                
+                if (rowsAffected > 0) {
+                    // Delete old items
+                    String deleteItemsSql = "DELETE FROM sales_items WHERE transaction_id = ?";
+                    try (PreparedStatement deletePstmt = connection.prepareStatement(deleteItemsSql)) {
+                        deletePstmt.setString(1, transaction.getTransactionId());
+                        deletePstmt.executeUpdate();
+                    }
+                    
+                    // Insert new items
+                    String itemsSql = "INSERT INTO sales_items (transaction_id, item_name, price, quantity, subtotal) " +
+                                     "VALUES (?, ?, ?, ?, ?)";
+                    try (PreparedStatement itemsPstmt = connection.prepareStatement(itemsSql)) {
+                        for (CartItem item : transaction.getItems()) {
+                            itemsPstmt.setString(1, transaction.getTransactionId());
+                            itemsPstmt.setString(2, item.getItemName());
+                            itemsPstmt.setDouble(3, item.getPrice());
+                            itemsPstmt.setInt(4, item.getQuantity());
+                            itemsPstmt.setDouble(5, item.getSubtotal());
+                            itemsPstmt.addBatch();
+                        }
+                        itemsPstmt.executeBatch();
+                    }
+                    
+                    connection.commit();
+                    connection.setAutoCommit(true);
+                    return true;
+                }
+            }
+            
+            connection.setAutoCommit(true);
+            return false;
+            
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.err.println("Error rolling back transaction: " + ex.getMessage());
+            }
+            System.err.println("Error updating sale transaction: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Delete a single transaction by ID
+     */
+    public boolean delete(String transactionId) {
+        try {
+            connection.setAutoCommit(false);
+            
+            // Delete items first
+            String deleteItemsSql = "DELETE FROM sales_items WHERE transaction_id = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(deleteItemsSql)) {
+                pstmt.setString(1, transactionId);
+                pstmt.executeUpdate();
+            }
+            
+            // Delete transaction
+            String deleteTransactionSql = "DELETE FROM sales_transactions WHERE transaction_id = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(deleteTransactionSql)) {
+                pstmt.setString(1, transactionId);
+                int rowsAffected = pstmt.executeUpdate();
+                
+                connection.commit();
+                connection.setAutoCommit(true);
+                return rowsAffected > 0;
+            }
+            
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.err.println("Error rolling back transaction: " + ex.getMessage());
+            }
+            System.err.println("Error deleting sale transaction: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
      * Delete all sales data (use with caution)
      */
     public boolean deleteAll() {
@@ -275,3 +398,5 @@ public class SalesDAO {
         }
     }
 }
+
+

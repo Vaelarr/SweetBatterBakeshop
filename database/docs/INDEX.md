@@ -196,7 +196,11 @@ Complete guide to SweetBatterBakeshop database documentation and resources.
 
 #### Execution:
 ```bash
-mysql -u root -p < database/setup.sql
+# From project root
+mysql -u root -p < database/sql/setup.sql
+
+# Or use the setup script
+.\setup_database.bat
 ```
 
 #### What it creates:

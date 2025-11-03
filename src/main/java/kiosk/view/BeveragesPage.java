@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,8 +8,8 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import main.java.kiosk.util.CartManager;
-import main.java.kiosk.util.HelpRequestManager;
+import kiosk.util.CartManager;
+import kiosk.util.HelpRequestManager;
 
 public class BeveragesPage extends JPanel implements KioskPage {
     private JPanel productPanel;
@@ -714,3 +714,5 @@ public class BeveragesPage extends JPanel implements KioskPage {
 
 
 }
+
+

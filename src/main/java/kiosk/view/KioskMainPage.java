@@ -1,11 +1,11 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import main.java.kiosk.util.CartManager;
-import main.java.kiosk.util.HelpRequestManager;
+import kiosk.util.CartManager;
+import kiosk.util.HelpRequestManager;
 
 public class KioskMainPage extends JFrame {
     private CardLayout cardLayout;
@@ -635,5 +635,7 @@ public class KioskMainPage extends JFrame {
         SwingUtilities.invokeLater(KioskMainPage::new);
     }
 }
+
+
 
 

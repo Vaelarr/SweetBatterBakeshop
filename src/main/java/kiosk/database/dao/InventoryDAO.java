@@ -1,12 +1,12 @@
-package main.java.kiosk.database.dao;
+package kiosk.database.dao;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.kiosk.database.DatabaseConnection;
-import main.java.kiosk.model.InventoryItem;
+import kiosk.database.DatabaseConnection;
+import kiosk.database.SqlDialect;
+import kiosk.model.InventoryItem;
 
 /**
  * Data Access Object for Inventory Items
@@ -23,16 +23,16 @@ public class InventoryDAO {
      */
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS inventory (" +
-                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                    SqlDialect.primaryKeyAutoIncrement("id") + ", " +
                     "name VARCHAR(255) NOT NULL UNIQUE, " +
                     "category VARCHAR(100) NOT NULL, " +
                     "price DECIMAL(10, 2) NOT NULL, " +
-                    "stock_quantity INT NOT NULL, " +
+                    "stock_quantity " + SqlDialect.integer() + " NOT NULL, " +
                     "expiration_date DATE, " +
                     "barcode VARCHAR(50) UNIQUE, " +
                     "supplier VARCHAR(255), " +
-                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
-                    "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" +
+                    SqlDialect.createdAtColumn() + ", " +
+                    SqlDialect.updatedAtColumn() +
                     ")";
         
         try (Statement stmt = connection.createStatement()) {
@@ -283,3 +283,5 @@ public class InventoryDAO {
         }
     }
 }
+
+

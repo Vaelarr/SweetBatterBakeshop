@@ -1,4 +1,4 @@
-package main.java.kiosk.controller;
+package kiosk.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import main.java.kiosk.database.dao.SalesDAO;
-import main.java.kiosk.model.SaleTransaction;
-import main.java.kiosk.util.DataPersistence;
+import kiosk.database.dao.SalesDAO;
+import kiosk.model.SaleTransaction;
+import kiosk.util.DataPersistence;
 
 /**
  * Controller for managing sales transactions with MySQL database
@@ -162,3 +162,5 @@ public class SalesController implements DataPersistence<SaleTransaction> {
         // This method is kept for interface compatibility
     }
 }
+
+

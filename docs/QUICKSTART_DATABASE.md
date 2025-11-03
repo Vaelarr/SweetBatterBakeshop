@@ -2,13 +2,28 @@
 
 This guide will help you quickly set up MySQL database for the Kiosk system.
 
+> **✨ NEW: Automatic SQLite Fallback**  
+> The system now automatically uses SQLite if MySQL is unavailable. This means you can start developing immediately without MySQL setup! See [SQLite Fallback Guide](SQLITE_FALLBACK.md) for details.
+
 ## Prerequisites Checklist
 
-- [ ] MySQL Server 5.7+ installed
-- [ ] MySQL JDBC Driver (mysql-connector-java-8.0.33.jar or later)
-- [ ] MySQL server is running
+- [ ] MySQL Server 5.7+ installed *(Optional - SQLite fallback available)*
+- [ ] MySQL JDBC Driver (mysql-connector-java-8.0.33.jar or later) *(Included in pom.xml)*
+- [ ] MySQL server is running *(Optional - SQLite fallback available)*
 
-## Step-by-Step Setup
+## Quick Start Options
+
+### Option 1: Use SQLite Fallback (Fastest - No Setup Required)
+Simply run the application! It will automatically create a local SQLite database file (`bakery_kiosk.db`) if MySQL is not available.
+
+```powershell
+mvn clean compile exec:java
+```
+
+### Option 2: Full MySQL Setup (Recommended for Production)
+Follow the steps below to set up MySQL for production use.
+
+## Step-by-Step MySQL Setup
 
 ### 1. Install MySQL (if not already installed)
 
@@ -70,7 +85,7 @@ mysql -u root -p
 
 2. Run:
 ```sql
-source database/setup.sql
+source database/sql/setup.sql
 ```
 
 ### 4. Download MySQL JDBC Driver

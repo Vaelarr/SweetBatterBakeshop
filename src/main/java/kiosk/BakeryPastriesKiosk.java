@@ -1,14 +1,14 @@
-package main.java.kiosk;
+package kiosk;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import main.java.kiosk.controller.CartController;
-import main.java.kiosk.controller.InventoryController;
-import main.java.kiosk.controller.SalesController;
-import main.java.kiosk.view.KioskMainPage;
-import main.java.kiosk.view.ModernBakeryTheme;
-import main.java.kiosk.view.SplashScreen;
+import kiosk.controller.CartController;
+import kiosk.controller.InventoryController;
+import kiosk.controller.SalesController;
+import kiosk.view.KioskMainPage;
+import kiosk.view.ModernBakeryTheme;
+import kiosk.view.SplashScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -182,3 +182,5 @@ public class BakeryPastriesKiosk {
         System.out.println("Application shutdown complete");
     }
 }
+
+

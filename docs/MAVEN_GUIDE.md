@@ -256,7 +256,7 @@ mvn clean compile -X  # Debug mode
 ### Database connection issues
 - Check `config/database.properties`
 - Verify MySQL is running
-- Run `database/setup.sql`
+- Run `.\setup_database.bat` or `mysql -u root -p < database/sql/setup.sql`
 
 ## 📖 Resources
 

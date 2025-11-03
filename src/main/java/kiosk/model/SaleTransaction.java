@@ -1,4 +1,4 @@
-package main.java.kiosk.model;
+package kiosk.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -97,3 +97,5 @@ public class SaleTransaction implements Serializable {
                 transactionId, transactionDate, getTotalItemCount(), total);
     }
 }
+
+

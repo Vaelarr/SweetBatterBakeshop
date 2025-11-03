@@ -1,4 +1,4 @@
-package main.java.kiosk.controller;
+package kiosk.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import main.java.kiosk.database.dao.InventoryDAO;
-import main.java.kiosk.model.InventoryItem;
-import main.java.kiosk.util.DataPersistence;
+import kiosk.database.dao.InventoryDAO;
+import kiosk.model.InventoryItem;
+import kiosk.util.DataPersistence;
 
 /**
  * Controller for managing inventory operations with MySQL database
@@ -160,3 +160,5 @@ public class InventoryController implements DataPersistence<InventoryItem> {
         // This method is kept for interface compatibility
     }
 }
+
+

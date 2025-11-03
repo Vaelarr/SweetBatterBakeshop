@@ -1,10 +1,10 @@
-package main.java.kiosk.view.pages;
+package kiosk.view.pages;
 
 import javax.swing.*;
 
-import main.java.kiosk.model.InventoryItem;
-import main.java.kiosk.view.BaseKioskView;
-import main.java.kiosk.view.NavigationController;
+import kiosk.model.InventoryItem;
+import kiosk.view.BaseKioskView;
+import kiosk.view.NavigationController;
 
 import java.awt.*;
 import java.util.List;
@@ -167,3 +167,5 @@ public class ExampleProductListView extends BaseKioskView {
         // inventoryController.load();
     }
 }
+
+

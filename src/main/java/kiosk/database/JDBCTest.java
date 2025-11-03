@@ -1,4 +1,4 @@
-package main.java.kiosk.database;
+package kiosk.database;
 
 /**
  * Test program to verify MySQL JDBC driver is properly configured
@@ -80,3 +80,5 @@ public class JDBCTest {
         System.out.println("===========================================");
     }
 }
+
+

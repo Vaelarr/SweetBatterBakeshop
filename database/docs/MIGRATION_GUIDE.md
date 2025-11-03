@@ -38,10 +38,10 @@ DESCRIBE sales_transactions;
 mysql -u root -p -e "DROP DATABASE IF EXISTS kiosk_db;"
 
 # 2. Run full setup
-mysql -u root -p < database/setup.sql
+mysql -u root -p < database/sql/setup.sql
 
 # 3. Load test data (optional)
-mysql -u root -p kiosk_db < database/test_data.sql
+mysql -u root -p kiosk_db < database/sql/test_data.sql
 ```
 
 ---

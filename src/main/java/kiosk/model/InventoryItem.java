@@ -1,4 +1,4 @@
-package main.java.kiosk.model;
+package kiosk.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -133,3 +133,5 @@ public class InventoryItem implements Serializable {
                 name, category, price, stockQuantity, getFormattedExpirationDate());
     }
 }
+
+

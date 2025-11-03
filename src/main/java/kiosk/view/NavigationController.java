@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 /**
  * Interface for navigation between different views in the kiosk
@@ -49,3 +49,5 @@ public interface NavigationController {
      */
     void exitApplication();
 }
+
+

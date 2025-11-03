@@ -1,7 +1,7 @@
-package main.java.kiosk.database;
+package kiosk.database;
 
-import main.java.kiosk.database.dao.InventoryDAO;
-import main.java.kiosk.database.dao.SalesDAO;
+import kiosk.database.dao.InventoryDAO;
+import kiosk.database.dao.SalesDAO;
 
 /**
  * Database initializer to create tables and setup the database
@@ -32,3 +32,5 @@ public class DatabaseInitializer {
         initialize();
     }
 }
+
+

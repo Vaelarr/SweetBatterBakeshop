@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -10,11 +10,13 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
 
-import main.java.kiosk.controller.SalesController;
-import main.java.kiosk.model.InventoryItem;
-import main.java.kiosk.model.SaleTransaction;
-import main.java.kiosk.util.HelpRequestManager;
-import main.java.kiosk.util.InventoryManager;
+import kiosk.controller.CustomOrderController;
+import kiosk.view.admin.CustomOrdersAdminPanel;
+import kiosk.controller.SalesController;
+import kiosk.model.InventoryItem;
+import kiosk.model.SaleTransaction;
+import kiosk.util.HelpRequestManager;
+import kiosk.util.InventoryManager;
 
 /**
  * Modern Admin Panel with Dashboard and Sales Reports
@@ -148,6 +150,10 @@ public class AdminPanel extends JFrame {
         // Sales Reports Tab
         JPanel salesReportsPanel = createSalesReportsPanel();
         tabbedPane.addTab("💰 Sales Reports", salesReportsPanel);
+        
+        // Custom Orders Tab
+        CustomOrdersAdminPanel customOrdersPanel = new CustomOrdersAdminPanel(new CustomOrderController());
+        tabbedPane.addTab("🎂 Custom Orders", customOrdersPanel);
         
         return tabbedPane;
     }
@@ -1421,7 +1427,7 @@ public class AdminPanel extends JFrame {
             
             // Count items
             for (SaleTransaction sale : daySales) {
-                for (main.java.kiosk.model.CartItem item : sale.getItems()) {
+                for (kiosk.model.CartItem item : sale.getItems()) {
                     itemCounts.merge(item.getItemName(), item.getQuantity(), Integer::sum);
                 }
             }
@@ -1720,7 +1726,7 @@ public class AdminPanel extends JFrame {
             LocalDate date = sale.getTransactionDate().toLocalDate();
             dailyTotals.merge(date, sale.getTotal(), Double::sum);
             
-            for (main.java.kiosk.model.CartItem item : sale.getItems()) {
+            for (kiosk.model.CartItem item : sale.getItems()) {
                 productCounts.merge(item.getItemName(), item.getQuantity(), Integer::sum);
                 productRevenue.merge(item.getItemName(), item.getSubtotal(), Double::sum);
             }
@@ -2081,3 +2087,5 @@ public class AdminPanel extends JFrame {
     }
     
 }
+
+

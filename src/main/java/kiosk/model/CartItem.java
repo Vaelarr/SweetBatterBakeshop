@@ -1,4 +1,4 @@
-package main.java.kiosk.model;
+package kiosk.model;
 
 import java.io.Serializable;
 
@@ -62,3 +62,5 @@ public class CartItem implements Serializable {
                 itemName, price, quantity, getSubtotal());
     }
 }
+
+

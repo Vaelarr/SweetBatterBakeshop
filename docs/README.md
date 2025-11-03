@@ -1,64 +1,26 @@
 # 📚 Documentation Directory
 
-This folder contains all specialized documentation for the SweetBatter Bakeshop Kiosk project.
+Essential documentation for the SweetBatter Bakeshop system.
 
-## 📖 Available Documentation
+## 📖 Quick Navigation
 
-### Getting Started
-- **[QUICKSTART_DATABASE.md](QUICKSTART_DATABASE.md)** - Quick database setup guide
-  - Fast MySQL setup
-  - Essential configuration
-  - First-time setup instructions
+| Guide | Purpose |
+|-------|---------|
+| **[ADMIN_GUIDE.md](ADMIN_GUIDE.md)** | Admin panel features and usage |
+| **[CUSTOM_ORDERS_SYSTEM_README.md](CUSTOM_ORDERS_SYSTEM_README.md)** | Custom orders system guide |
+| **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** | System integration instructions |
+| **[LAUNCHERS_README.md](LAUNCHERS_README.md)** | How to run the applications |
+| **[MAVEN_GUIDE.md](MAVEN_GUIDE.md)** | Maven build system (detailed) |
+| **[MAVEN_QUICKREF.md](MAVEN_QUICKREF.md)** | Maven quick reference |
+| **[QUICKSTART_DATABASE.md](QUICKSTART_DATABASE.md)** | Database setup guide |
+| **[SQLITE_FALLBACK.md](SQLITE_FALLBACK.md)** | SQLite fallback database info |
 
-### Build System
-- **[MAVEN_GUIDE.md](MAVEN_GUIDE.md)** - Complete Maven setup and usage guide
-  - Installation and configuration
-  - Build commands and lifecycle
-  - Dependency management
-  - Troubleshooting
+## 🔙 Main Documentation
 
-- **[MAVEN_QUICKREF.md](MAVEN_QUICKREF.md)** - Maven quick reference card
-  - Common commands
-  - Build outputs
-  - Quick tips
-
-### Administration
-- **[ADMIN_GUIDE.md](ADMIN_GUIDE.md)** - Admin panel documentation
-  - Inventory management
-  - Sales reporting
-  - System administration
-
-## 🔙 Back to Main Documentation
-
-→ [Main README](../README.md) - Project overview, features, and changelog  
-→ [QUICKSTART.md](../QUICKSTART.md) - Quick setup guide
-
-## 📁 Documentation Structure
-
-```
-docs/                           # Specialized guides (you are here)
-├── README.md                   # This file
-├── ADMIN_GUIDE.md             # Admin panel guide
-├── MAVEN_GUIDE.md             # Detailed Maven guide
-├── MAVEN_QUICKREF.md          # Maven quick reference
-└── QUICKSTART_DATABASE.md     # Database quick start
-
-database/                       # Database resources
-├── setup.sql                  # Database schema
-├── test_data.sql             # Sample data
-└── README.md                 # Database documentation
-
-README.md                       # ⭐ Main documentation + changelog
-QUICKSTART.md                   # ⭐ Quick setup guide
-```
-
-## 💡 How to Use
-
-- **First Time Setup?** → See [../QUICKSTART.md](../QUICKSTART.md)
-- **Maven Help?** → See [MAVEN_GUIDE.md](MAVEN_GUIDE.md)
-- **Database Setup?** → See [QUICKSTART_DATABASE.md](QUICKSTART_DATABASE.md)
-- **Admin Panel?** → See [ADMIN_GUIDE.md](ADMIN_GUIDE.md)
+→ [Main README](../README.md) - Project overview and features  
+→ [QUICKSTART.md](../QUICKSTART.md) - Quick setup guide  
+→ [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) - Complete index
 
 ---
 
-**All documentation is linked from the main README.md**
+💡 **New users:** Start with [QUICKSTART.md](../QUICKSTART.md) in the root directory

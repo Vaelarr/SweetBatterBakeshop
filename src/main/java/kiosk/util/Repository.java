@@ -1,4 +1,4 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -94,3 +94,5 @@ public class Repository<T extends Serializable> {
         this.items = new ArrayList<>(newItems);
     }
 }
+
+

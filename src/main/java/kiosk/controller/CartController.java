@@ -1,4 +1,4 @@
-package main.java.kiosk.controller;
+package kiosk.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import main.java.kiosk.model.CartItem;
-import main.java.kiosk.model.SaleTransaction;
-import main.java.kiosk.util.DataPersistence;
-import main.java.kiosk.util.Repository;
+import kiosk.model.CartItem;
+import kiosk.model.SaleTransaction;
+import kiosk.util.DataPersistence;
+import kiosk.util.Repository;
 
 /**
  * Controller for managing shopping cart operations with generics and serialization
@@ -295,3 +295,5 @@ public class CartController implements DataPersistence<CartItem> {
         cartRepository.loadFromFile();
     }
 }
+
+

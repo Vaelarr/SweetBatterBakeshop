@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,8 +9,8 @@ import java.util.List;
 import javax.swing.*; // Explicit import for java.util.List
 import javax.swing.border.*;
 
-import main.java.kiosk.util.CartManager;
-import main.java.kiosk.util.HelpRequestManager;
+import kiosk.util.CartManager;
+import kiosk.util.HelpRequestManager;
 
 public class BreadsPage extends JPanel implements KioskPage {
     private KioskMainPage parent;
@@ -773,3 +773,4 @@ public class BreadsPage extends JPanel implements KioskPage {
         helpDialog.setVisible(true);
     }
 }
+

@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -203,3 +203,5 @@ public class SplashScreen extends JWindow {
         });
     }
 }
+
+

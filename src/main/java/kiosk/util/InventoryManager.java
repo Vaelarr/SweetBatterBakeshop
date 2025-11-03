@@ -1,10 +1,10 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import java.util.List;
 import java.util.Map;
 
-import main.java.kiosk.controller.InventoryController;
-import main.java.kiosk.model.InventoryItem;
+import kiosk.controller.InventoryController;
+import kiosk.model.InventoryItem;
 
 /**
  * Adapter class for backward compatibility with existing UI code
@@ -64,3 +64,5 @@ public class InventoryManager {
         return InventoryController.getInstance().getItem(itemName);
     }
 }
+
+

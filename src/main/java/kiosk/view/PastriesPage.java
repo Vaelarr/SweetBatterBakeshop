@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,8 +8,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import main.java.kiosk.util.CartManager;
-import main.java.kiosk.util.HelpRequestManager;
+import kiosk.util.CartManager;
+import kiosk.util.HelpRequestManager;
 
 public class PastriesPage extends JPanel implements KioskPage {
     private KioskMainPage parent;
@@ -27,11 +27,9 @@ public class PastriesPage extends JPanel implements KioskPage {
     private final Color BACKGROUND_COLOR = BakeryTheme.BACKGROUND_COLOR;
     private final Color CARD_COLOR = BakeryTheme.CARD_COLOR;
     private final Color TEXT_DARK = BakeryTheme.TEXT_DARK;
-    private final Color TEXT_LIGHT = BakeryTheme.TEXT_WHITE;
     private final Font TITLE_FONT = BakeryTheme.TITLE_FONT;
     private final Font SUBTITLE_FONT = BakeryTheme.SUBTITLE_FONT;
     private final Font REGULAR_FONT = BakeryTheme.REGULAR_FONT;
-    private final Font SMALL_FONT = BakeryTheme.SMALL_FONT;
 
     private Map<String, java.util.List<String>> products;
     private Map<String, java.util.List<Double>> prices;
@@ -68,11 +66,6 @@ public class PastriesPage extends JPanel implements KioskPage {
         // Initial display
         showProducts("Croissants & Pastries");
         highlightButton(croissantsButton);
-    }
-    
-    private boolean verifyAge() {
-        // No longer needed for bakery
-        return true;
     }
 
     private void initProducts() {
@@ -500,21 +493,61 @@ public class PastriesPage extends JPanel implements KioskPage {
         priceLabel.setForeground(ACCENT_COLOR);
         priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton addButton = new JButton("Request Staff Assistance");
-        addButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        addButton.setBackground(PRIMARY_COLOR);
-        addButton.setForeground(Color.WHITE);
-        addButton.setFocusPainted(false);
-        addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addButton.addActionListener(e -> showRestrictedMessage());
+        // Add to cart controls
+        JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        controlsPanel.setBackground(CARD_COLOR);
+        controlsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        int currentQuantity = CartManager.getItemQuantity(itemName);
+
+        JButton decrementBtn = new JButton("-");
+        decrementBtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        decrementBtn.setPreferredSize(new Dimension(40, 35));
+        decrementBtn.setFocusPainted(false);
+        decrementBtn.setBackground(new Color(220, 220, 220));
+        decrementBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        decrementBtn.setEnabled(currentQuantity > 0);
+
+        JLabel quantityLabel = new JLabel(String.valueOf(currentQuantity));
+        quantityLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        quantityLabel.setPreferredSize(new Dimension(30, 35));
+        quantityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JButton incrementBtn = new JButton("+");
+        incrementBtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        incrementBtn.setPreferredSize(new Dimension(40, 35));
+        incrementBtn.setFocusPainted(false);
+        incrementBtn.setBackground(ACCENT_COLOR);
+        incrementBtn.setForeground(Color.WHITE);
+        incrementBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        controlsPanel.add(decrementBtn);
+        controlsPanel.add(quantityLabel);
+        controlsPanel.add(incrementBtn);
+        
+        decrementBtn.addActionListener(e -> {
+            CartManager.removeItem(itemName);
+            updateProductCard(card, itemName, itemPrice);
+            updateCartCount();
+            // Update all cart counters after any cart change
+            if (parent != null) parent.updateAllCartCounters();
+        });
+
+        incrementBtn.addActionListener(e -> {
+            CartManager.addItem(itemName, itemPrice);
+            updateProductCard(card, itemName, itemPrice);
+            updateCartCount();
+            // Update all cart counters after any cart change
+            if (parent != null) parent.updateAllCartCounters();
+            showAddToCartFeedback(itemName);
+        });
 
         infoPanel.add(Box.createVerticalGlue());
         infoPanel.add(nameLabel);
         infoPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         infoPanel.add(priceLabel);
         infoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        infoPanel.add(addButton);
+        infoPanel.add(controlsPanel);
         infoPanel.add(Box.createVerticalGlue());
 
         card.add(imagePanel, BorderLayout.NORTH);
@@ -523,11 +556,32 @@ public class PastriesPage extends JPanel implements KioskPage {
         return card;
     }
 
-    private void showRestrictedMessage() {
-        JOptionPane.showMessageDialog(this,
-            "<html><center>For your safety and in compliance with the law,<br>please ask for staff assistance to purchase tobacco or alcohol products.</center></html>",
-            "Staff Assistance Required",
-            JOptionPane.INFORMATION_MESSAGE);
+    private void showAddToCartFeedback(String itemName) {
+        JWindow notification = new JWindow(SwingUtilities.getWindowAncestor(this));
+        JPanel content = new JPanel(new BorderLayout());
+        content.setBackground(new Color(50, 50, 50, 220));
+        content.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        
+        JLabel messageLabel = new JLabel(itemName + " added to cart");
+        messageLabel.setForeground(Color.WHITE);
+        messageLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        content.add(messageLabel, BorderLayout.CENTER);
+        notification.add(content);
+        notification.pack();
+        
+        Point parentLocation = SwingUtilities.getWindowAncestor(this).getLocationOnScreen();
+        Dimension parentSize = SwingUtilities.getWindowAncestor(this).getSize();
+        Dimension notificationSize = notification.getSize();
+        
+        notification.setLocation(
+            parentLocation.x + (parentSize.width - notificationSize.width) / 2,
+            parentLocation.y + parentSize.height - notificationSize.height - 100
+        );
+        
+        notification.setVisible(true);
+        
+        new javax.swing.Timer(1500, e -> notification.dispose()).start();
     }
 
     private void updateProductCard(JPanel card, String itemName, double itemPrice) {
@@ -794,3 +848,5 @@ public class PastriesPage extends JPanel implements KioskPage {
         return baseFileName;
     }
 }
+
+

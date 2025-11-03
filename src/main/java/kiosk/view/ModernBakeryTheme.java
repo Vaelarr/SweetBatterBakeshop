@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -183,3 +183,5 @@ public class ModernBakeryTheme extends FlatLightLaf {
         return false;
     }
 }
+
+

@@ -38,7 +38,11 @@ sudo systemctl status mysql
 - [ ] Open MySQL command line or client
 - [ ] Run setup script:
 ```bash
-mysql -u root -p < database/setup.sql
+# From project root
+mysql -u root -p < database/sql/setup.sql
+
+# Or use the setup script
+.\setup_database.bat
 ```
 
 **Expected Output:**
@@ -446,7 +450,7 @@ If all checkboxes are marked, your database is:
 
 ### Issue: Tables not found
 - [ ] Verify database selected: `USE kiosk_db;`
-- [ ] Re-run setup: `mysql -u root -p < database/setup.sql`
+- [ ] Re-run setup: `mysql -u root -p < database/sql/setup.sql`
 
 ### Issue: Queries running slow
 - [ ] Run: `ANALYZE TABLE inventory, sales_transactions;`

@@ -1,9 +1,9 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import java.util.Map;
 
-import main.java.kiosk.controller.CartController;
-import main.java.kiosk.model.CartItem;
+import kiosk.controller.CartController;
+import kiosk.model.CartItem;
 
 /**
  * Adapter class for backward compatibility with existing UI code
@@ -151,3 +151,5 @@ public class CartManager {
         CartController.getInstance().clearCart();
     }
 }
+
+

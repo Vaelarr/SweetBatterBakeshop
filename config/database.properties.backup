@@ -1,0 +1,7 @@
+# Temporary config to force MySQL connection failure 
+db.url=jdbc:mysql://invalid-host:9999/nonexistent_db 
+db.username=invalid_user 
+db.password=invalid_password 
+db.driver=com.mysql.cj.jdbc.Driver 
+db.sqlite.url=jdbc:sqlite:bakery_kiosk_demo.db 
+db.sqlite.driver=org.sqlite.JDBC 

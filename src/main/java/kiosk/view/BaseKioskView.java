@@ -1,9 +1,9 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import javax.swing.*;
 
-import main.java.kiosk.controller.CartController;
-import main.java.kiosk.controller.InventoryController;
+import kiosk.controller.CartController;
+import kiosk.controller.InventoryController;
 
 import java.awt.*;
 
@@ -132,3 +132,5 @@ public abstract class BaseKioskView extends JPanel {
      */
     public abstract void refresh();
 }
+
+

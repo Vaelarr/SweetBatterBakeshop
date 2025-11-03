@@ -1,10 +1,10 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import main.java.kiosk.controller.SalesController;
-import main.java.kiosk.model.CartItem;
+import kiosk.controller.SalesController;
+import kiosk.model.CartItem;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -104,18 +104,18 @@ public class SalesReport {
         JPanel summaryPanel = new JPanel(new GridLayout(2, 2, 15, 15));
         summaryPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        ArrayList<main.java.kiosk.model.SaleTransaction> filteredTransactions = filterTransactionsByDate(startDate);
+        ArrayList<kiosk.model.SaleTransaction> filteredTransactions = filterTransactionsByDate(startDate);
         
         // Calculate metrics
         int totalSales = filteredTransactions.size();
         double totalRevenue = filteredTransactions.stream()
-                .mapToDouble(main.java.kiosk.model.SaleTransaction::getTotal)
+                .mapToDouble(kiosk.model.SaleTransaction::getTotal)
                 .sum();
         int totalItems = filteredTransactions.stream()
                 .mapToInt(t -> t.getItems().stream().mapToInt(CartItem::getQuantity).sum())
                 .sum();
         long discountedSales = filteredTransactions.stream()
-                .filter(main.java.kiosk.model.SaleTransaction::isDiscountApplied)
+                .filter(kiosk.model.SaleTransaction::isDiscountApplied)
                 .count();
         
         // Create metric panels
@@ -138,9 +138,9 @@ public class SalesReport {
         String[] columns = {"Date & Time", "Items", "Total", "Discount Applied"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
         
-        ArrayList<main.java.kiosk.model.SaleTransaction> filteredTransactions = filterTransactionsByDate(startDate);
+        ArrayList<kiosk.model.SaleTransaction> filteredTransactions = filterTransactionsByDate(startDate);
         
-        for (main.java.kiosk.model.SaleTransaction transaction : filteredTransactions) {
+        for (kiosk.model.SaleTransaction transaction : filteredTransactions) {
             int itemCount = transaction.getItems().stream().mapToInt(CartItem::getQuantity).sum();
             String itemCountStr = itemCount + " item" + (itemCount > 1 ? "s" : "");
             
@@ -174,13 +174,13 @@ public class SalesReport {
         String[] columns = {"Item Name", "Quantity Sold", "Revenue"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
         
-        ArrayList<main.java.kiosk.model.SaleTransaction> filteredTransactions = filterTransactionsByDate(startDate);
+        ArrayList<kiosk.model.SaleTransaction> filteredTransactions = filterTransactionsByDate(startDate);
         
         // Aggregate item sales
         Map<String, Integer> itemQuantities = new HashMap<>();
         Map<String, Double> itemRevenues = new HashMap<>();
         
-        for (main.java.kiosk.model.SaleTransaction transaction : filteredTransactions) {
+        for (kiosk.model.SaleTransaction transaction : filteredTransactions) {
             for (CartItem cartItem : transaction.getItems()) {
                 String item = cartItem.getItemName();
                 int quantity = cartItem.getQuantity();
@@ -239,15 +239,15 @@ public class SalesReport {
     /**
      * Filters transactions based on the selected date range
      */
-    private ArrayList<main.java.kiosk.model.SaleTransaction> filterTransactionsByDate(Date startDate) {
-        java.util.List<main.java.kiosk.model.SaleTransaction> allTransactions = SalesController.getInstance().getAllTransactions();
+    private ArrayList<kiosk.model.SaleTransaction> filterTransactionsByDate(Date startDate) {
+        java.util.List<kiosk.model.SaleTransaction> allTransactions = SalesController.getInstance().getAllTransactions();
         
         if (startDate == null) {
             return new ArrayList<>(allTransactions);
         }
         
-        ArrayList<main.java.kiosk.model.SaleTransaction> filtered = new ArrayList<>();
-        for (main.java.kiosk.model.SaleTransaction transaction : allTransactions) {
+        ArrayList<kiosk.model.SaleTransaction> filtered = new ArrayList<>();
+        for (kiosk.model.SaleTransaction transaction : allTransactions) {
             // Convert LocalDateTime to Date for comparison
             Date transactionDate = Date.from(transaction.getTransactionDate()
                 .atZone(ZoneId.systemDefault()).toInstant());
@@ -324,3 +324,5 @@ public class SalesReport {
         }
     }
 }
+
+

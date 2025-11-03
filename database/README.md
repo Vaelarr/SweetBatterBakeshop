@@ -1,468 +1,207 @@
-# 🗄️ SweetBatterBakeshop Database Documentation
+# 🗄️ SweetBatterBakeshop Database
 
-## Overview
-This directory contains the complete database schema and utilities for the SweetBatterBakeshop kiosk system. The database is designed to support full admin panel integration with advanced analytics, inventory tracking, sales reporting, and customer support features.
+Complete database setup and management for the SweetBatterBakeshop kiosk system.
 
-## 📁 Files
+## 📁 Directory Structure
 
-### Core Schema
-- **`setup.sql`** - Main database setup script with all tables, views, procedures, and triggers
-- **`analytics_queries.sql`** - Pre-built queries for admin dashboard and reports
-- **`maintenance.sql`** - Database maintenance tasks and utilities
-- **`test_data.sql`** - Sample data generation for testing
-
-## 🗃️ Database Structure
-
-### Database Name: `kiosk_db`
-
-### Tables
-
-#### 1. **inventory** - Main product catalog
-Stores all bakery products with stock tracking and expiration management.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| name | VARCHAR(255) | Unique product name |
-| category | VARCHAR(100) | Product category |
-| price | DECIMAL(10,2) | Current selling price |
-| stock_quantity | INT | Current stock level |
-| min_stock_level | INT | Minimum stock threshold (default: 10) |
-| expiration_date | DATE | Product expiration date |
-| barcode | VARCHAR(50) | Unique barcode identifier |
-| supplier | VARCHAR(255) | Supplier name |
-| description | TEXT | Product description |
-| image_path | VARCHAR(500) | Path to product image |
-| is_active | BOOLEAN | Active status (default: TRUE) |
-| created_at | TIMESTAMP | Record creation time |
-| updated_at | TIMESTAMP | Last update time |
-
-**Indexes:** category, barcode, expiration_date, stock_quantity, is_active, name
-
----
-
-#### 2. **inventory_stock_history** - Stock change tracking
-Maintains audit trail of all inventory adjustments.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| item_name | VARCHAR(255) | Product name (FK to inventory) |
-| old_quantity | INT | Stock before change |
-| new_quantity | INT | Stock after change |
-| change_amount | INT | Calculated difference |
-| change_type | ENUM | SALE, RESTOCK, ADJUSTMENT, EXPIRED, DAMAGED |
-| notes | TEXT | Change notes/reason |
-| changed_by | VARCHAR(100) | User who made the change |
-| changed_at | TIMESTAMP | When change occurred |
-
-**Indexes:** item_name, changed_at, change_type
-
----
-
-#### 3. **sales_transactions** - Transaction records
-Main sales transaction table with payment and discount tracking.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| transaction_id | VARCHAR(50) | Unique transaction ID |
-| transaction_date | TIMESTAMP | Transaction date/time |
-| subtotal | DECIMAL(10,2) | Pre-discount subtotal |
-| discount_amount | DECIMAL(10,2) | Total discount applied |
-| tax_amount | DECIMAL(10,2) | VAT amount (12%) |
-| total | DECIMAL(10,2) | Final total amount |
-| payment_method | ENUM | CASH, ECASH, CARD, OTHER |
-| payment_amount | DECIMAL(10,2) | Amount tendered |
-| change_amount | DECIMAL(10,2) | Change given |
-| discount_applied | BOOLEAN | Whether discount was used |
-| discount_type | VARCHAR(50) | Type of discount (promo code) |
-| customer_type | ENUM | REGULAR, SENIOR, PWD, EMPLOYEE |
-| served_by | VARCHAR(100) | Staff member name |
-| notes | TEXT | Transaction notes |
-
-**Indexes:** transaction_id, transaction_date, payment_method, customer_type
-
----
-
-#### 4. **sales_items** - Line items detail
-Individual items within each transaction.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| transaction_id | VARCHAR(50) | FK to sales_transactions |
-| item_name | VARCHAR(255) | Product name |
-| category | VARCHAR(100) | Product category |
-| price | DECIMAL(10,2) | Item price at time of sale |
-| quantity | INT | Quantity purchased |
-| subtotal | DECIMAL(10,2) | Line item subtotal |
-| discount_amount | DECIMAL(10,2) | Line-level discount |
-
-**Indexes:** transaction_id, item_name, category
-
----
-
-#### 5. **admin_users** - Administrative users
-User accounts for admin panel access.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| username | VARCHAR(50) | Unique username |
-| password_hash | VARCHAR(255) | Hashed password |
-| full_name | VARCHAR(100) | Full display name |
-| email | VARCHAR(100) | Email address |
-| role | ENUM | SUPER_ADMIN, ADMIN, MANAGER, STAFF |
-| phone | VARCHAR(20) | Contact number |
-| created_at | TIMESTAMP | Account creation date |
-| last_login | TIMESTAMP | Last login time |
-| is_active | BOOLEAN | Account active status |
-
-**Indexes:** username, email, role, is_active
-
-**Default Users:**
-- Username: `admin`, Password: `admin123`, Role: SUPER_ADMIN
-- Username: `manager`, Password: `manager123`, Role: MANAGER
-
----
-
-#### 6. **admin_activity_log** - Audit trail
-Tracks all admin actions for security and compliance.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| admin_username | VARCHAR(50) | Admin who performed action |
-| action_type | VARCHAR(100) | Type of action |
-| action_description | TEXT | Detailed description |
-| affected_table | VARCHAR(100) | Database table affected |
-| affected_record_id | VARCHAR(100) | Record ID affected |
-| ip_address | VARCHAR(45) | IP address of action |
-| created_at | TIMESTAMP | Action timestamp |
-
-**Indexes:** admin_username, action_type, created_at
-
----
-
-#### 7. **help_requests** - Customer support
-Tracks customer assistance requests from kiosks.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| request_id | VARCHAR(50) | Unique request identifier |
-| location | VARCHAR(100) | Kiosk location |
-| request_type | VARCHAR(50) | Type of request |
-| description | TEXT | Request details |
-| priority | ENUM | LOW, MEDIUM, HIGH, URGENT |
-| status | ENUM | PENDING, IN_PROGRESS, RESOLVED, CANCELLED |
-| assigned_to | VARCHAR(50) | Assigned admin (FK) |
-| resolved_by | VARCHAR(50) | Admin who resolved (FK) |
-| created_at | TIMESTAMP | Request creation time |
-| resolved_at | TIMESTAMP | Resolution time |
-| resolution_notes | TEXT | Resolution details |
-
-**Indexes:** request_id, status, priority, created_at, assigned_to
-
----
-
-#### 8. **daily_sales_summary** - Aggregated sales
-Pre-computed daily sales for fast reporting.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| summary_date | DATE | Summary date (unique) |
-| total_transactions | INT | Transaction count |
-| total_items_sold | INT | Items sold count |
-| gross_sales | DECIMAL(10,2) | Total before discounts |
-| total_discounts | DECIMAL(10,2) | Sum of discounts |
-| total_tax | DECIMAL(10,2) | Total VAT collected |
-| net_sales | DECIMAL(10,2) | Final revenue |
-| cash_sales | DECIMAL(10,2) | Cash payments |
-| ecash_sales | DECIMAL(10,2) | E-cash payments |
-| card_sales | DECIMAL(10,2) | Card payments |
-| avg_transaction_value | DECIMAL(10,2) | Average transaction |
-
-**Indexes:** summary_date, created_at
-
----
-
-#### 9. **product_sales_analytics** - Product performance
-Tracks product sales over time periods.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| item_name | VARCHAR(255) | Product name |
-| category | VARCHAR(100) | Product category |
-| analysis_period | ENUM | DAILY, WEEKLY, MONTHLY, YEARLY |
-| period_start_date | DATE | Analysis period start |
-| period_end_date | DATE | Analysis period end |
-| units_sold | INT | Total units sold |
-| total_revenue | DECIMAL(10,2) | Revenue generated |
-| avg_price | DECIMAL(10,2) | Average selling price |
-
-**Indexes:** item_name, category, analysis_period, dates
-
----
-
-#### 10. **system_settings** - Configuration
-System-wide settings and parameters.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT (PK) | Auto-increment primary key |
-| setting_key | VARCHAR(100) | Unique setting key |
-| setting_value | TEXT | Setting value |
-| setting_type | VARCHAR(50) | Data type (STRING, DECIMAL, etc.) |
-| description | TEXT | Setting description |
-| updated_by | VARCHAR(50) | Last updated by |
-| updated_at | TIMESTAMP | Last update time |
-
-**Default Settings:**
-- `STORE_NAME`: SweetBatterBakeshop
-- `TAX_RATE`: 0.12 (12%)
-- `LOW_STOCK_THRESHOLD`: 10
-- `SENIOR_PWD_DISCOUNT`: 0.20 (20%)
-- Business hours, receipt footer, notifications
-
----
-
-## 👁️ Database Views
-
-### v_expired_items
-Lists all expired inventory items with calculated value loss.
-
-### v_low_stock_items
-Shows items below minimum stock levels with deficit calculation.
-
-### v_expiring_soon
-Items expiring within 7 days with countdown.
-
-### v_today_sales
-Real-time summary of today's sales statistics.
-
-### v_top_products
-Top 20 best-selling products of all time.
-
----
-
-## ⚙️ Stored Procedures
-
-### update_daily_sales_summary(target_date DATE)
-Updates or creates daily sales summary for a specific date.
-
-**Usage:**
-```sql
-CALL update_daily_sales_summary(CURDATE());
 ```
-
-### record_stock_change(params)
-Manually records stock changes with audit trail.
-
-**Parameters:**
-- `p_item_name`: Product name
-- `p_old_qty`: Previous quantity
-- `p_new_qty`: New quantity
-- `p_change_type`: Type of change
-- `p_notes`: Change notes
-- `p_changed_by`: User making change
-
-### generate_test_sales()
-Generates 30 days of realistic test sales data (from test_data.sql).
-
-### cleanup_test_data()
-Removes all test data from database.
-
----
-
-## 🔔 Triggers
-
-### trg_inventory_stock_update
-Automatically logs stock changes to inventory_stock_history when inventory.stock_quantity is updated.
+database/
+├── README.md                          # This file - main documentation
+├── sql/                               # SQL scripts
+│   ├── setup.sql                      # Main database schema
+│   ├── custom_orders_schema.sql       # Custom orders extension
+│   ├── test_data.sql                  # Sample test data
+│   ├── analytics_queries.sql          # Pre-built analytics queries
+│   ├── maintenance.sql                # Database maintenance utilities
+│   └── verify_custom_orders.sql       # Verification queries
+├── scripts/                           # Setup and installation scripts
+│   ├── apply_schema.bat              # Windows schema installer
+│   └── install_custom_orders.bat     # Custom orders installer
+└── docs/                             # Additional documentation
+    ├── MIGRATION_GUIDE.md            # Upgrading existing databases
+    ├── SCHEMA_DIAGRAM.md             # Visual database structure
+    └── SETUP_CHECKLIST.md            # Installation checklist
+```
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Initial Setup
+### Prerequisites
+- MySQL 5.7+ or MariaDB 10.2+
+- MySQL server running
+- Root or admin access to MySQL
+
+### Basic Installation
+
+**Option 1: Using Windows Batch Script** (Easiest)
 ```bash
-# Windows
-mysql -u root -p < database\setup.sql
-
-# Linux/Mac
-mysql -u root -p < database/setup.sql
+# From project root
+.\setup_database.bat
 ```
 
-### 2. Load Test Data (Optional)
-```sql
-SOURCE database/test_data.sql;
--- OR execute specific insert statements
+**Option 2: Manual MySQL Command**
+```bash
+# Navigate to database directory
+cd database
+
+# Install main schema
+mysql -u root -p < sql/setup.sql
+
+# (Optional) Install custom orders extension
+mysql -u root -p kiosk_db < sql/custom_orders_schema.sql
+
+# (Optional) Load test data
+mysql -u root -p kiosk_db < sql/test_data.sql
 ```
 
-### 3. Verify Installation
-```sql
-USE kiosk_db;
-SHOW TABLES;
-SELECT * FROM system_settings;
-```
+**Option 3: From Project Scripts Directory**
+```bash
+# From database/scripts directory
+cd database\scripts
 
-### 4. Test Admin Login
-```sql
-SELECT * FROM admin_users WHERE username = 'admin';
--- Default password: admin123 (CHANGE IN PRODUCTION!)
+# Apply main schema (prompts for password)
+.\apply_schema.bat
+
+# Install custom orders
+.\install_custom_orders.bat
 ```
 
 ---
 
-## 📊 Common Queries
+## 🗃️ Database Overview
 
-### Today's Sales Dashboard
+### Database Name: `kiosk_db`
+
+### Core Tables (10)
+
+1. **`inventory`** - Product catalog with stock tracking
+2. **`inventory_stock_history`** - Audit trail of stock changes
+3. **`sales_transactions`** - Transaction records
+4. **`sales_items`** - Line items per transaction
+5. **`daily_sales_summary`** - Aggregated daily metrics
+6. **`admin_users`** - Admin panel user accounts
+7. **`activity_logs`** - System activity audit trail
+8. **`help_requests`** - Customer assistance queue
+9. **`promotions`** - Discount and promotion campaigns
+10. **`supplier_orders`** - Purchase order tracking
+
+### Custom Orders Extension Tables (11)
+
+11. **`customers`** - Customer accounts
+12. **`customer_addresses`** - Delivery addresses
+13. **`custom_orders`** - Custom order requests
+14. **`custom_order_base_products`** - Base product selections
+15. **`custom_order_addons`** - Add-on selections
+16. **`addons`** - Available add-ons catalog
+17. **`addon_categories`** - Add-on categorization
+18. **`order_status_history`** - Order status tracking
+19. **`customer_notifications`** - Customer alerts
+20. **`order_reviews`** - Customer feedback
+21. **`payment_transactions`** - Payment processing
+
+---
+
+## 📊 Common Operations
+
+### View Today's Sales
 ```sql
--- Quick stats
 SELECT * FROM v_today_sales;
-
--- Detailed transactions
-SELECT * FROM sales_transactions 
-WHERE DATE(transaction_date) = CURDATE()
-ORDER BY transaction_date DESC;
 ```
 
-### Inventory Alerts
+### Check Low Stock Items
 ```sql
--- Low stock
 SELECT * FROM v_low_stock_items;
+```
 
--- Expiring soon
-SELECT * FROM v_expiring_soon;
-
--- Expired
+### View Expired Items
+```sql
 SELECT * FROM v_expired_items;
 ```
 
-### Sales Reports
+### Top Selling Products
 ```sql
--- Weekly report
-SELECT 
-    DATE(transaction_date) AS date,
-    COUNT(*) AS transactions,
-    SUM(total) AS revenue
-FROM sales_transactions
-WHERE transaction_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-GROUP BY DATE(transaction_date);
-
--- Top products
-SELECT * FROM v_top_products LIMIT 10;
+SELECT * FROM v_top_products LIMIT 20;
 ```
 
-### Help Requests
+### Daily Revenue Summary
 ```sql
--- Pending requests
-SELECT * FROM help_requests 
-WHERE status = 'PENDING'
-ORDER BY priority DESC, created_at;
+SELECT 
+    summary_date,
+    total_transactions,
+    total_revenue
+FROM daily_sales_summary
+ORDER BY summary_date DESC
+LIMIT 30;
 ```
 
 ---
 
 ## 🔧 Maintenance
 
-### Daily Tasks
-```sql
--- Update sales summaries
-CALL update_daily_sales_summary(CURDATE());
-CALL update_daily_sales_summary(DATE_SUB(CURDATE(), INTERVAL 1 DAY));
+### Backup Database
+```bash
+# Full backup
+mysqldump -u root -p kiosk_db > backup_kiosk_db.sql
 
--- Check database health
-SOURCE database/maintenance.sql; -- See diagnostic queries
+# Backup with timestamp
+mysqldump -u root -p kiosk_db > backup_$(date +%Y%m%d_%H%M%S).sql
 ```
 
-### Weekly Tasks
-```sql
--- Analyze tables for optimization
-ANALYZE TABLE inventory, sales_transactions, sales_items;
-
--- Check table sizes
-SELECT table_name, 
-       ROUND((data_length + index_length) / 1024 / 1024, 2) AS size_mb
-FROM information_schema.TABLES
-WHERE table_schema = 'kiosk_db'
-ORDER BY (data_length + index_length) DESC;
+### Restore Database
+```bash
+mysql -u root -p kiosk_db < backup_kiosk_db.sql
 ```
 
-### Monthly Tasks
-```sql
--- Archive old data (modify dates as needed)
--- See maintenance.sql for archive procedures
+### Run Maintenance Tasks
+```bash
+mysql -u root -p kiosk_db < sql/maintenance.sql
+```
 
--- Update product analytics
--- See maintenance.sql for product analytics update
+### Verify Custom Orders Installation
+```bash
+mysql -u root -p kiosk_db < sql/verify_custom_orders.sql
 ```
 
 ---
 
-## 🔐 Security
+## 📈 Analytics & Reporting
 
-### Password Management
-**⚠️ IMPORTANT:** Default passwords are for development only!
+Pre-built analytics queries are available in `sql/analytics_queries.sql`:
 
-```sql
--- Change admin password (hash in application)
-UPDATE admin_users 
-SET password_hash = 'NEW_HASHED_PASSWORD' 
-WHERE username = 'admin';
+- **Sales Performance** - Daily, weekly, monthly revenue trends
+- **Product Analysis** - Top sellers, slow movers, category performance
+- **Inventory Metrics** - Stock levels, turnover rates, expiration tracking
+- **Customer Insights** - Purchase patterns, loyalty metrics
+- **Operational Reports** - Transaction volumes, payment methods
+
+```bash
+# Run analytics queries
+mysql -u root -p kiosk_db < sql/analytics_queries.sql
 ```
-
-### Access Control
-- **SUPER_ADMIN**: Full system access
-- **ADMIN**: Inventory, sales, reports
-- **MANAGER**: Sales reports, help requests
-- **STAFF**: Limited read access
-
-### Audit Trail
-All admin actions are logged in `admin_activity_log` for security compliance.
 
 ---
 
-## 📈 Performance Optimization
+## 🔐 Security Notes
 
-### Indexes
-All critical columns are indexed for query performance:
-- Transaction dates (for date-range queries)
-- Product names and categories
-- Stock levels and expiration dates
-- User authentication fields
+1. **Never commit database passwords** to version control
+2. **Use environment variables** for credentials in production
+3. **Enable SSL** for remote database connections
+4. **Restrict user permissions** - grant only necessary privileges
+5. **Regular backups** - automate daily backups with retention policy
+6. **Audit logs** - review activity_logs regularly for suspicious activity
 
-### Views for Fast Access
-Pre-computed views reduce query complexity:
-- `v_today_sales` - Real-time dashboard
-- `v_top_products` - Best sellers
-- `v_low_stock_items` - Inventory alerts
-
-### Caching Strategy
-- Use `daily_sales_summary` for historical reports
-- Refresh summaries nightly with stored procedure
-- Product analytics updated monthly
-
----
-
-## 🧪 Testing
-
-### Load Sample Data
+### Create Application User (Recommended)
 ```sql
-SOURCE database/test_data.sql;
-```
+-- Create dedicated application user
+CREATE USER 'kiosk_app'@'localhost' IDENTIFIED BY 'your_secure_password';
 
-### Generate 30 Days of Sales
-```sql
-CALL generate_test_sales();
-```
+-- Grant necessary permissions
+GRANT SELECT, INSERT, UPDATE ON kiosk_db.* TO 'kiosk_app'@'localhost';
+GRANT DELETE ON kiosk_db.inventory_stock_history TO 'kiosk_app'@'localhost';
+GRANT DELETE ON kiosk_db.activity_logs TO 'kiosk_app'@'localhost';
 
-### Clean Up Test Data
-```sql
-CALL cleanup_test_data();
+FLUSH PRIVILEGES;
 ```
 
 ---
@@ -471,79 +210,76 @@ CALL cleanup_test_data();
 
 ### Connection Issues
 ```bash
-# Test connection
-mysql -u root -p -h localhost
+# Test MySQL connection
+mysql -u root -p -e "SELECT VERSION();"
 
-# Check if database exists
-SHOW DATABASES LIKE 'kiosk_db';
+# Check if MySQL service is running (Windows)
+sc query MySQL
+
+# Check if MySQL service is running (Linux)
+sudo systemctl status mysql
 ```
 
-### Foreign Key Errors
+### Import Errors
 ```sql
--- Temporarily disable
-SET FOREIGN_KEY_CHECKS = 0;
--- ... perform operations ...
-SET FOREIGN_KEY_CHECKS = 1;
+-- Check current database
+SELECT DATABASE();
+
+-- Use correct database
+USE kiosk_db;
+
+-- Check existing tables
+SHOW TABLES;
 ```
 
-### Missing Tables
+### Permission Denied
 ```sql
--- Re-run setup
-SOURCE database/setup.sql;
-```
+-- Check user privileges
+SHOW GRANTS FOR 'your_username'@'localhost';
 
-### Slow Queries
-```sql
--- Check for missing indexes
-SHOW INDEX FROM sales_transactions;
-
--- Analyze slow query
-EXPLAIN SELECT * FROM sales_transactions WHERE ...;
+-- Grant all privileges (as root)
+GRANT ALL PRIVILEGES ON kiosk_db.* TO 'your_username'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
 ---
 
-## 📚 Additional Resources
+## 📚 Additional Documentation
 
-### File References
-- **`analytics_queries.sql`** - Ready-to-use analytics queries
-- **`maintenance.sql`** - Database maintenance scripts
-- **`test_data.sql`** - Sample data generation
-
-### Application Integration
-- Java DAO classes: `src/kiosk/database/dao/`
-- Database config: `config/database.properties`
-- Connection manager: `src/kiosk/database/DatabaseConnection.java`
+- **[MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md)** - Upgrading from older schema versions
+- **[SCHEMA_DIAGRAM.md](docs/SCHEMA_DIAGRAM.md)** - Visual ER diagrams and relationships
+- **[SETUP_CHECKLIST.md](docs/SETUP_CHECKLIST.md)** - Detailed installation checklist
 
 ---
 
-## 🔄 Version History
+## 💡 Tips
 
-### v2.0 (Current) - Admin Integration
-- ✅ Enhanced schema for admin panel
-- ✅ Sales analytics tables and views
-- ✅ Help request system
-- ✅ Admin activity logging
-- ✅ Stored procedures and triggers
-- ✅ Comprehensive test data
-
-### v1.0 - Initial Release
-- Basic inventory management
-- Simple transaction tracking
-- Core sales recording
+- **Test Data**: Use `test_data.sql` for development and testing
+- **Custom Orders**: Install `custom_orders_schema.sql` only if using customer portal
+- **Performance**: Indexes are pre-configured for optimal query performance
+- **Monitoring**: Check `activity_logs` and `inventory_stock_history` for system health
 
 ---
 
-## 📞 Support
+## 🆘 Support
 
-For database-related issues:
-1. Check troubleshooting section above
-2. Review error logs: `/var/log/mysql/error.log`
-3. Verify connection in `database.properties`
-4. Test with sample queries from this documentation
+For issues or questions:
+1. Check the [SETUP_CHECKLIST.md](docs/SETUP_CHECKLIST.md) for common setup problems
+2. Review [MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md) for upgrade issues
+3. Verify installation with `sql/verify_custom_orders.sql`
 
 ---
 
-**Last Updated:** 2024
-**Database Version:** 2.0
-**Compatible With:** MySQL 5.7+, MariaDB 10.2+
+## 📝 Version History
+
+- **v2.0** - Added custom orders system with 11 new tables
+- **v1.5** - Enhanced analytics views and stored procedures
+- **v1.0** - Initial release with core bakery kiosk tables
+
+---
+
+**Database:** kiosk_db  
+**Total Tables:** 21 (10 core + 11 custom orders)  
+**Views:** 5  
+**Stored Procedures:** 4  
+**Triggers:** 1

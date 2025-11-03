@@ -1,4 +1,4 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -353,3 +353,5 @@ public class AdminLoginPanel extends JFrame {
         return storedPassword.equals(password);
     }
 }
+
+

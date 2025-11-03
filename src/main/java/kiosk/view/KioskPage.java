@@ -1,6 +1,8 @@
-package main.java.kiosk.view;
+package kiosk.view;
 
 public interface KioskPage {
     void backToMain();
     void updateCartCount();
 }
+
+

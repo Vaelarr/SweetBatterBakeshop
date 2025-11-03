@@ -1,4 +1,4 @@
-package main.java.kiosk.util;
+package kiosk.util;
 
 import java.io.IOException;
 
@@ -20,3 +20,5 @@ public interface DataPersistence<T> {
      */
     void load() throws IOException, ClassNotFoundException;
 }
+
+
