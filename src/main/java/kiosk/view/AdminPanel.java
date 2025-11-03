@@ -797,6 +797,10 @@ public class AdminPanel extends JFrame {
                     inventoryManager.removeItem(itemName);
                     refreshTableData();
                     updateAlerts();
+                    refreshDashboard(); // Auto-refresh dashboard stats
+                    JOptionPane.showMessageDialog(this, 
+                        "Item '" + itemName + "' deleted successfully!", 
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, 
@@ -1904,6 +1908,7 @@ public class AdminPanel extends JFrame {
             
             refreshTableData();
             updateAlerts();
+            refreshDashboard(); // Auto-refresh dashboard stats
             dialog.dispose();
             
             JOptionPane.showMessageDialog(dialog, "Item added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -2003,6 +2008,7 @@ public class AdminPanel extends JFrame {
             
             refreshTableData();
             updateAlerts();
+            refreshDashboard(); // Auto-refresh dashboard stats
             dialog.dispose();
             
             JOptionPane.showMessageDialog(dialog, "Item updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
