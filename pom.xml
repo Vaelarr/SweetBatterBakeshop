@@ -173,6 +173,81 @@
                     <mainClass>kiosk.BakeryPastriesKiosk</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- Launch4j Plugin to Create Windows .exe -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <!-- Bakery Kiosk Executable -->
+                    <execution>
+                        <id>bakery-kiosk-exe</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/BakeryKiosk.exe</outfile>
+                            <jar>target/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+                            <errTitle>Sweet Batter Bakeshop - Bakery Kiosk</errTitle>
+                            <classPath>
+                                <mainClass>kiosk.BakeryPastriesKiosk</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>21</minVersion>
+                                <initialHeapSize>256</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>1.0.0</txtFileVersion>
+                                <fileDescription>Sweet Batter Bakeshop - Bakery Kiosk</fileDescription>
+                                <copyright>Sweet Batter Bakeshop</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0</txtProductVersion>
+                                <productName>Sweet Batter Bakeshop - Bakery Kiosk</productName>
+                                <internalName>BakeryKiosk</internalName>
+                                <originalFilename>BakeryKiosk.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                    <!-- Customer Portal Executable -->
+                    <execution>
+                        <id>customer-portal-exe</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/CustomerPortal.exe</outfile>
+                            <jar>target/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+                            <errTitle>Sweet Batter Bakeshop - Customer Portal</errTitle>
+                            <classPath>
+                                <mainClass>kiosk.SimpleCustomerPortal</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>21</minVersion>
+                                <initialHeapSize>256</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>1.0.0</txtFileVersion>
+                                <fileDescription>Sweet Batter Bakeshop - Customer Portal</fileDescription>
+                                <copyright>Sweet Batter Bakeshop</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0</txtProductVersion>
+                                <productName>Sweet Batter Bakeshop - Customer Portal</productName>
+                                <internalName>CustomerPortal</internalName>
+                                <originalFilename>CustomerPortal.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

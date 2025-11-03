@@ -19,6 +19,7 @@ Quick guide to all SweetBatter Bakeshop documentation.
 |----------|-------------|
 | **[QUICKSTART_DATABASE.md](QUICKSTART_DATABASE.md)** | Database setup guide |
 | **[LAUNCHERS_README.md](LAUNCHERS_README.md)** | How to run both applications |
+| **[EXECUTABLES_GUIDE.md](EXECUTABLES_GUIDE.md)** | Build Windows .exe files |
 | **[SQLITE_FALLBACK.md](SQLITE_FALLBACK.md)** | SQLite fallback database info |
 
 ---
@@ -28,6 +29,8 @@ Quick guide to all SweetBatter Bakeshop documentation.
 | Document | Description |
 |----------|-------------|
 | **[ADMIN_GUIDE.md](ADMIN_GUIDE.md)** | Admin panel features and usage |
+| **[CUSTOMER_PORTAL_CRUD.md](CUSTOMER_PORTAL_CRUD.md)** | Customer portal CRUD operations |
+| **[CUSTOMER_PORTAL_CRUD_VERIFICATION.md](CUSTOMER_PORTAL_CRUD_VERIFICATION.md)** | Customer portal testing summary |
 | **[CUSTOM_ORDERS_SYSTEM_README.md](CUSTOM_ORDERS_SYSTEM_README.md)** | Custom orders system guide |
 
 ---
