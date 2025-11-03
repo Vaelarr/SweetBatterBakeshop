@@ -11,10 +11,13 @@ import javax.swing.border.*;
 
 import kiosk.util.CartManager;
 import kiosk.util.HelpRequestManager;
+import kiosk.database.dao.InventoryDAO;
+import kiosk.model.InventoryItem;
 
 public class BreadsPage extends JPanel implements KioskPage {
     private KioskMainPage parent;
     private JPanel productPanel;
+    private InventoryDAO inventoryDAO;
 
     @Override
     public void backToMain() {
@@ -28,7 +31,7 @@ public class BreadsPage extends JPanel implements KioskPage {
     private JButton activeButton;
     private JLabel cartCountLabel;
     private JTextField searchBar;
-    private String currentCategory = "Artisan Breads";
+    private String currentCategory = "Breads & Rolls";
     private final DecimalFormat priceFormat = new DecimalFormat("0.00");
     
     // Modern Bakery Theme Colors
@@ -45,6 +48,7 @@ public class BreadsPage extends JPanel implements KioskPage {
 
     public BreadsPage(KioskMainPage parent) {
         this.parent = parent;
+        this.inventoryDAO = new InventoryDAO();
         setLayout(new BorderLayout(0, 0));
         setBackground(BACKGROUND_COLOR);
 
@@ -53,7 +57,6 @@ public class BreadsPage extends JPanel implements KioskPage {
         // Create main components
         JPanel topPanel = createTopPanel();
         JPanel headerPanel = createHeaderPanel();
-        JPanel subcategoryPanel = createSubcategoryPanel();
         JScrollPane productScrollPane = createProductScrollPane();
         
         // Assemble the UI
@@ -65,15 +68,13 @@ public class BreadsPage extends JPanel implements KioskPage {
         JPanel contentPanel = new JPanel(new BorderLayout(0, 15));
         contentPanel.setBackground(BACKGROUND_COLOR);
         contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
-        contentPanel.add(subcategoryPanel, BorderLayout.NORTH);
         contentPanel.add(productScrollPane, BorderLayout.CENTER);
         
         add(mainPanel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
         
         // Initial display
-        showProducts("Artisan Breads");
-        highlightButton(artisanBreadsButton);
+        showProducts("Breads & Rolls");
     }
 
     private void initProducts() {
@@ -81,45 +82,31 @@ public class BreadsPage extends JPanel implements KioskPage {
         products = new HashMap<>();
         prices = new HashMap<>();
 
-        products.put("Artisan Breads", Arrays.asList(
-            "French Baguette", "Sourdough Bread", "Ciabatta Rolls", "Focaccia Bread", "Rye Bread",
-            "Multigrain Bread", "Whole Wheat Bread", "Olive Bread", "Rosemary Bread", "Garlic Bread",
-            "Sunflower Seed Bread", "Pumpernickel Bread", "Italian Bread", "Potato Bread", "Honey Oat Bread"
-        ));
-        prices.put("Artisan Breads", Arrays.asList(
-            85.0, 120.0, 110.0, 155.0, 125.0, 105.0, 95.0,
-            140.0, 135.0, 130.0, 115.0, 145.0, 100.0, 110.0, 120.0
-        ));
+        // Define category mappings for breads
+        String[] breadCategories = {
+            "Breads & Rolls"
+        };
 
-        products.put("Soft Rolls", Arrays.asList(
-            "Dinner Rolls (6 pack)", "Brioche Buns", "Hamburger Buns", "Hot Dog Buns", "Pretzel Rolls",
-            "Kaiser Rolls", "Ciabatta Rolls", "Sesame Seed Buns", "Milk Buns", "Cinnamon Swirl Buns",
-            "Butter Rolls", "Onion Rolls", "Everything Bagel", "Plain Bagel", "Blueberry Bagel"
-        ));
-        prices.put("Soft Rolls", Arrays.asList(
-            90.0, 145.0, 95.0, 85.0, 120.0, 105.0, 110.0,
-            100.0, 115.0, 130.0, 95.0, 100.0, 70.0, 60.0, 75.0
-        ));
-
-        products.put("Specialty Breads", Arrays.asList(
-            "Challah Bread", "Naan Bread", "Pita Bread", "Tortilla Wraps", "English Muffins",
-            "Cornbread", "Irish Soda Bread", "Breadsticks", "Grissini", "Cheese Bread",
-            "Jalapeño Bread", "Sweet Bread", "Monkey Bread", "Pull-Apart Bread", "Garlic Knots"
-        ));
-        prices.put("Specialty Breads", Arrays.asList(
-            165.0, 95.0, 80.0, 110.0, 90.0, 105.0, 135.0,
-            75.0, 85.0, 145.0, 150.0, 120.0, 180.0, 175.0, 95.0
-        ));
-
-        products.put("Sweet Buns", Arrays.asList(
-            "Cinnamon Buns", "Chocolate Chip Buns", "Raisin Buns", "Glazed Honey Buns", "Coconut Buns",
-            "Ube Buns", "Pandan Buns", "Red Bean Buns", "Custard Buns", "Nutella Buns",
-            "Blueberry Buns", "Strawberry Buns", "Banana Buns", "Caramel Buns", "Pecan Buns"
-        ));
-        prices.put("Sweet Buns", Arrays.asList(
-            80.0, 75.0, 70.0, 85.0, 90.0, 95.0, 90.0,
-            85.0, 100.0, 110.0, 95.0, 95.0, 85.0, 105.0, 125.0
-        ));
+        // Retrieve items from database for each category
+        for (String category : breadCategories) {
+            List<InventoryItem> items = inventoryDAO.getByCategory(category);
+            
+            List<String> productNames = new ArrayList<>();
+            List<Double> productPrices = new ArrayList<>();
+            
+            for (InventoryItem item : items) {
+                productNames.add(item.getName());
+                productPrices.add(item.getPrice());
+            }
+            
+            products.put(category, productNames);
+            prices.put(category, productPrices);
+        }
+        
+        // If no items found in database, log a warning
+        if (products.isEmpty() || products.values().stream().allMatch(List::isEmpty)) {
+            System.out.println("Warning: No bread items found in database. Please ensure inventory is populated.");
+        }
     }
 
     private JPanel createTopPanel() {
@@ -258,10 +245,10 @@ public class BreadsPage extends JPanel implements KioskPage {
         subcategoryPanel.setOpaque(false);
         subcategoryPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         
-        artisanBreadsButton = createCategoryButton("Artisan Breads");
-        softRollsButton = createCategoryButton("Soft Rolls");
-        specialtyBreadsButton = createCategoryButton("Specialty Breads");
-        sweetBunsButton = createCategoryButton("Sweet Buns");
+        artisanBreadsButton = createCategoryButton("Breads & Rolls");
+        softRollsButton = createCategoryButton("Breads & Rolls");
+        specialtyBreadsButton = createCategoryButton("Breads & Rolls");
+        sweetBunsButton = createCategoryButton("Breads & Rolls");
         
         subcategoryPanel.add(artisanBreadsButton);
         subcategoryPanel.add(softRollsButton);

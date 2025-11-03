@@ -21,6 +21,10 @@ import java.io.IOException;
  */
 public class BakeryPastriesKiosk {
     public static void main(String[] args) {
+        // Initialize database first
+        System.out.println("Initializing database connection and schema...");
+        kiosk.database.DatabaseInitializer.initialize();
+        
         // Show splash screen
         SplashScreen splash = new SplashScreen();
         

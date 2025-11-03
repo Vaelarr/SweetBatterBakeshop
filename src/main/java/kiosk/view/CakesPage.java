@@ -11,17 +11,20 @@ import javax.swing.border.*;
 
 import kiosk.util.CartManager;
 import kiosk.util.HelpRequestManager;
+import kiosk.database.dao.InventoryDAO;
+import kiosk.model.InventoryItem;
 
 public class CakesPage extends JPanel implements KioskPage {
     private JPanel productPanel;
     private Map<String, List<String>> products;
     private Map<String, List<Double>> prices;
     private Map<String, List<String>> images; // Map to store image filenames
+    private InventoryDAO inventoryDAO;
     private JButton cakeSlicesButton, cupcakesButton, customCakesButton, specialtyButton;
     private JButton activeButton;
     private JLabel cartCountLabel;
     private JTextField searchBar;
-    private String currentCategory = "Cake Slices";
+    private String currentCategory = "Cakes & Special Occasions";
     private final DecimalFormat priceFormat = new DecimalFormat("0.00");
     
     // Modern Bakery Theme Colors
@@ -40,13 +43,13 @@ public class CakesPage extends JPanel implements KioskPage {
 
     public CakesPage(KioskMainPage parent) {
         this.parent = parent;
+        this.inventoryDAO = new InventoryDAO();
         setLayout(new BorderLayout(0, 0));
         setBackground(BACKGROUND_COLOR);
 
         initProducts();
         JPanel topPanel = createTopPanel();
         JPanel headerPanel = createHeaderPanel();
-        JPanel subcategoryPanel = createSubcategoryPanel();
         JScrollPane productScrollPane = createProductScrollPane();
         
         // Assemble the UI
@@ -58,15 +61,13 @@ public class CakesPage extends JPanel implements KioskPage {
         JPanel contentPanel = new JPanel(new BorderLayout(0, 15));
         contentPanel.setBackground(BACKGROUND_COLOR);
         contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
-        contentPanel.add(subcategoryPanel, BorderLayout.NORTH);
         contentPanel.add(productScrollPane, BorderLayout.CENTER);
         
         add(mainPanel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
         
         // Initial display
-        showProducts("Cake Slices");
-        highlightButton(cakeSlicesButton);
+        showProducts("Cakes & Special Occasions");
         
         setVisible(true);
     }
@@ -76,69 +77,39 @@ public class CakesPage extends JPanel implements KioskPage {
         prices = new HashMap<>();
         images = new HashMap<>();
         
-        // Cake Slices
-        products.put("Cake Slices", Arrays.asList(
-            "Chocolate Cake Slice", "Vanilla Cake Slice", "Red Velvet Cake Slice", "Carrot Cake Slice", "Cheesecake Slice",
-            "Black Forest Slice", "Tiramisu Cake Slice", "Strawberry Shortcake", "Lemon Cake Slice", "Coconut Cake Slice",
-            "German Chocolate Slice", "Tres Leches Slice", "Opera Cake Slice", "Hummingbird Cake", "Funfetti Cake Slice"
-        ));
-        prices.put("Cake Slices", Arrays.asList(
-            95.0, 85.0, 110.0, 100.0, 135.0, 120.0, 140.0, 125.0, 90.0, 95.0,
-            115.0, 130.0, 145.0, 105.0, 90.0
-        ));
-        images.put("Cake Slices", Arrays.asList(
-            "chocolatecake.jpg", "vanillacake.jpg", "redvelvet.png", "carrotcake.jpg", "cheesecake.jpg",
-            "blackforest.jpg", "tiramisu.jpg", "strawberryshortcake.png", "lemoncake.jpg", "coconutcake.jpg",
-            "germanchocolate.jpg", "tresleches.jpg", "operacake.jpg", "hummingbird.jpg", "funfetti.png"
-        ));
+        // Define category mappings for cakes
+        String[] cakeCategories = {
+            "Cakes & Special Occasions"
+        };
 
-        // Cupcakes & Mini Cakes
-        products.put("Cupcakes & Mini Cakes", Arrays.asList(
-            "Vanilla Cupcake", "Chocolate Cupcake", "Red Velvet Cupcake", "Lemon Cupcake", "Strawberry Cupcake",
-            "Caramel Cupcake", "Oreo Cupcake", "Peanut Butter Cupcake", "Mini Chocolate Cake", "Mini Vanilla Cake",
-            "Mini Red Velvet Cake", "Cupcake 6-Pack Assorted", "Mini Cheesecake", "Birthday Cupcake", "Wedding Cupcake"
-        ));
-        prices.put("Cupcakes & Mini Cakes", Arrays.asList(
-            55.0, 60.0, 70.0, 65.0, 65.0, 75.0, 80.0, 75.0, 250.0, 230.0,
-            270.0, 280.0, 200.0, 85.0, 95.0
-        ));
-        images.put("Cupcakes & Mini Cakes", Arrays.asList(
-            "vanillacupcake.jpg", "chocolatecupcake.jpg", "redvelvetcupcake.jpg", "lemoncupcake.jpg", "strawberrycupcake.jpg",
-            "caramelcupcake.jpg", "oreocupcake.jpg", "peanutbuttercupcake.jpg", "minichoccake.jpg", "minivanillacake.jpg",
-            "miniredvelvet.jpg", "cupcakeassorted.png", "minicheesecake.jpg", "birthdaycupcake.jpg", "weddingcupcake.png"
-        ));
-
-        // Custom & Celebration Cakes
-        products.put("Custom & Celebration Cakes", Arrays.asList(
-            "Birthday Cake 6-inch", "Birthday Cake 8-inch", "Birthday Cake 10-inch", "Anniversary Cake 8-inch", "Wedding Cake Tier",
-            "Graduation Cake", "Baby Shower Cake", "Number Cake", "Photo Cake 8-inch", "Heart-Shaped Cake",
-            "Custom Design Cake Small", "Custom Design Cake Medium", "Custom Design Cake Large", "Cupcake Tower 24pc", "Cupcake Tower 50pc"
-        ));
-        prices.put("Custom & Celebration Cakes", Arrays.asList(
-            450.0, 850.0, 1200.0, 950.0, 3500.0, 1100.0, 980.0, 750.0, 1050.0, 680.0,
-            1500.0, 2200.0, 3800.0, 1800.0, 3200.0
-        ));
-        images.put("Custom & Celebration Cakes", Arrays.asList(
-            "birthday6.jpg", "birthday8.jpg", "birthday10.jpg", "anniversary.jpg", "weddingtier.png",
-            "graduation.jpg", "babyshower.jpg", "numbercake.jpg", "photocake.jpg", "heartshaped.jpg",
-            "customsmall.jpg", "custommedium.jpg", "customlarge.jpg", "tower24.jpg", "tower50.png"
-        ));
-
-        // Specialty Desserts
-        products.put("Specialty Desserts", Arrays.asList(
-            "Cake Pops (6pc)", "Cake Jar Dessert", "Brownie Bites (6pc)", "Cookie Cake", "Ice Cream Cake Slice",
-            "Mousse Cake Slice", "Layered Cake Jar", "Cake Truffles (6pc)", "Petite Fours (4pc)", "Mini Tarts Assorted (4pc)",
-            "Chocolate Lava Cake", "Molten Cake", "Soufflé", "Crème Brûlée", "Panna Cotta"
-        ));
-        prices.put("Specialty Desserts", Arrays.asList(
-            180.0, 165.0, 150.0, 420.0, 155.0, 175.0, 185.0, 200.0, 160.0, 190.0,
-            145.0, 155.0, 180.0, 165.0, 160.0
-        ));
-        images.put("Specialty Desserts", Arrays.asList(
-            "cakepops.png", "cakejar.jpg", "browniebites.jpg", "cookiecake.jpg", "icecreamcake.jpg",
-            "moussecake.jpg", "layeredjar.jpg", "caketruffles.jpg", "petitefours.jpg", "minitarts.jpg",
-            "lavacake.jpg", "moltencake.jpg", "souffle.jpg", "cremebrulee.jpg", "pannacotta.png"
-        ));
+        // Retrieve items from database for each category
+        for (String category : cakeCategories) {
+            List<InventoryItem> items = inventoryDAO.getByCategory(category);
+            System.out.println("DEBUG CakesPage: Category '" + category + "' has " + items.size() + " items");
+            
+            List<String> productNames = new ArrayList<>();
+            List<Double> productPrices = new ArrayList<>();
+            List<String> productImages = new ArrayList<>();
+            
+            for (InventoryItem item : items) {
+                System.out.println("  - " + item.getName() + " ($" + item.getPrice() + ")");
+                productNames.add(item.getName());
+                productPrices.add(item.getPrice());
+                // Generate a default image filename based on product name
+                String imageName = item.getName().toLowerCase()
+                    .replaceAll("[^a-z0-9]+", "") + ".jpg";
+                productImages.add(imageName);
+            }
+            
+            products.put(category, productNames);
+            prices.put(category, productPrices);
+            images.put(category, productImages);
+        }
+        
+        // If no items found in database, log a warning
+        if (products.isEmpty() || products.values().stream().allMatch(List::isEmpty)) {
+            System.out.println("Warning: No cake items found in database. Please ensure inventory is populated.");
+        }
     }
 
     private JPanel createTopPanel() {
@@ -277,10 +248,11 @@ public class CakesPage extends JPanel implements KioskPage {
         subcategoryPanel.setOpaque(false);
         subcategoryPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         
-        cakeSlicesButton = createCategoryButton("Cake Slices", "🍰");
-        cupcakesButton = createCategoryButton("Cupcakes & Mini Cakes", "🧁");
-        customCakesButton = createCategoryButton("Custom & Celebration Cakes", "🎂");
-        specialtyButton = createCategoryButton("Specialty Desserts", "🍮");
+        // All subcategories now point to the same main category
+        cakeSlicesButton = createCategoryButton("Cakes & Special Occasions", "🍰");
+        cupcakesButton = createCategoryButton("Cakes & Special Occasions", "🧁");
+        customCakesButton = createCategoryButton("Cakes & Special Occasions", "🎂");
+        specialtyButton = createCategoryButton("Cakes & Special Occasions", "🍮");
         
         subcategoryPanel.add(cakeSlicesButton);
         subcategoryPanel.add(cupcakesButton);

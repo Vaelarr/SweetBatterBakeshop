@@ -8,20 +8,20 @@ Complete database setup and management for the SweetBatterBakeshop kiosk system.
 database/
 ├── README.md                          # This file - main documentation
 ├── sql/                               # SQL scripts
-│   ├── setup.sql                      # Main database schema
-│   ├── custom_orders_schema.sql       # Custom orders extension
-│   ├── test_data.sql                  # Sample test data
-│   ├── analytics_queries.sql          # Pre-built analytics queries
-│   ├── maintenance.sql                # Database maintenance utilities
-│   └── verify_custom_orders.sql       # Verification queries
-├── scripts/                           # Setup and installation scripts
-│   ├── apply_schema.bat              # Windows schema installer
-│   └── install_custom_orders.bat     # Custom orders installer
+│   ├── README.md                      # SQL scripts documentation
+│   └── setup.sql                      # Complete database schema (ALL-IN-ONE)
+├── scripts/                           # Setup and installation scripts (if any)
 └── docs/                             # Additional documentation
     ├── MIGRATION_GUIDE.md            # Upgrading existing databases
     ├── SCHEMA_DIAGRAM.md             # Visual database structure
     └── SETUP_CHECKLIST.md            # Installation checklist
 ```
+
+> **Note:** The database has been consolidated into a single `setup.sql` file that includes:
+> - Core inventory and sales systems
+> - Admin panel tables
+> - Custom orders functionality
+> - All views, triggers, and sample data
 
 ---
 
@@ -34,19 +34,29 @@ database/
 
 ### Basic Installation
 
-**Option 1: Using Windows Batch Script** (Easiest)
+**Option 1: Using Windows Batch Script** (If available)
 ```bash
 # From project root
 .\setup_database.bat
 ```
 
-**Option 2: Manual MySQL Command**
+**Option 2: Manual MySQL Command** (Recommended)
 ```bash
-# Navigate to database directory
-cd database
+# Navigate to sql directory
+cd database\sql
 
-# Install main schema
-mysql -u root -p < sql/setup.sql
+# Install complete schema (includes everything)
+mysql -u root -p < setup.sql
+```
+
+**Option 3: From MySQL Command Line**
+```sql
+-- Login to MySQL first
+mysql -u root -p
+
+-- Then run
+source d:/Development/SweetBatterBakeshop/database/sql/setup.sql
+```
 
 # (Optional) Install custom orders extension
 mysql -u root -p kiosk_db < sql/custom_orders_schema.sql

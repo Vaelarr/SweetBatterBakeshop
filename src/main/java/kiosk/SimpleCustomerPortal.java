@@ -167,6 +167,10 @@ public class SimpleCustomerPortal extends JFrame {
     }
     
     public static void main(String[] args) {
+        // Initialize database first
+        System.out.println("Initializing database connection and schema...");
+        kiosk.database.DatabaseInitializer.initialize();
+        
         SwingUtilities.invokeLater(() -> {
             // Show splash screen first
             CustomerSplashScreen splash = new CustomerSplashScreen();

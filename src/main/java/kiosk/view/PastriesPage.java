@@ -5,20 +5,24 @@ import java.awt.event.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
 import kiosk.util.CartManager;
 import kiosk.util.HelpRequestManager;
+import kiosk.database.dao.InventoryDAO;
+import kiosk.model.InventoryItem;
 
 public class PastriesPage extends JPanel implements KioskPage {
     private KioskMainPage parent;
     private JPanel productPanel;
+    private InventoryDAO inventoryDAO;
     private JButton croissantsButton, muffinsButton, donutsButton, tartsButton;
     private JButton activeButton;
     private JLabel cartCountLabel;
     private JTextField searchBar;
-    private String currentCategory = "Croissants & Pastries";
+    private String currentCategory = "Pastries & Desserts";
     private final DecimalFormat priceFormat = new DecimalFormat("0.00");
 
     // Modern Bakery Theme Colors
@@ -37,6 +41,7 @@ public class PastriesPage extends JPanel implements KioskPage {
 
     public PastriesPage(KioskMainPage parent) {
         this.parent = parent;
+        this.inventoryDAO = new InventoryDAO();
         setLayout(new BorderLayout(0, 0));
         setBackground(BACKGROUND_COLOR);
 
@@ -45,7 +50,6 @@ public class PastriesPage extends JPanel implements KioskPage {
         // Create main components
         JPanel topPanel = createTopPanel();
         JPanel headerPanel = createHeaderPanel();
-        JPanel subcategoryPanel = createSubcategoryPanel();
         JScrollPane productScrollPane = createProductScrollPane();
 
         // Assemble the UI
@@ -57,15 +61,13 @@ public class PastriesPage extends JPanel implements KioskPage {
         JPanel contentPanel = new JPanel(new BorderLayout(0, 15));
         contentPanel.setBackground(BACKGROUND_COLOR);
         contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
-        contentPanel.add(subcategoryPanel, BorderLayout.NORTH);
         contentPanel.add(productScrollPane, BorderLayout.CENTER);
 
         add(mainPanel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
 
         // Initial display
-        showProducts("Croissants & Pastries");
-        highlightButton(croissantsButton);
+        showProducts("Pastries & Desserts");
     }
 
     private void initProducts() {
@@ -73,69 +75,37 @@ public class PastriesPage extends JPanel implements KioskPage {
         prices = new HashMap<>();
         images = new HashMap<>();
 
-        // Croissants & Pastries
-        products.put("Croissants & Pastries", Arrays.asList(
-            "Butter Croissant", "Chocolate Croissant", "Almond Croissant", "Ham & Cheese Croissant", 
-            "Spinach Croissant", "Pain au Chocolat", "Danish Pastry", "Apple Danish", "Cheese Danish", "Cinnamon Danish",
-            "Fruit Danish", "Cream Danish", "Éclair", "Napoleon", "Palmier"
-        ));
-        prices.put("Croissants & Pastries", Arrays.asList(
-            65.0, 75.0, 85.0, 95.0, 90.0, 80.0, 70.0, 75.0, 80.0, 70.0,
-            85.0, 75.0, 95.0, 120.0, 65.0
-        ));
-        images.put("Croissants & Pastries", Arrays.asList(
-            "buttercroissant.png", "chococroissant.jpg", "almondcroissant.png", "hamcheesecroissant.png", 
-            "spinachcroissant.jpg", "painauchocolat.jpg", "danish.jpg", "appledanish.jpg", "cheesedanish.jpg", "cinnamondanish.jpg",
-            "fruitdanish.jpg", "creamdanish.jpg", "eclair.jpg", "napoleon.jpg", "palmier.png"
-        ));
+        // Define category mappings for pastries
+        String[] pastryCategories = {
+            "Pastries & Desserts"
+        };
 
-        // Muffins & Cupcakes
-        products.put("Muffins & Cupcakes", Arrays.asList(
-            "Blueberry Muffin", "Chocolate Chip Muffin", "Banana Nut Muffin", "Lemon Poppy Seed Muffin", "Carrot Muffin",
-            "Vanilla Cupcake", "Chocolate Cupcake", "Red Velvet Cupcake", "Strawberry Cupcake", "Caramel Cupcake",
-            "Pumpkin Muffin", "Bran Muffin", "Apple Cinnamon Muffin", "Double Chocolate Muffin", "Lemon Cupcake"
-        ));
-        prices.put("Muffins & Cupcakes", Arrays.asList(
-            65.0, 60.0, 70.0, 65.0, 75.0, 55.0, 60.0, 70.0, 65.0, 75.0,
-            70.0, 55.0, 65.0, 70.0, 65.0
-        ));
-        images.put("Muffins & Cupcakes", Arrays.asList(
-            "blueberrymuffin.png", "chocchipmuffin.jpg", "banananutmuffin.png", "lemonpoppymuffin.png", "carrotmuffin.jpg",
-            "vanillacupcake.jpg", "chocolatecupcake.jpg", "redvelvetcupcake.jpg", "strawberrycupcake.jpg", "caramelcupcake.jpg",
-            "pumpkinmuffin.jpg", "branmuffin.jpg", "applecinnamonmuffin.jpg", "doublechocmuffin.jpg", "lemoncupcake.png"
-        ));
-
-        // Donuts & Sweet Treats
-        products.put("Donuts & Sweet Treats", Arrays.asList(
-            "Glazed Donut", "Chocolate Donut", "Powdered Sugar Donut", "Boston Cream Donut", "Jelly Donut",
-            "Apple Fritter", "Cinnamon Roll", "Sticky Bun", "Cream Puff", "Profiterole",
-            "Churros", "Beignets", "Cannoli", "Tiramisu Cup", "Macaron (each)"
-        ));
-        prices.put("Donuts & Sweet Treats", Arrays.asList(
-            45.0, 50.0, 40.0, 70.0, 60.0, 75.0, 80.0, 85.0, 65.0, 70.0,
-            55.0, 65.0, 95.0, 145.0, 50.0
-        ));
-        images.put("Donuts & Sweet Treats", Arrays.asList(
-            "glazeddonut.png", "chocolatedonut.jpg", "powdereddonut.png", "bostoncreamdonut.png", "jellydonut.jpg",
-            "applefritter.jpg", "cinnamonroll.jpg", "stickybun.jpg", "creampuff.jpg", "profiterole.jpg",
-            "churros.jpg", "beignets.jpg", "cannoli.jpg", "tiramisucup.jpg", "macaron.png"
-        ));
-
-        // Tarts & Pies
-        products.put("Tarts & Pies", Arrays.asList(
-            "Fruit Tart", "Chocolate Tart", "Lemon Tart", "Apple Tart", "Peach Tart",
-            "Cherry Pie Slice", "Apple Pie Slice", "Pumpkin Pie Slice", "Pecan Pie Slice", "Key Lime Pie Slice",
-            "Blueberry Pie Slice", "Strawberry Tart", "Custard Tart", "Egg Tart", "Portuguese Tart"
-        ));
-        prices.put("Tarts & Pies", Arrays.asList(
-            150.0, 140.0, 135.0, 145.0, 140.0, 95.0, 90.0, 100.0, 120.0, 110.0,
-            95.0, 155.0, 130.0, 85.0, 90.0
-        ));
-        images.put("Tarts & Pies", Arrays.asList(
-            "fruittart.png", "chocolatetart.jpg", "lemontart.png", "appletart.png", "peachtart.jpg",
-            "cherrypie.jpg", "applepie.jpg", "pumpkinpie.jpg", "pecanpie.jpg", "keylimepie.jpg",
-            "blueberrypie.jpg", "strawberrytart.jpg", "custardtart.jpg", "eggtart.png", "portuguesetart.png"
-        ));
+        // Retrieve items from database for each category
+        for (String category : pastryCategories) {
+            List<InventoryItem> items = inventoryDAO.getByCategory(category);
+            
+            List<String> productNames = new ArrayList<>();
+            List<Double> productPrices = new ArrayList<>();
+            List<String> productImages = new ArrayList<>();
+            
+            for (InventoryItem item : items) {
+                productNames.add(item.getName());
+                productPrices.add(item.getPrice());
+                // Generate a default image filename based on product name
+                String imageName = item.getName().toLowerCase()
+                    .replaceAll("[^a-z0-9]+", "") + ".jpg";
+                productImages.add(imageName);
+            }
+            
+            products.put(category, productNames);
+            prices.put(category, productPrices);
+            images.put(category, productImages);
+        }
+        
+        // If no items found in database, log a warning
+        if (products.isEmpty() || products.values().stream().allMatch(List::isEmpty)) {
+            System.out.println("Warning: No pastry items found in database. Please ensure inventory is populated.");
+        }
     }
 
     private JPanel createTopPanel() {
@@ -274,10 +244,10 @@ public class PastriesPage extends JPanel implements KioskPage {
         subcategoryPanel.setOpaque(false);
         subcategoryPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
-        croissantsButton = createCategoryButton("Croissants & Pastries");
-        muffinsButton = createCategoryButton("Muffins & Cupcakes");
-        donutsButton = createCategoryButton("Donuts & Sweet Treats");
-        tartsButton = createCategoryButton("Tarts & Pies");
+        croissantsButton = createCategoryButton("Pastries & Desserts");
+        muffinsButton = createCategoryButton("Pastries & Desserts");
+        donutsButton = createCategoryButton("Pastries & Desserts");
+        tartsButton = createCategoryButton("Pastries & Desserts");
 
         subcategoryPanel.add(croissantsButton);
         subcategoryPanel.add(muffinsButton);

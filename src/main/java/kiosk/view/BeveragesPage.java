@@ -10,17 +10,20 @@ import javax.swing.border.*;
 
 import kiosk.util.CartManager;
 import kiosk.util.HelpRequestManager;
+import kiosk.database.dao.InventoryDAO;
+import kiosk.model.InventoryItem;
 
 public class BeveragesPage extends JPanel implements KioskPage {
     private JPanel productPanel;
     private Map<String, List<String>> products;
     private Map<String, List<Double>> prices;
+    private InventoryDAO inventoryDAO;
     private JButton coffeeButton, juicesButton, spreadButton, dairyButton;
     private CartPage cartPage;
     private JButton activeButton;
     private JLabel cartCountLabel;
     private JTextField searchBar;
-    private String currentCategory = "Coffee & Hot Drinks";
+    private String currentCategory = "Beverages & Extras";
     private final DecimalFormat priceFormat = new DecimalFormat("0.00");
     
     // Modern Bakery Theme Colors
@@ -39,6 +42,7 @@ public class BeveragesPage extends JPanel implements KioskPage {
 
     public BeveragesPage(KioskMainPage parent) {
         this.parent = parent;
+        this.inventoryDAO = new InventoryDAO();
         setLayout(new BorderLayout(0, 0));
         setBackground(BACKGROUND_COLOR);
 
@@ -47,7 +51,6 @@ public class BeveragesPage extends JPanel implements KioskPage {
         // Create main components
         JPanel topPanel = createTopPanel();
         JPanel headerPanel = createHeaderPanel();
-        JPanel subcategoryPanel = createSubcategoryPanel();
         JScrollPane productScrollPane = createProductScrollPane();
         
         // Assemble the UI
@@ -59,64 +62,44 @@ public class BeveragesPage extends JPanel implements KioskPage {
         JPanel contentPanel = new JPanel(new BorderLayout(0, 15));
         contentPanel.setBackground(BACKGROUND_COLOR);
         contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
-        contentPanel.add(subcategoryPanel, BorderLayout.NORTH);
         contentPanel.add(productScrollPane, BorderLayout.CENTER);
         
         add(mainPanel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
         
         // Initial display
-        showProducts("Coffee & Hot Drinks");
-        highlightButton(coffeeButton);
+        showProducts("Beverages & Extras");
     }
 
     private void initProducts() {
         products = new HashMap<>();
         prices = new HashMap<>();
 
-        // Coffee & Hot Drinks
-        products.put("Coffee & Hot Drinks", Arrays.asList(
-            "Fresh Brewed Coffee", "Espresso", "Americano", "Cappuccino", "Latte",
-            "Mocha", "Macchiato", "Flat White", "Cortado", "Café au Lait",
-            "Hot Chocolate", "White Chocolate Mocha", "Caramel Latte", "Vanilla Latte", "Hazelnut Latte"
-        ));
-        prices.put("Coffee & Hot Drinks", Arrays.asList(
-            55.0, 65.0, 70.0, 75.0, 85.0, 95.0, 80.0, 90.0, 75.0, 70.0,
-            70.0, 100.0, 95.0, 90.0, 95.0
-        ));
+        // Define category mappings for beverages
+        String[] beverageCategories = {
+            "Beverages & Extras"
+        };
 
-        // Juices & Cold Drinks
-        products.put("Juices & Cold Drinks", Arrays.asList(
-            "Fresh Orange Juice", "Apple Juice", "Mango Juice", "Pineapple Juice", "Watermelon Juice",
-            "Mixed Berry Smoothie", "Banana Smoothie", "Green Smoothie", "Iced Tea", "Lemonade",
-            "Bottled Water", "Sparkling Water", "Iced Coffee", "Cold Brew", "Frappe"
-        ));
-        prices.put("Juices & Cold Drinks", Arrays.asList(
-            65.0, 55.0, 60.0, 60.0, 65.0, 85.0, 75.0, 90.0, 45.0, 50.0,
-            25.0, 40.0, 75.0, 85.0, 95.0
-        ));
-
-        // Spreads & Toppings
-        products.put("Spreads & Toppings", Arrays.asList(
-            "Butter (250g)", "Salted Butter", "Unsalted Butter", "Cream Cheese Spread", "Strawberry Jam",
-            "Blueberry Jam", "Orange Marmalade", "Honey (500g)", "Maple Syrup", "Chocolate Spread",
-            "Nutella (350g)", "Peanut Butter", "Almond Butter", "Hazelnut Spread", "Fruit Preserves"
-        ));
-        prices.put("Spreads & Toppings", Arrays.asList(
-            145.0, 150.0, 150.0, 125.0, 95.0, 100.0, 105.0, 250.0, 280.0, 180.0,
-            220.0, 165.0, 280.0, 240.0, 120.0
-        ));
-
-        // Dairy & Extras
-        products.put("Dairy & Extras", Arrays.asList(
-            "Fresh Milk (1L)", "Chocolate Milk", "Almond Milk", "Soy Milk", "Oat Milk",
-            "Heavy Cream", "Whipping Cream", "Sour Cream", "Yogurt Plain", "Greek Yogurt",
-            "Flavored Yogurt", "Cottage Cheese", "Cream Cheese (200g)", "Condensed Milk", "Evaporated Milk"
-        ));
-        prices.put("Dairy & Extras", Arrays.asList(
-            95.0, 85.0, 115.0, 110.0, 120.0, 135.0, 130.0, 95.0, 75.0, 105.0,
-            80.0, 120.0, 110.0, 85.0, 75.0
-        ));
+        // Retrieve items from database for each category
+        for (String category : beverageCategories) {
+            List<InventoryItem> items = inventoryDAO.getByCategory(category);
+            
+            List<String> productNames = new ArrayList<>();
+            List<Double> productPrices = new ArrayList<>();
+            
+            for (InventoryItem item : items) {
+                productNames.add(item.getName());
+                productPrices.add(item.getPrice());
+            }
+            
+            products.put(category, productNames);
+            prices.put(category, productPrices);
+        }
+        
+        // If no items found in database, log a warning
+        if (products.isEmpty() || products.values().stream().allMatch(List::isEmpty)) {
+            System.out.println("Warning: No beverage items found in database. Please ensure inventory is populated.");
+        }
     }
 
     private JPanel createTopPanel() {
@@ -255,10 +238,10 @@ public class BeveragesPage extends JPanel implements KioskPage {
         subcategoryPanel.setOpaque(false);
         subcategoryPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         
-        coffeeButton = createCategoryButton("Coffee & Hot Drinks", "☕");
-        juicesButton = createCategoryButton("Juices & Cold Drinks", "🧃");
-        spreadButton = createCategoryButton("Spreads & Toppings", "�");
-        dairyButton = createCategoryButton("Dairy & Extras", "�");
+        coffeeButton = createCategoryButton("Beverages & Extras", "☕");
+        juicesButton = createCategoryButton("Beverages & Extras", "🧃");
+        spreadButton = createCategoryButton("Beverages & Extras", "�");
+        dairyButton = createCategoryButton("Beverages & Extras", "�");
         
         subcategoryPanel.add(coffeeButton);
         subcategoryPanel.add(juicesButton);
