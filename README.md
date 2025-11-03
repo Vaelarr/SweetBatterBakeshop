@@ -4,9 +4,9 @@ A professional bakery management system built with Java Swing, featuring **two i
 
 **Current Version:** 4.0.0 | **Last Updated:** November 3, 2025
 
-> **✨ NEW: Automatic SQLite Fallback!** No MySQL? No problem! The system now automatically uses SQLite when MySQL is unavailable. Perfect for development and testing. [Learn more →](docs/SQLITE_FALLBACK.md)
+> **✨ NEW: Automatic SQLite Fallback!** No MySQL? No problem! The system now automatically uses SQLite when MySQL is unavailable. Perfect for development and testing.
 
-📚 **[Documentation Index](docs/DOCUMENTATION_INDEX.md)** - Find all guides and references
+📚 **Quick Links:** [QUICKSTART.md](QUICKSTART.md) | [EXECUTABLES_QUICKSTART.md](EXECUTABLES_QUICKSTART.md) | [Database Setup](database/README.md)
 
 ---
 
