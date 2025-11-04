@@ -5,10 +5,7 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import kiosk.view.BakeryTheme;
 
-/**
- * Splash Screen for Customer Portal
- * Displays while the application is loading
- */
+
 public class CustomerSplashScreen extends JWindow {
     
     private final Color PRIMARY_COLOR = BakeryTheme.PRIMARY_COLOR;
