@@ -25,8 +25,8 @@ public class BakeryTheme {
     public static final Color SOFT_CREAM = new Color(0xF5E9DB);             // Cream Beige - subtle warmth
     
     // Text Colors - Rich and readable
-    public static final Color TEXT_DARK = new Color(0x5A3520);              // Dark Chocolate Brown - primary text
-    public static final Color TEXT_MEDIUM = new Color(0x5A3520);            // Dark Chocolate Brown - secondary text
+    public static final Color TEXT_DARK = new Color(0x000000);              // Pure Black - primary text for maximum readability
+    public static final Color TEXT_MEDIUM = new Color(0x2C2C2C);            // Very Dark Gray - secondary text
     public static final Color TEXT_LIGHT = new Color(0x7D6B60);             // Soft Taupe - subtle text/hints
     public static final Color TEXT_WHITE = new Color(0xFFFFFF);             // Pure White - light text
     

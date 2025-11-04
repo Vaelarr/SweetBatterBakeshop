@@ -246,16 +246,74 @@ INSERT INTO system_settings (setting_key, setting_value, setting_type, descripti
 ('ENABLE_NOTIFICATIONS', 'true', 'BOOLEAN', 'Enable system notifications')
 ON DUPLICATE KEY UPDATE setting_key=setting_key;
 
--- Sample inventory items for testing
+-- Sample inventory items for testing - Filipino Bakery Products
 INSERT INTO inventory (name, category, price, stock_quantity, min_stock_level, date_baked, good_until, expiration_date, supplier, description) VALUES
-('French Baguette', 'Breads & Rolls', 85.00, 30, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Bakery Chef', 'Fresh daily baked French bread'),
-('Chocolate Croissant', 'Pastries & Desserts', 75.00, 35, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'French Bakery', 'Buttery croissant with rich chocolate'),
-('Ube Pan de Sal', 'Breads & Rolls', 45.00, 50, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Filipino favorite with ube flavor'),
-('Fresh Brewed Coffee', 'Beverages & Extras', 55.00, 100, 25, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Premium arabica coffee'),
-('Chocolate Cake Slice', 'Cakes & Special Occasions', 120.00, 20, 5, DATE_SUB(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Rich chocolate layer cake'),
-('Ensaymada', 'Pastries & Desserts', 35.00, 40, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Sweet Filipino pastry with butter and sugar'),
-('Cinnamon Roll', 'Pastries & Desserts', 65.00, 25, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Bakery Chef', 'Soft roll with cinnamon and cream cheese frosting'),
-('Orange Juice', 'Beverages & Extras', 45.00, 60, 20, NULL, DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Juice Co', 'Freshly squeezed orange juice')
+-- Breads & Rolls (Filipino & Traditional)
+('Pan de Sal', 'Breads & Rolls', 3.00, 200, 50, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Classic Filipino bread roll, best with butter'),
+('Ube Pan de Sal', 'Breads & Rolls', 5.00, 150, 40, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Purple yam flavored Filipino bread roll'),
+('Pan de Coco', 'Breads & Rolls', 12.00, 80, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Sweet coconut-filled bread roll'),
+('Monay', 'Breads & Rolls', 10.00, 60, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Dense, slightly sweet Filipino bread with butter and sugar topping'),
+('Spanish Bread', 'Breads & Rolls', 8.00, 90, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Soft bread roll filled with sweet breadcrumbs'),
+('Pandesal de Leche', 'Breads & Rolls', 6.00, 100, 30, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Milk-enriched pan de sal, extra soft'),
+('Putok', 'Breads & Rolls', 4.00, 120, 35, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Cracked top bread roll with margarine and sugar'),
+('Tasty Bread', 'Breads & Rolls', 15.00, 70, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Loaf bread filled with sweet margarine and sugar'),
+('Pinagong', 'Breads & Rolls', 18.00, 50, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Turtle-shaped bread with sweet filling'),
+('Kababayan', 'Breads & Rolls', 10.00, 60, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Round flat bread with sweet coconut filling'),
+
+-- Pastries & Desserts (Filipino Specialties)
+('Ensaymada', 'Pastries & Desserts', 35.00, 80, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Sweet brioche pastry with butter, sugar, and cheese'),
+('Ube Ensaymada', 'Pastries & Desserts', 45.00, 60, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Purple yam flavored ensaymada with cheese'),
+('Special Ensaymada', 'Pastries & Desserts', 65.00, 40, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Extra large ensaymada with premium toppings'),
+('Hopia Monggo', 'Pastries & Desserts', 12.00, 100, 30, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Chinese Bakery', 'Traditional hopia with mung bean filling'),
+('Hopia Ube', 'Pastries & Desserts', 15.00, 90, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Chinese Bakery', 'Hopia filled with sweet purple yam'),
+('Hopia Baboy', 'Pastries & Desserts', 18.00, 70, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Chinese Bakery', 'Hopia with savory-sweet pork filling'),
+('Hopia Pandan', 'Pastries & Desserts', 15.00, 80, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Chinese Bakery', 'Pandan-flavored hopia pastry'),
+('Pianono', 'Pastries & Desserts', 25.00, 45, 12, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Rolled sponge cake with custard filling'),
+('Ube Pianono', 'Pastries & Desserts', 30.00, 40, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Ube-flavored rolled cake with custard'),
+('Brazo de Mercedes', 'Pastries & Desserts', 45.00, 30, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Meringue roll with custard filling'),
+('Sans Rival', 'Pastries & Desserts', 55.00, 25, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Cake Masters', 'Layered cashew meringue with buttercream'),
+('Silvanas', 'Pastries & Desserts', 20.00, 60, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 DAY), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Local Bakery', 'Cashew meringue wafer with buttercream'),
+('Polvoron Original', 'Pastries & Desserts', 8.00, 120, 30, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY), DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Local Bakery', 'Classic milk candy shortbread'),
+('Polvoron Pinipig', 'Pastries & Desserts', 10.00, 100, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY), DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Local Bakery', 'Polvoron with crispy rice topping'),
+('Polvoron Ube', 'Pastries & Desserts', 10.00, 100, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY), DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Local Bakery', 'Purple yam flavored polvoron'),
+('Buko Pie Slice', 'Pastries & Desserts', 45.00, 35, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Pie Masters', 'Traditional young coconut pie'),
+('Egg Pie', 'Pastries & Desserts', 40.00, 40, 12, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Pie Masters', 'Custard egg tart pie'),
+('Bibingka', 'Pastries & Desserts', 30.00, 50, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Rice cake with salted egg and cheese'),
+('Puto', 'Pastries & Desserts', 5.00, 150, 40, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Steamed rice cake, soft and fluffy'),
+('Puto Cheese', 'Pastries & Desserts', 8.00, 120, 35, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Steamed rice cake topped with cheese'),
+('Sapin-Sapin', 'Pastries & Desserts', 35.00, 40, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Layered sticky rice cake with coconut'),
+('Kutsinta', 'Pastries & Desserts', 5.00, 100, 25, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Local Bakery', 'Brown rice cake with grated coconut'),
+('Cassava Cake', 'Pastries & Desserts', 40.00, 30, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Grated cassava cake with custard topping'),
+('Maja Blanca', 'Pastries & Desserts', 35.00, 35, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Coconut pudding with sweet corn'),
+
+-- Cakes & Special Occasions
+('Ube Cake Slice', 'Cakes & Special Occasions', 85.00, 40, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Cake Masters', 'Purple yam chiffon cake slice'),
+('Mango Cake Slice', 'Cakes & Special Occasions', 95.00, 35, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Fresh mango cream cake slice'),
+('Chocolate Cake Slice', 'Cakes & Special Occasions', 80.00, 45, 12, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Cake Masters', 'Rich chocolate layer cake'),
+('Mocha Cake Slice', 'Cakes & Special Occasions', 90.00, 30, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Cake Masters', 'Coffee-flavored cake with buttercream'),
+('Red Velvet Cake Slice', 'Cakes & Special Occasions', 100.00, 25, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Cake Masters', 'Red velvet with cream cheese frosting'),
+('Mamon', 'Cakes & Special Occasions', 15.00, 80, 20, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Light and fluffy butter sponge cake'),
+('Ube Mamon', 'Cakes & Special Occasions', 18.00, 70, 18, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Purple yam flavored sponge cake'),
+('Cheese Mamon', 'Cakes & Special Occasions', 20.00, 65, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Local Bakery', 'Cheese-topped butter sponge cake'),
+('Crema de Fruta', 'Cakes & Special Occasions', 120.00, 20, 5, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Layered cake with fruits and custard cream'),
+('Whole Ube Cake (8")', 'Cakes & Special Occasions', 650.00, 10, 3, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 4 DAY), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Cake Masters', 'Whole purple yam chiffon cake'),
+('Whole Mango Cake (8")', 'Cakes & Special Occasions', 750.00, 8, 2, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 4 DAY), 'Cake Masters', 'Whole fresh mango cream cake'),
+('Leche Flan Cake', 'Cakes & Special Occasions', 110.00, 18, 5, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Sponge cake with creamy leche flan layer'),
+
+-- Beverages & Extras
+('Fresh Brewed Coffee', 'Beverages & Extras', 55.00, 200, 50, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Premium Batangas barako coffee'),
+('Kapeng Barako', 'Beverages & Extras', 65.00, 150, 40, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Strong Philippine liberica coffee'),
+('Salabat (Ginger Tea)', 'Beverages & Extras', 45.00, 100, 25, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 60 DAY), 'Tea Supplier', 'Traditional Filipino ginger tea'),
+('Tsokolate (Filipino Hot Chocolate)', 'Beverages & Extras', 75.00, 80, 20, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Cacao Supplier', 'Traditional thick Filipino hot chocolate'),
+('Calamansi Juice', 'Beverages & Extras', 40.00, 120, 30, NULL, DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Juice Co', 'Fresh Philippine lemon juice'),
+('Buko Juice', 'Beverages & Extras', 50.00, 100, 25, NULL, DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Juice Co', 'Fresh young coconut water'),
+('Sago''t Gulaman', 'Beverages & Extras', 35.00, 90, 25, NULL, DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Beverage Co', 'Traditional Filipino drink with tapioca and jelly'),
+('Iced Coffee', 'Beverages & Extras', 65.00, 150, 40, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Cold brewed iced coffee'),
+('Ube Latte', 'Beverages & Extras', 85.00, 100, 25, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Purple yam flavored latte'),
+('Mango Shake', 'Beverages & Extras', 75.00, 80, 20, NULL, DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Juice Co', 'Fresh mango smoothie'),
+('Bottled Water', 'Beverages & Extras', 20.00, 300, 75, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 180 DAY), 'Water Supplier', 'Purified bottled water'),
+('Butter (100g)', 'Beverages & Extras', 45.00, 50, 15, NULL, DATE_ADD(CURDATE(), INTERVAL 14 DAY), DATE_ADD(CURDATE(), INTERVAL 21 DAY), 'Dairy Co', 'Premium salted butter'),
+('Cheese Spread', 'Beverages & Extras', 55.00, 60, 20, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), DATE_ADD(CURDATE(), INTERVAL 45 DAY), 'Dairy Co', 'Creamy cheese spread for bread')
 ON DUPLICATE KEY UPDATE name=name;
 
 -- ========================================

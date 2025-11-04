@@ -441,7 +441,7 @@ public class BeveragesPage extends JPanel implements KioskPage {
         JLabel priceLabel = new JLabel("₱" + priceFormat.format(itemPrice));
         priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        priceLabel.setForeground(PRIMARY_COLOR);
+        priceLabel.setForeground(TEXT_DARK);
         
         int currentQty = CartManager.getItemQuantity(itemName);
         
