@@ -364,7 +364,7 @@ pom.xml                       # Maven configuration
 - **Maven** - Build tool
 - **JDBC** - Database connectivity
 
-## ðŸ‘¨â€ï¿½ Author
+## Author
 
 **Vaelarr**
 - GitHub: [@Vaelarr](https://github.com/Vaelarr)
@@ -372,7 +372,7 @@ pom.xml                       # Maven configuration
 
 ---
 
-## ðŸ“ License
+## License
 
 This project is available for educational purposes.
 
