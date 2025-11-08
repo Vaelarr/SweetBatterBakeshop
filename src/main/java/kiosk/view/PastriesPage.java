@@ -460,7 +460,7 @@ public class PastriesPage extends JPanel implements KioskPage {
         JLabel priceLabel = new JLabel("₱" + priceFormat.format(itemPrice));
         priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        priceLabel.setForeground(ACCENT_COLOR);
+        priceLabel.setForeground(TEXT_DARK);
         priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Add to cart controls

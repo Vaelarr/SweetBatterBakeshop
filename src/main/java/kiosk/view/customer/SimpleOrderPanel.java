@@ -147,11 +147,16 @@ public class SimpleOrderPanel extends JPanel {
         
         // Load and add logo
         try {
-            ImageIcon logoIcon = new ImageIcon(getClass().getResource("/kiosk/resources/store-logo.png"));
-            // Scale logo to smaller size for header
-            Image scaledLogo = logoIcon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-            JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
-            leftPanel.add(logoLabel);
+            java.net.URL logoURL = getClass().getResource("/store-logo.png");
+            if (logoURL != null) {
+                ImageIcon logoIcon = new ImageIcon(logoURL);
+                // Scale logo to smaller size for header
+                Image scaledLogo = logoIcon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+                JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
+                leftPanel.add(logoLabel);
+            } else {
+                System.err.println("Could not find store logo at /store-logo.png");
+            }
         } catch (Exception e) {
             System.err.println("Could not load store logo: " + e.getMessage());
         }

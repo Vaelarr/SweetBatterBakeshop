@@ -5,8 +5,10 @@ package kiosk.model;
  */
 public class Addon {
     private int addonId;
+    private String addonCode;
     private String addonName;
-    private int categoryId;
+    private String categoryCode;
+    private int categoryId; // Keep for backward compatibility
     private double addonPrice;
     private String description;
     private boolean isAvailable;
@@ -32,12 +34,28 @@ public class Addon {
         this.addonId = addonId;
     }
     
+    public String getAddonCode() {
+        return addonCode;
+    }
+    
+    public void setAddonCode(String addonCode) {
+        this.addonCode = addonCode;
+    }
+    
     public String getAddonName() {
         return addonName;
     }
     
     public void setAddonName(String addonName) {
         this.addonName = addonName;
+    }
+    
+    public String getCategoryCode() {
+        return categoryCode;
+    }
+    
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
     }
     
     public int getCategoryId() {
@@ -77,5 +95,4 @@ public class Addon {
         return addonName + " (₱" + String.format("%.2f", addonPrice) + ")";
     }
 }
-
 

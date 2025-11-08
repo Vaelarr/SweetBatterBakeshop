@@ -26,18 +26,18 @@ A professional bakery management system built with Java Swing, featuring **two i
 
 ---
 
-## ðŸŽ¯ System Overview
+## System Overview
 
 This repository contains **two separate applications** that share a common database:
 
-### 1ï¸âƒ£ **Bakery Kiosk** (Main POS System)
+### 1. **Bakery Kiosk** (Main POS System)
 - Point-of-sale terminal for in-store purchases
 - Product catalog browsing and shopping cart
 - Admin panel with inventory management
 - Sales reporting and analytics
 - Custom orders management (admin view)
 
-### 2ï¸âƒ£ **Customer Portal** (Custom Orders)
+### 2. **Customer Portal** (Custom Orders)
 - Customer account registration and login
 - Custom order creation with add-ons
 - Pickup/delivery scheduling
@@ -46,7 +46,7 @@ This repository contains **two separate applications** that share a common datab
 
 ---
 
-## ðŸš€ Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Java 11** or higher
@@ -78,24 +78,24 @@ cd ..
 ```
 - Test Account: `john.doe@email.com` / `password123`
 
-ðŸ“– **Detailed Setup:** See [QUICKSTART.md](QUICKSTART.md) for step-by-step instructions.
+– **Detailed Setup:** See [QUICKSTART.md](QUICKSTART.md) for step-by-step instructions.
 
 
 ---
 
-## ï¿½ Applications
+## Applications
 
 ### 1. Bakery Kiosk (Main POS)
 
 **Launch:** `.\run_bakery_kiosk.bat`
 
 **Features:**
-- ðŸ›ï¸ **Product Catalog** - Browse 50+ bakery items across 4 categories
-- ðŸ›’ **Shopping Cart** - Real-time cart management
-- ðŸ’³ **Checkout System** - Complete transaction processing
-- ðŸ‘¨â€ðŸ’¼ **Admin Panel** - Full inventory and sales management
-- ðŸ“Š **Sales Reports** - Daily summaries and analytics
-- ðŸŽ‚ **Custom Orders Tab** - View and manage custom orders from customers
+- **Product Catalog** - Browse 50+ bakery items across 4 categories
+- **Shopping Cart** - Real-time cart management
+- **Checkout System** - Complete transaction processing
+- **Admin Panel** - Full inventory and sales management
+- **Sales Reports** - Daily summaries and analytics
+- **Custom Orders Tab** - View and manage custom orders from customers
 
 **Admin Access:**
 - Click "Admin" button on main kiosk
@@ -110,13 +110,13 @@ cd ..
 **Launch:** `.\run_customer_portal.bat`
 
 **Features:**
-- âœ¨ **Animated Splash Screen** - Professional loading experience
-- ðŸ‘¤ **Account Management** - Customer registration and login
-- ðŸŽ‚ **Custom Order Builder** - Create custom cakes and bulk orders
-- ðŸŽ¨ **Add-On Selection** - Flavors, fillings, decorations, messages
-- ðŸ“… **Pickup/Delivery** - Schedule fulfillment with date/time
-- ðŸ“‹ **Order History** - Track all your custom orders
-- ðŸ‘¤ **Profile Management** - Update contact information
+- **Animated Splash Screen** - Professional loading experience
+- **Account Management** - Customer registration and login
+- **Custom Order Builder** - Create custom cakes and bulk orders
+- **Add-On Selection** - Flavors, fillings, decorations, messages
+- **Pickup/Delivery** - Schedule fulfillment with date/time
+- **Order History** - Track all your custom orders
+- **Profile Management** - Update contact information
 
 **Test Account:**
 - Email: `john.doe@email.com`
@@ -126,7 +126,7 @@ cd ..
 
 ---
 
-## ðŸŽ¯ Features
+## Features
 
 ### Bakery Kiosk Features
 - **Modern Touch-Friendly UI** - Full-screen interface with gradient designs
@@ -147,7 +147,7 @@ cd ..
 - **Order Tracking** - Real-time status updates (Pending â†’ Confirmed â†’ Ready)
 - **Responsive Design** - Clean, modern UI with BakeryTheme styling
 
-## ðŸ—„ï¸ Database Integration
+## Database Integration
 
 The system uses **MySQL database** with professional DAO pattern for two integrated schemas:
 
@@ -196,68 +196,66 @@ db.username=root
 db.password=YOUR_PASSWORD
 ```
 
-ðŸ“– **Complete Guide:** [docs/QUICKSTART_DATABASE.md](docs/QUICKSTART_DATABASE.md)
+– **Complete Guide:** [docs/QUICKSTART_DATABASE.md](docs/QUICKSTART_DATABASE.md)
 
-## ðŸ—ï¸ Architecture
-
-## ðŸ—ï¸ Architecture
+## Architecture
 
 This project follows **MVC (Model-View-Controller)** with **DAO (Data Access Object)** pattern:
 
 ### Package Structure
 ```
 kiosk/
-â”œâ”€â”€ BakeryPastriesKiosk.java       # Main kiosk launcher
-â”œâ”€â”€ SimpleCustomerPortal.java      # Customer portal launcher
-â”œâ”€â”€ controller/                     # Business logic
-â”‚   â”œâ”€â”€ CartController.java
-â”‚   â”œâ”€â”€ CustomerController.java
-â”‚   â”œâ”€â”€ CustomOrderController.java
-â”‚   â”œâ”€â”€ InventoryController.java
-â”‚   â””â”€â”€ SalesController.java
-â”œâ”€â”€ database/                       # Data access layer
-â”‚   â”œâ”€â”€ dao/                        # Data access objects
-â”‚   â”‚   â”œâ”€â”€ CustomerDAO.java
-â”‚   â”‚   â”œâ”€â”€ CustomOrderDAO.java
-â”‚   â”‚   â”œâ”€â”€ CustomProductDAO.java
-â”‚   â”‚   â”œâ”€â”€ InventoryDAO.java
-â”‚   â”‚   â””â”€â”€ SalesDAO.java
-â”‚   â”œâ”€â”€ DatabaseConfig.java
-â”‚   â””â”€â”€ DatabaseConnection.java
-â”œâ”€â”€ model/                          # Domain models
-â”‚   â”œâ”€â”€ Customer.java
-â”‚   â”œâ”€â”€ CustomOrder.java
-â”‚   â”œâ”€â”€ CustomProduct.java
-â”‚   â”œâ”€â”€ InventoryItem.java
-â”‚   â”œâ”€â”€ CartItem.java
-â”‚   â””â”€â”€ SaleTransaction.java
-â”œâ”€â”€ view/                           # User interfaces
-â”‚   â”œâ”€â”€ admin/                      # Admin panels
-â”‚   â”‚   â”œâ”€â”€ AdminPanel.java
-â”‚   â”‚   â”œâ”€â”€ CustomOrdersAdminPanel.java
-â”‚   â”‚   â””â”€â”€ InventoryManagementPanel.java
-â”‚   â”œâ”€â”€ customer/                   # Customer portal UI
-â”‚   â”‚   â”œâ”€â”€ CustomerAuthPanel.java
-â”‚   â”‚   â”œâ”€â”€ CustomerSplashScreen.java
-â”‚   â”‚   â””â”€â”€ SimpleOrderPanel.java
-â”‚   â”œâ”€â”€ KioskMainPage.java
-â”‚   â”œâ”€â”€ CartPage.java
-â”‚   â”œâ”€â”€ SplashScreen.java
-â”‚   â””â”€â”€ BakeryTheme.java
-â””â”€â”€ util/                           # Utilities
-    â”œâ”€â”€ CartManager.java
-    â”œâ”€â”€ InventoryManager.java
-    â””â”€â”€ SVGIconUtil.java
+      BakeryPastriesKiosk.java       # Main kiosk launcher
+      SimpleCustomerPortal.java      # Customer portal launcher
+controller/                     # Business logic
+      CartController.java
+      CustomerController.java
+      CustomOrderController.java
+      InventoryController.java
+      SalesController.java
+database/                       # Data access layer
+   dao/                        # Data access objects
+      CustomerDAO.java
+      CustomOrderDAO.java
+      CustomProductDAO.java
+      InventoryDAO.java
+      SalesDAO.java
+      DatabaseConfig.java
+      DatabaseConnection.java
+model/                          # Domain models
+      Customer.java
+      CustomOrder.java
+      CustomProduct.java
+      InventoryItem.java
+      CartItem.java
+      SaleTransaction.java
+view/                           # User interfaces
+   admin/                      # Admin panels
+      AdminPanel.java
+      CustomOrdersAdminPanel.java
+      InventoryManagementPanel.java
+   customer/                   # Customer portal UI
+      CustomerAuthPanel.java
+      CustomerSplashScreen.java
+      SimpleOrderPanel.java
+      KioskMainPage.java
+      CartPage.java
+      SplashScreen.java
+      BakeryTheme.java
+   util/                           # Utilities
+      CartManager.java
+      InventoryManager.java
+      SVGIconUtil.java
 ```
 
 ### Design Patterns Used
-- âœ… **MVC Architecture** - Separation of concerns
-- âœ… **DAO Pattern** - Data access abstraction
-- âœ… **Singleton Pattern** - Database connections, controllers
-- âœ… **Observer Pattern** - Cart updates, UI refresh
-- âœ… **Factory Pattern** - Component creation
+- **MVC Architecture** - Separation of concerns
+- **DAO Pattern** - Data access abstraction
+- **Singleton Pattern** - Database connections, controllers
+- **Observer Pattern** - Cart updates, UI refresh
+- **Factory Pattern** - Component creation
 
-## ðŸ“š Documentation
+## Documentation
 
 ### Quick Start Guides
 - **[QUICKSTART.md](QUICKSTART.md)** - Get started in 5 minutes
@@ -273,7 +271,7 @@ kiosk/
 - **[docs/MAVEN_GUIDE.md](docs/MAVEN_GUIDE.md)** - Maven build system
 - **[docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md)** - Admin panel guide
 
-## ðŸš€ Getting Started
+## Getting Started
 
 ### Prerequisites
 1. **Java Development Kit (JDK) 11+**
@@ -327,7 +325,7 @@ Copy-Item config/database.properties.template config/database.properties
 .\run_customer_portal.bat
 ```
 
-## ðŸ’» Development
+## Development
 
 ### Build Commands
 ```powershell
@@ -347,15 +345,15 @@ Copy-Item config/database.properties.template config/database.properties
 ### Project Structure
 ```
 SweetBatterBakeshop/
-â”œâ”€â”€ src/main/java/kiosk/          # Source code
-â”œâ”€â”€ database/                      # SQL schemas and scripts
-â”œâ”€â”€ config/                        # Configuration files
-â”œâ”€â”€ docs/                          # Documentation
-â”œâ”€â”€ lib/images/                    # Image assets
-â”œâ”€â”€ run_bakery_kiosk.bat          # Kiosk launcher
-â”œâ”€â”€ run_customer_portal.bat       # Portal launcher
-â”œâ”€â”€ setup_database.bat            # DB setup script
-â””â”€â”€ pom.xml                       # Maven configuration
+src/main/java/kiosk/          # Source code
+database/                      # SQL schemas and scripts
+config/                        # Configuration files
+docs/                          # Documentation
+lib/images/                    # Image assets
+run_bakery_kiosk.bat          # Kiosk launcher
+run_customer_portal.bat       # Portal launcher
+setup_database.bat            # DB setup script
+pom.xml                       # Maven configuration
 ```
 
 ### Technologies Used
@@ -366,7 +364,7 @@ SweetBatterBakeshop/
 - **Maven** - Build tool
 - **JDBC** - Database connectivity
 
-## ðŸ‘¨â€ï¿½ Author
+## Author
 
 **Vaelarr**
 - GitHub: [@Vaelarr](https://github.com/Vaelarr)
@@ -374,18 +372,18 @@ SweetBatterBakeshop/
 
 ---
 
-## ðŸ“ License
+## License
 
 This project is available for educational purposes.
 
 ---
 
 **Version 4.0.0** - November 1, 2025
-- âœ… Integrated bakery kiosk and customer portal
-- âœ… Complete custom orders system
-- âœ… Dual-application architecture
-- âœ… MySQL database with DAO pattern
-- âœ… Modern FlatLaf UI theme
+- Integrated bakery kiosk and customer portal
+- Complete custom orders system
+- Dual-application architecture
+- MySQL database with DAO pattern
+- Modern FlatLaf UI theme
 ```
 
 ### Database Persistence

@@ -82,8 +82,10 @@ cd ..\..
 # Login to MySQL
 mysql -u root -p
 
-# Then inside MySQL:
-source d:/Development/SweetBatterBakeshop/database/sql/setup.sql
+# Then inside MySQL (use absolute path to your project):
+source e:/Java/OOP/SweetBatterBakeshop/SweetBatterBakeshop/database/sql/setup.sql
+# Or navigate to the sql directory first and use relative path:
+# source database/sql/setup.sql
 exit;
 ```
 

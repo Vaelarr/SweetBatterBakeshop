@@ -1,6 +1,7 @@
 package kiosk.view;
 
 import java.awt.*;
+import java.awt.print.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -168,13 +169,14 @@ public class AdminPanel extends JFrame {
         
         // Dashboard title
         JLabel dashboardTitle = new JLabel("Dashboard Overview");
-        dashboardTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        dashboardTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        dashboardTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        dashboardTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         
-        // Statistics cards panel
-        JPanel statsPanel = new JPanel(new GridLayout(2, 2, 20, 20));
+        // Statistics cards panel - made more compact
+        JPanel statsPanel = new JPanel(new GridLayout(1, 4, 15, 0));
         statsPanel.setBackground(BACKGROUND_COLOR);
-        statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        statsPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+        statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         
         // Create stat cards
         JPanel todaySalesCard = createStatCard("Today's Sales", "₱0.00", SUCCESS_COLOR, "💵");
@@ -196,7 +198,7 @@ public class AdminPanel extends JFrame {
         // Quick actions panel
         JPanel quickActionsPanel = createQuickActionsPanel();
         
-        // Alerts and help requests panel
+        // Alerts and help requests panel - given more space
         JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         bottomPanel.setBackground(BACKGROUND_COLOR);
         
@@ -206,12 +208,13 @@ public class AdminPanel extends JFrame {
         bottomPanel.add(alertsCard);
         bottomPanel.add(helpRequestsCard);
         
-        // Assemble dashboard
+        // Assemble dashboard with better proportions
         JPanel topSection = new JPanel(new BorderLayout());
         topSection.setBackground(BACKGROUND_COLOR);
         topSection.add(dashboardTitle, BorderLayout.NORTH);
         topSection.add(statsPanel, BorderLayout.CENTER);
         topSection.add(quickActionsPanel, BorderLayout.SOUTH);
+        topSection.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
         
         panel.add(topSection, BorderLayout.NORTH);
         panel.add(bottomPanel, BorderLayout.CENTER);
@@ -223,11 +226,11 @@ public class AdminPanel extends JFrame {
      * Creates a statistics card
      */
     private JPanel createStatCard(String label, String value, Color accentColor, String icon) {
-        JPanel card = new JPanel(new BorderLayout(10, 10));
+        JPanel card = new JPanel(new BorderLayout(5, 5));
         card.setBackground(CARD_BG);
         card.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(new Color(220, 220, 220), 1, true),
-            BorderFactory.createEmptyBorder(25, 25, 25, 25)
+            BorderFactory.createEmptyBorder(12, 15, 12, 15)
         ));
         
         // Icon and label panel
@@ -235,11 +238,11 @@ public class AdminPanel extends JFrame {
         topPanel.setBackground(CARD_BG);
         
         JLabel iconLabel = new JLabel(icon);
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 40));
+        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 24));
         iconLabel.setForeground(accentColor);
         
         JLabel labelComp = new JLabel(label);
-        labelComp.setFont(STAT_LABEL_FONT);
+        labelComp.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         labelComp.setForeground(new Color(100, 100, 100));
         labelComp.setHorizontalAlignment(SwingConstants.RIGHT);
         
@@ -247,11 +250,11 @@ public class AdminPanel extends JFrame {
         topPanel.add(labelComp, BorderLayout.EAST);
         
         // Value panel
-        JPanel valuePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+        JPanel valuePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 2));
         valuePanel.setBackground(CARD_BG);
         
         JLabel valueLabel = new JLabel(value);
-        valueLabel.setFont(STAT_NUMBER_FONT);
+        valueLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
         valueLabel.setForeground(accentColor);
         
         valuePanel.add(valueLabel);
@@ -266,12 +269,12 @@ public class AdminPanel extends JFrame {
      * Creates quick actions panel
      */
     private JPanel createQuickActionsPanel() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 15));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         panel.setBackground(BACKGROUND_COLOR);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         
         JLabel quickActionsLabel = new JLabel("Quick Actions:");
-        quickActionsLabel.setFont(SUBTITLE_FONT);
+        quickActionsLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         
         JButton addItemBtn = createActionButton("➕ Add New Item", ACCENT_COLOR);
         addItemBtn.addActionListener(e -> showAddItemDialog());
@@ -303,13 +306,13 @@ public class AdminPanel extends JFrame {
      */
     private JButton createActionButton(String text, Color bgColor) {
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
         button.setForeground(Color.WHITE);
         button.setBackground(bgColor);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(bgColor, 1, true),
-            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+            BorderFactory.createEmptyBorder(6, 12, 6, 12)
         ));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
@@ -386,7 +389,7 @@ public class AdminPanel extends JFrame {
         
         JScrollPane scrollPane = new JScrollPane(dashboardAlertsPanel);
         scrollPane.setBorder(null);
-        scrollPane.setPreferredSize(new Dimension(0, 250));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
         card.add(headerPanel, BorderLayout.NORTH);
         card.add(scrollPane, BorderLayout.CENTER);
@@ -431,7 +434,7 @@ public class AdminPanel extends JFrame {
         
         JScrollPane scrollPane = new JScrollPane(dashboardHelpRequestsPanel);
         scrollPane.setBorder(null);
-        scrollPane.setPreferredSize(new Dimension(0, 250));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
         card.add(headerPanel, BorderLayout.NORTH);
         card.add(scrollPane, BorderLayout.CENTER);
@@ -1191,6 +1194,9 @@ public class AdminPanel extends JFrame {
      * Creates daily sales report panel
      */
     private JPanel createDailyReportPanel() {
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.setBackground(CARD_BG);
+        
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(CARD_BG);
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -1223,6 +1229,7 @@ public class AdminPanel extends JFrame {
         JPanel statsPanel = new JPanel(new GridLayout(1, 4, 15, 0));
         statsPanel.setBackground(CARD_BG);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
         JPanel totalSalesCard = createMiniStatCard("Total Sales", "₱0.00", SUCCESS_COLOR);
         JPanel transactionsCard = createMiniStatCard("Transactions", "0", PRIMARY_COLOR);
@@ -1254,11 +1261,23 @@ public class AdminPanel extends JFrame {
         contentPanel.add(statsPanel, BorderLayout.NORTH);
         contentPanel.add(tableScrollPane, BorderLayout.CENTER);
         
-        // Generate button action
+        // Generate button action - Print the report
         generateBtn.addActionListener(e -> {
             java.util.Date selectedDate = (java.util.Date) dateSpinner.getValue();
             LocalDate localDate = selectedDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
             updateDailyReport(localDate, dailyTableModel, totalSalesCard, transactionsCard, itemsSoldCard, avgTransactionCard);
+            
+            // Prepare statistics for printing
+            Map<String, String> stats = new java.util.LinkedHashMap<>();
+            stats.put("Total Sales", getStatCardValue(totalSalesCard));
+            stats.put("Transactions", getStatCardValue(transactionsCard));
+            stats.put("Items Sold", getStatCardValue(itemsSoldCard));
+            stats.put("Avg Transaction", getStatCardValue(avgTransactionCard));
+            
+            // Print the report
+            printSalesReport("Daily Sales Report", 
+                           "Date: " + localDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")),
+                           dailyTableModel, stats);
         });
         
         // Load today's report by default
@@ -1267,7 +1286,15 @@ public class AdminPanel extends JFrame {
         panel.add(datePanel, BorderLayout.NORTH);
         panel.add(contentPanel, BorderLayout.CENTER);
         
-        return panel;
+        // Wrap in scroll pane to prevent cutoff
+        JScrollPane outerScrollPane = new JScrollPane(panel);
+        outerScrollPane.setBorder(null);
+        outerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        outerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        outerScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        
+        outerPanel.add(outerScrollPane, BorderLayout.CENTER);
+        return outerPanel;
     }
     
     /**
@@ -1316,6 +1343,9 @@ public class AdminPanel extends JFrame {
      * Creates weekly sales report panel
      */
     private JPanel createWeeklyReportPanel() {
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.setBackground(CARD_BG);
+        
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(CARD_BG);
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -1344,6 +1374,7 @@ public class AdminPanel extends JFrame {
         JPanel statsPanel = new JPanel(new GridLayout(1, 4, 15, 0));
         statsPanel.setBackground(CARD_BG);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
         JPanel weekTotalCard = createMiniStatCard("Week Total", "₱0.00", SUCCESS_COLOR);
         JPanel dailyAvgCard = createMiniStatCard("Daily Average", "₱0.00", PRIMARY_COLOR);
@@ -1388,8 +1419,23 @@ public class AdminPanel extends JFrame {
             updateWeeklyReport(selectedWeekStart[0], weeklyTableModel, weekTotalCard, dailyAvgCard, weekTransactionsCard, topItemCard);
         });
         
+        // Generate button action - Print the report
         generateBtn.addActionListener(e -> {
             updateWeeklyReport(selectedWeekStart[0], weeklyTableModel, weekTotalCard, dailyAvgCard, weekTransactionsCard, topItemCard);
+            
+            // Prepare statistics for printing
+            Map<String, String> stats = new java.util.LinkedHashMap<>();
+            stats.put("Week Total", getStatCardValue(weekTotalCard));
+            stats.put("Daily Average", getStatCardValue(dailyAvgCard));
+            stats.put("Transactions", getStatCardValue(weekTransactionsCard));
+            stats.put("Top Item", getStatCardValue(topItemCard));
+            
+            LocalDate weekEnd = selectedWeekStart[0].plusDays(6);
+            // Print the report
+            printSalesReport("Weekly Sales Report", 
+                           "Week: " + selectedWeekStart[0].format(DateTimeFormatter.ofPattern("MMM dd")) + 
+                           " - " + weekEnd.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                           weeklyTableModel, stats);
         });
         
         // Load current week by default
@@ -1398,7 +1444,15 @@ public class AdminPanel extends JFrame {
         panel.add(weekPanel, BorderLayout.NORTH);
         panel.add(contentPanel, BorderLayout.CENTER);
         
-        return panel;
+        // Wrap in scroll pane to prevent cutoff
+        JScrollPane outerScrollPane = new JScrollPane(panel);
+        outerScrollPane.setBorder(null);
+        outerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        outerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        outerScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        
+        outerPanel.add(outerScrollPane, BorderLayout.CENTER);
+        return outerPanel;
     }
     
     /**
@@ -1466,6 +1520,9 @@ public class AdminPanel extends JFrame {
      * Creates monthly sales report panel
      */
     private JPanel createMonthlyReportPanel() {
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.setBackground(CARD_BG);
+        
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(CARD_BG);
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -1503,6 +1560,7 @@ public class AdminPanel extends JFrame {
         JPanel statsPanel = new JPanel(new GridLayout(1, 4, 15, 0));
         statsPanel.setBackground(CARD_BG);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
         JPanel monthTotalCard = createMiniStatCard("Month Total", "₱0.00", SUCCESS_COLOR);
         JPanel monthAvgCard = createMiniStatCard("Daily Average", "₱0.00", PRIMARY_COLOR);
@@ -1534,11 +1592,25 @@ public class AdminPanel extends JFrame {
         contentPanel.add(statsPanel, BorderLayout.NORTH);
         contentPanel.add(tableScrollPane, BorderLayout.CENTER);
         
-        // Generate button action
+        // Generate button action - Print the report
         generateBtn.addActionListener(e -> {
             int month = monthCombo.getSelectedIndex() + 1;
             int year = (Integer) yearCombo.getSelectedItem();
             updateMonthlyReport(year, month, monthlyTableModel, monthTotalCard, monthAvgCard, monthTransactionsCard, topDayCard);
+            
+            // Prepare statistics for printing
+            Map<String, String> stats = new java.util.LinkedHashMap<>();
+            stats.put("Month Total", getStatCardValue(monthTotalCard));
+            stats.put("Daily Average", getStatCardValue(monthAvgCard));
+            stats.put("Transactions", getStatCardValue(monthTransactionsCard));
+            stats.put("Best Day", getStatCardValue(topDayCard));
+            
+            String[] monthNames = {"January", "February", "March", "April", "May", "June",
+                                  "July", "August", "September", "October", "November", "December"};
+            // Print the report
+            printSalesReport("Monthly Sales Report", 
+                           "Month: " + monthNames[month - 1] + " " + year,
+                           monthlyTableModel, stats);
         });
         
         // Load current month by default
@@ -1548,7 +1620,15 @@ public class AdminPanel extends JFrame {
         panel.add(monthPanel, BorderLayout.NORTH);
         panel.add(contentPanel, BorderLayout.CENTER);
         
-        return panel;
+        // Wrap in scroll pane to prevent cutoff
+        JScrollPane outerScrollPane = new JScrollPane(panel);
+        outerScrollPane.setBorder(null);
+        outerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        outerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        outerScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        
+        outerPanel.add(outerScrollPane, BorderLayout.CENTER);
+        return outerPanel;
     }
     
     /**
@@ -1627,6 +1707,9 @@ public class AdminPanel extends JFrame {
      * Creates all-time sales report panel
      */
     private JPanel createAllTimeReportPanel() {
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.setBackground(CARD_BG);
+        
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(CARD_BG);
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -1647,6 +1730,7 @@ public class AdminPanel extends JFrame {
         JPanel statsPanel = new JPanel(new GridLayout(2, 3, 15, 15));
         statsPanel.setBackground(CARD_BG);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        statsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
         
         JPanel totalRevenueCard = createMiniStatCard("Total Revenue", "₱0.00", SUCCESS_COLOR);
         JPanel totalTransactionsCard = createMiniStatCard("Total Transactions", "0", PRIMARY_COLOR);
@@ -1704,7 +1788,15 @@ public class AdminPanel extends JFrame {
         updateAllTimeReport(totalRevenueCard, totalTransactionsCard, totalItemsCard,
             avgTransactionCard, bestDayCard, topProductCard, topProductsModel);
         
-        return panel;
+        // Wrap in scroll pane to prevent cutoff
+        JScrollPane outerScrollPane = new JScrollPane(panel);
+        outerScrollPane.setBorder(null);
+        outerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        outerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        outerScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        
+        outerPanel.add(outerScrollPane, BorderLayout.CENTER);
+        return outerPanel;
     }
     
     /**
@@ -2084,6 +2176,272 @@ public class AdminPanel extends JFrame {
             // Auto-dismiss after 10 seconds if urgent, 15 seconds otherwise
             new Timer(isUrgent ? 10000 : 15000, e -> dialog.dispose()).start();
         });
+    }
+    
+    /**
+     * Helper method to extract the stat value text from a mini stat card
+     */
+    private String getStatCardValue(JPanel statCard) {
+        try {
+            // The value is in: statCard -> component(1) which is valuePanel -> component(0) which is valueLabel
+            JPanel valuePanel = (JPanel) statCard.getComponent(1);
+            JLabel valueLabel = (JLabel) valuePanel.getComponent(0);
+            return valueLabel.getText();
+        } catch (Exception e) {
+            return "N/A";
+        }
+    }
+    
+    /**
+     * Exports a sales report to PDF with the given title, date range, and table model
+     */
+    private void printSalesReport(String reportTitle, String dateInfo, DefaultTableModel tableModel, 
+                                   Map<String, String> statistics) {
+        // Create file chooser for PDF export
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Report as PDF");
+        
+        // Set default filename based on report title and date
+        String defaultFilename = reportTitle.replaceAll(" ", "_") + "_" + 
+                                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + ".pdf";
+        fileChooser.setSelectedFile(new java.io.File(defaultFilename));
+        
+        // Set file filter to only show PDF files
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            @Override
+            public boolean accept(java.io.File f) {
+                return f.isDirectory() || f.getName().toLowerCase().endsWith(".pdf");
+            }
+            
+            @Override
+            public String getDescription() {
+                return "PDF Documents (*.pdf)";
+            }
+        });
+        
+        int userSelection = fileChooser.showSaveDialog(this);
+        
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            java.io.File fileToSave = fileChooser.getSelectedFile();
+            
+            // Ensure .pdf extension
+            if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+                fileToSave = new java.io.File(fileToSave.getAbsolutePath() + ".pdf");
+            }
+            
+            try {
+                // Use PrinterJob to render to PDF
+                PrinterJob job = PrinterJob.getPrinterJob();
+                job.setJobName(reportTitle);
+                
+                // Create print service for PDF export
+                javax.print.PrintService pdfService = null;
+                for (javax.print.PrintService service : PrinterJob.lookupPrintServices()) {
+                    if (service.getName().toLowerCase().contains("pdf") || 
+                        service.getName().toLowerCase().contains("adobe")) {
+                        pdfService = service;
+                        break;
+                    }
+                }
+                
+                // If no PDF printer found, use default and write to file using attributes
+                javax.print.attribute.PrintRequestAttributeSet attributes = 
+                    new javax.print.attribute.HashPrintRequestAttributeSet();
+                attributes.add(new javax.print.attribute.standard.Destination(fileToSave.toURI()));
+                
+                job.setPrintable(new Printable() {
+                    @Override
+                    public int print(Graphics g, PageFormat pf, int pageIndex) throws PrinterException {
+                        if (pageIndex > 0) {
+                            return NO_SUCH_PAGE;
+                        }
+                        
+                        Graphics2D g2d = (Graphics2D) g;
+                        g2d.translate(pf.getImageableX(), pf.getImageableY());
+                        
+                        // Set up fonts
+                        Font titleFont = new Font("Segoe UI", Font.BOLD, 18);
+                        Font headerFont = new Font("Segoe UI", Font.BOLD, 14);
+                        Font normalFont = new Font("Segoe UI", Font.PLAIN, 11);
+                        Font smallFont = new Font("Segoe UI", Font.PLAIN, 9);
+                        
+                        int y = 30;
+                        int lineHeight = 18;
+                        
+                        // Print title
+                        g2d.setFont(titleFont);
+                        g2d.drawString("SweetBatterBakeshop", 30, y);
+                        y += lineHeight + 10;
+                        
+                        g2d.setFont(headerFont);
+                        g2d.drawString(reportTitle, 30, y);
+                        y += lineHeight + 5;
+                        
+                        g2d.setFont(normalFont);
+                        g2d.drawString(dateInfo, 30, y);
+                        y += lineHeight;
+                        
+                        g2d.drawString("Generated: " + java.time.LocalDateTime.now().format(
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), 30, y);
+                        y += lineHeight + 15;
+                        
+                        // Print statistics box
+                        g2d.setFont(headerFont);
+                        g2d.drawString("Summary Statistics:", 30, y);
+                        y += lineHeight;
+                        
+                        // Draw border around statistics
+                        int statsBoxY = y;
+                        g2d.setFont(normalFont);
+                        for (Map.Entry<String, String> entry : statistics.entrySet()) {
+                            g2d.drawString("• " + entry.getKey() + ": " + entry.getValue(), 40, y);
+                            y += lineHeight;
+                        }
+                        g2d.drawRect(30, statsBoxY - 5, 500, (statistics.size() * lineHeight) + 5);
+                        y += 15;
+                        
+                        // Print table header
+                        g2d.setFont(headerFont);
+                        g2d.drawString("Detailed Transactions:", 30, y);
+                        y += lineHeight + 5;
+                        
+                        // Print table column headers
+                        g2d.setFont(smallFont);
+                        int x = 30;
+                        int[] colWidths = new int[tableModel.getColumnCount()];
+                        int availableWidth = (int) pf.getImageableWidth() - 60;
+                        int equalWidth = availableWidth / tableModel.getColumnCount();
+                        
+                        for (int i = 0; i < tableModel.getColumnCount(); i++) {
+                            colWidths[i] = equalWidth;
+                            g2d.drawString(tableModel.getColumnName(i), x, y);
+                            x += colWidths[i];
+                        }
+                        y += lineHeight;
+                        
+                        // Draw line under headers
+                        g2d.drawLine(30, y, 30 + availableWidth, y);
+                        y += 5;
+                        
+                        // Print table rows
+                        int maxRows = Math.min(tableModel.getRowCount(), 30);
+                        for (int row = 0; row < maxRows; row++) {
+                            x = 30;
+                            for (int col = 0; col < tableModel.getColumnCount(); col++) {
+                                Object value = tableModel.getValueAt(row, col);
+                                String text = value != null ? value.toString() : "";
+                                int maxChars = colWidths[col] / 6;
+                                if (text.length() > maxChars) {
+                                    text = text.substring(0, maxChars - 2) + "..";
+                                }
+                                g2d.drawString(text, x, y);
+                                x += colWidths[col];
+                            }
+                            y += lineHeight;
+                            
+                            if (y > pf.getImageableHeight() - 60) {
+                                break;
+                            }
+                        }
+                        
+                        // Print footer
+                        y = (int) pf.getImageableHeight() - 30;
+                        g2d.drawLine(30, y, 30 + availableWidth, y);
+                        y += 15;
+                        g2d.setFont(smallFont);
+                        g2d.drawString("Page 1 of 1", 30, y);
+                        String footer = "SweetBatterBakeshop © 2025 | Confidential";
+                        g2d.drawString(footer, (int) pf.getImageableWidth() - 180, y);
+                        
+                        return PAGE_EXISTS;
+                    }
+                });
+                
+                // Try to print to PDF
+                try {
+                    if (pdfService != null) {
+                        job.setPrintService(pdfService);
+                    }
+                    job.print(attributes);
+                    
+                    JOptionPane.showMessageDialog(this,
+                        "Report exported to PDF successfully!\n" + fileToSave.getAbsolutePath(),
+                        "Export Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    // If PDF export fails, create a simple text report
+                    exportAsTextReport(fileToSave, reportTitle, dateInfo, tableModel, statistics);
+                }
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                    "Error exporting report: " + ex.getMessage(),
+                    "Export Error",
+                    JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * Fallback method to export report as formatted text file
+     */
+    private void exportAsTextReport(java.io.File file, String reportTitle, String dateInfo,
+                                   DefaultTableModel tableModel, Map<String, String> statistics) {
+        try (java.io.PrintWriter writer = new java.io.PrintWriter(file)) {
+            writer.println("═══════════════════════════════════════════════════════");
+            writer.println("           SWEETBATTERBAKESHOP SALES REPORT           ");
+            writer.println("═══════════════════════════════════════════════════════");
+            writer.println();
+            writer.println(reportTitle);
+            writer.println(dateInfo);
+            writer.println("Generated: " + java.time.LocalDateTime.now().format(
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            writer.println();
+            writer.println("───────────────────────────────────────────────────────");
+            writer.println("SUMMARY STATISTICS");
+            writer.println("───────────────────────────────────────────────────────");
+            for (Map.Entry<String, String> entry : statistics.entrySet()) {
+                writer.printf("%-20s : %s%n", entry.getKey(), entry.getValue());
+            }
+            writer.println();
+            writer.println("───────────────────────────────────────────────────────");
+            writer.println("DETAILED TRANSACTIONS");
+            writer.println("───────────────────────────────────────────────────────");
+            
+            // Print column headers
+            for (int i = 0; i < tableModel.getColumnCount(); i++) {
+                writer.printf("%-15s", tableModel.getColumnName(i));
+            }
+            writer.println();
+            writer.println("───────────────────────────────────────────────────────");
+            
+            // Print rows
+            for (int row = 0; row < tableModel.getRowCount(); row++) {
+                for (int col = 0; col < tableModel.getColumnCount(); col++) {
+                    Object value = tableModel.getValueAt(row, col);
+                    String text = value != null ? value.toString() : "";
+                    writer.printf("%-15s", text.length() > 15 ? text.substring(0, 12) + "..." : text);
+                }
+                writer.println();
+            }
+            
+            writer.println();
+            writer.println("═══════════════════════════════════════════════════════");
+            writer.println("         SweetBatterBakeshop © 2025 | Confidential    ");
+            writer.println("═══════════════════════════════════════════════════════");
+            
+            JOptionPane.showMessageDialog(this,
+                "Report exported as text file successfully!\n" + file.getAbsolutePath(),
+                "Export Success",
+                JOptionPane.INFORMATION_MESSAGE);
+                
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error creating text report: " + e.getMessage(),
+                "Export Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     @Override

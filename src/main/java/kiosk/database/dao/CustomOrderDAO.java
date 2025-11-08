@@ -248,6 +248,8 @@ public class CustomOrderDAO {
             
             while (rs.next()) {
                 CustomOrder order = extractOrderFromResultSet(rs);
+                // Load addons for this order
+                order.setAddons(getOrderAddons(order.getOrderNumber()));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -277,6 +279,8 @@ public class CustomOrderDAO {
             
             while (rs.next()) {
                 CustomOrder order = extractOrderFromResultSet(rs);
+                // Load addons for this order
+                order.setAddons(getOrderAddons(order.getOrderNumber()));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -306,6 +310,8 @@ public class CustomOrderDAO {
             
             while (rs.next()) {
                 CustomOrder order = extractOrderFromResultSet(rs);
+                // Load addons for this order
+                order.setAddons(getOrderAddons(order.getOrderNumber()));
                 orders.add(order);
             }
         } catch (SQLException e) {
