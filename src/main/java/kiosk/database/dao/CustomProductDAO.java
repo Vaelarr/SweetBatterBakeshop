@@ -416,26 +416,29 @@ public class CustomProductDAO {
      */
     public List<kiosk.model.Addon> getAllAddons() {
         List<kiosk.model.Addon> addons = new ArrayList<>();
-        String sql = "SELECT addon_id, addon_name, category_id, addon_price, description, is_available " +
+        String sql = "SELECT id, addon_name, category_code, price_modifier, description, is_active " +
                     "FROM addons " +
-                    "WHERE is_available = TRUE " +
-                    "ORDER BY category_id, addon_name";
+                    "WHERE is_active = 1 " +
+                    "ORDER BY category_code, addon_name";
         
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             
             while (rs.next()) {
                 kiosk.model.Addon addon = new kiosk.model.Addon();
-                addon.setAddonId(rs.getInt("addon_id"));
+                addon.setAddonId(rs.getInt("id"));
                 addon.setAddonName(rs.getString("addon_name"));
-                addon.setCategoryId(rs.getInt("category_id"));
-                addon.setAddonPrice(rs.getDouble("addon_price"));
+                // For categoryId, we'll need to handle category_code differently
+                // For now, use a placeholder or fetch category_id from addon_categories
+                addon.setCategoryId(0); // Placeholder - category_code is TEXT, not INT
+                addon.setAddonPrice(rs.getDouble("price_modifier"));
                 addon.setDescription(rs.getString("description"));
-                addon.setAvailable(rs.getBoolean("is_available"));
+                addon.setAvailable(rs.getInt("is_active") == 1);
                 addons.add(addon);
             }
         } catch (SQLException e) {
             System.err.println("Error getting all addons: " + e.getMessage());
+            e.printStackTrace();
         }
         
         return addons;
@@ -446,11 +449,11 @@ public class CustomProductDAO {
      */
     public Map<String, List<kiosk.model.Addon>> getAddonsByCategory() {
         Map<String, List<kiosk.model.Addon>> addonsByCategory = new java.util.LinkedHashMap<>();
-        String sql = "SELECT a.addon_id, a.addon_name, a.category_id, a.addon_price, a.description, " +
-                    "a.is_available, c.category_name " +
+        String sql = "SELECT a.id, a.addon_name, a.category_code, a.price_modifier, a.description, " +
+                    "a.is_active, c.category_name " +
                     "FROM addons a " +
-                    "JOIN addon_categories c ON a.category_id = c.category_id " +
-                    "WHERE a.is_available = TRUE " +
+                    "JOIN addon_categories c ON a.category_code = c.category_code " +
+                    "WHERE a.is_active = 1 " +
                     "ORDER BY c.display_order, a.addon_name";
         
         try (Statement stmt = connection.createStatement()) {
@@ -460,17 +463,18 @@ public class CustomProductDAO {
                 String categoryName = rs.getString("category_name");
                 
                 kiosk.model.Addon addon = new kiosk.model.Addon();
-                addon.setAddonId(rs.getInt("addon_id"));
+                addon.setAddonId(rs.getInt("id"));
                 addon.setAddonName(rs.getString("addon_name"));
-                addon.setCategoryId(rs.getInt("category_id"));
-                addon.setAddonPrice(rs.getDouble("addon_price"));
+                addon.setCategoryId(0); // category_code is TEXT, not INT
+                addon.setAddonPrice(rs.getDouble("price_modifier"));
                 addon.setDescription(rs.getString("description"));
-                addon.setAvailable(rs.getBoolean("is_available"));
+                addon.setAvailable(rs.getInt("is_active") == 1);
                 
                 addonsByCategory.computeIfAbsent(categoryName, k -> new ArrayList<>()).add(addon);
             }
         } catch (SQLException e) {
             System.err.println("Error getting addons by category: " + e.getMessage());
+            e.printStackTrace();
         }
         
         return addonsByCategory;
@@ -480,9 +484,9 @@ public class CustomProductDAO {
      * Find addon by ID
      */
     public kiosk.model.Addon findAddonById(int addonId) {
-        String sql = "SELECT addon_id, addon_name, category_id, addon_price, description, is_available " +
+        String sql = "SELECT id, addon_name, category_code, price_modifier, description, is_active " +
                     "FROM addons " +
-                    "WHERE addon_id = ?";
+                    "WHERE id = ?";
         
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, addonId);
@@ -490,16 +494,17 @@ public class CustomProductDAO {
             
             if (rs.next()) {
                 kiosk.model.Addon addon = new kiosk.model.Addon();
-                addon.setAddonId(rs.getInt("addon_id"));
+                addon.setAddonId(rs.getInt("id"));
                 addon.setAddonName(rs.getString("addon_name"));
-                addon.setCategoryId(rs.getInt("category_id"));
-                addon.setAddonPrice(rs.getDouble("addon_price"));
+                addon.setCategoryId(0); // category_code is TEXT, not INT
+                addon.setAddonPrice(rs.getDouble("price_modifier"));
                 addon.setDescription(rs.getString("description"));
-                addon.setAvailable(rs.getBoolean("is_available"));
+                addon.setAvailable(rs.getInt("is_active") == 1);
                 return addon;
             }
         } catch (SQLException e) {
             System.err.println("Error finding addon by ID: " + e.getMessage());
+            e.printStackTrace();
         }
         
         return null;

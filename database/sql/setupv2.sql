@@ -246,9 +246,9 @@ INSERT INTO system_settings (setting_key, setting_value, setting_type, descripti
 ('ENABLE_NOTIFICATIONS', 'true', 'BOOLEAN', 'Enable system notifications')
 ON DUPLICATE KEY UPDATE setting_key=setting_key;
 
--- Comprehensive inventory items for production (87 items across 5 categories)
+-- Comprehensive inventory items for production
 INSERT INTO inventory (name, category, price, stock_quantity, min_stock_level, date_baked, good_until, expiration_date, supplier, description) VALUES
--- Breads & Rolls (12 items)
+-- Breads & Rolls (Enhanced Selection)
 ('French Baguette', 'Breads & Rolls', 85.00, 30, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Bakery Chef', 'Fresh daily baked French bread'),
 ('Whole Wheat Bread', 'Breads & Rolls', 95.00, 25, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Bakery Chef', 'Healthy whole grain bread'),
 ('White Sandwich Bread', 'Breads & Rolls', 75.00, 40, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Bakery Chef', 'Soft white bread perfect for sandwiches'),
@@ -262,7 +262,7 @@ INSERT INTO inventory (name, category, price, stock_quantity, min_stock_level, d
 ('Ciabatta', 'Breads & Rolls', 110.00, 12, 6, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Artisan Bakery', 'Italian rustic bread'),
 ('Focaccia', 'Breads & Rolls', 125.00, 15, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Artisan Bakery', 'Italian flatbread with herbs'),
 
--- Pastries & Desserts (27 items)
+-- Pastries & Desserts (Extensive Collection)
 ('Chocolate Croissant', 'Pastries & Desserts', 75.00, 35, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'French Bakery', 'Buttery croissant with rich chocolate'),
 ('Plain Croissant', 'Pastries & Desserts', 60.00, 40, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'French Bakery', 'Classic buttery French croissant'),
 ('Almond Croissant', 'Pastries & Desserts', 85.00, 25, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'French Bakery', 'Croissant filled with almond cream'),
@@ -290,7 +290,7 @@ INSERT INTO inventory (name, category, price, stock_quantity, min_stock_level, d
 ('Donut - Strawberry', 'Pastries & Desserts', 40.00, 40, 15, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Strawberry frosted donut'),
 ('Donut - Bavarian', 'Pastries & Desserts', 50.00, 30, 12, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Custard filled donut'),
 
--- Cakes & Special Occasions (15 items)
+-- Cakes & Special Occasions (Premium Selection)
 ('Chocolate Cake Slice', 'Cakes & Special Occasions', 120.00, 24, 8, DATE_SUB(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Rich chocolate layer cake'),
 ('Vanilla Cake Slice', 'Cakes & Special Occasions', 110.00, 24, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Classic vanilla cake with buttercream'),
 ('Red Velvet Cake Slice', 'Cakes & Special Occasions', 130.00, 20, 6, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY), DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'Cake Masters', 'Red velvet with cream cheese frosting'),
@@ -307,7 +307,7 @@ INSERT INTO inventory (name, category, price, stock_quantity, min_stock_level, d
 ('Whole Ube Cake (8")', 'Cakes & Special Occasions', 900.00, 4, 2, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Cake Masters', '8-inch whole ube cake'),
 ('Birthday Cake - Custom', 'Cakes & Special Occasions', 1200.00, 3, 1, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 DAY), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Cake Masters', 'Custom decorated birthday cake'),
 
--- Beverages & Extras (21 items)
+-- Beverages & Extras (Complete Range)
 ('Fresh Brewed Coffee', 'Beverages & Extras', 55.00, 120, 30, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Premium arabica coffee'),
 ('Espresso', 'Beverages & Extras', 65.00, 100, 25, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Strong Italian coffee'),
 ('Cappuccino', 'Beverages & Extras', 75.00, 100, 25, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'Coffee Supplier', 'Espresso with steamed milk foam'),
@@ -328,7 +328,7 @@ INSERT INTO inventory (name, category, price, stock_quantity, min_stock_level, d
 ('Soda - Coke', 'Beverages & Extras', 40.00, 120, 30, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 180 DAY), 'Beverage Co', 'Coca-Cola'),
 ('Soda - Sprite', 'Beverages & Extras', 40.00, 100, 30, NULL, NULL, DATE_ADD(CURDATE(), INTERVAL 180 DAY), 'Beverage Co', 'Sprite lemon-lime'),
 
--- Sandwiches & Savory (12 items)
+-- Sandwiches & Savory Items (New Category)
 ('Ham & Cheese Sandwich', 'Sandwiches & Savory', 95.00, 25, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Classic ham and cheese on fresh bread'),
 ('Tuna Sandwich', 'Sandwiches & Savory', 85.00, 20, 8, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Tuna salad sandwich'),
 ('Egg Sandwich', 'Sandwiches & Savory', 75.00, 25, 10, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 DAY), DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'Local Bakery', 'Fresh egg salad sandwich'),
@@ -554,383 +554,6 @@ END //
 DELIMITER ;
 
 -- ========================================
--- CUSTOM ORDERS SYSTEM - ADDITIONAL TABLES
--- Customer Accounts & Custom Order Management
--- ========================================
-
--- Customer accounts table
-CREATE TABLE IF NOT EXISTS customers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id VARCHAR(50) NOT NULL UNIQUE COMMENT 'Format: CUST-YYYYMMDD-XXXX',
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    date_of_birth DATE,
-    address_line1 VARCHAR(255),
-    address_line2 VARCHAR(255),
-    city VARCHAR(100),
-    state_province VARCHAR(100),
-    postal_code VARCHAR(20),
-    country VARCHAR(100) DEFAULT 'Philippines',
-    customer_type ENUM('REGULAR', 'VIP', 'WHOLESALE') DEFAULT 'REGULAR',
-    loyalty_points INT DEFAULT 0,
-    total_orders INT DEFAULT 0,
-    total_spent DECIMAL(10, 2) DEFAULT 0.00,
-    is_active BOOLEAN DEFAULT TRUE,
-    is_email_verified BOOLEAN DEFAULT FALSE,
-    email_verification_token VARCHAR(255),
-    password_reset_token VARCHAR(255),
-    password_reset_expires TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_login TIMESTAMP NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_customer_id (customer_id),
-    INDEX idx_email (email),
-    INDEX idx_phone (phone),
-    INDEX idx_customer_type (customer_type),
-    INDEX idx_active (is_active),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Customer addresses for multiple delivery locations
-CREATE TABLE IF NOT EXISTS customer_addresses (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id VARCHAR(50) NOT NULL,
-    address_label VARCHAR(50) NOT NULL COMMENT 'e.g., Home, Office, etc.',
-    recipient_name VARCHAR(200),
-    phone VARCHAR(20),
-    address_line1 VARCHAR(255) NOT NULL,
-    address_line2 VARCHAR(255),
-    city VARCHAR(100) NOT NULL,
-    state_province VARCHAR(100),
-    postal_code VARCHAR(20),
-    country VARCHAR(100) DEFAULT 'Philippines',
-    is_default BOOLEAN DEFAULT FALSE,
-    delivery_instructions TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
-    INDEX idx_customer_id (customer_id),
-    INDEX idx_is_default (is_default)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Custom order categories (e.g., Custom Cakes, Bulk Orders, etc.)
-CREATE TABLE IF NOT EXISTS custom_order_categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category_code VARCHAR(50) NOT NULL UNIQUE,
-    category_name VARCHAR(100) NOT NULL,
-    description TEXT,
-    icon_path VARCHAR(500),
-    min_order_lead_time_days INT DEFAULT 3 COMMENT 'Minimum days notice required',
-    is_active BOOLEAN DEFAULT TRUE,
-    display_order INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_category_code (category_code),
-    INDEX idx_active (is_active),
-    INDEX idx_display_order (display_order)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Base products available for customization
-CREATE TABLE IF NOT EXISTS custom_order_base_products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    product_code VARCHAR(50) NOT NULL UNIQUE,
-    category_code VARCHAR(50) NOT NULL,
-    product_name VARCHAR(200) NOT NULL,
-    description TEXT,
-    base_price DECIMAL(10, 2) NOT NULL,
-    price_per_serving DECIMAL(10, 2) COMMENT 'Price per person/serving',
-    min_servings INT DEFAULT 1,
-    max_servings INT DEFAULT 200,
-    preparation_time_hours INT DEFAULT 24,
-    image_path VARCHAR(500),
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_code) REFERENCES custom_order_categories(category_code) ON DELETE CASCADE,
-    INDEX idx_product_code (product_code),
-    INDEX idx_category_code (category_code),
-    INDEX idx_active (is_active)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Add-on categories (Flavors, Fillings, Decorations, etc.)
-CREATE TABLE IF NOT EXISTS addon_categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category_code VARCHAR(50) NOT NULL UNIQUE,
-    category_name VARCHAR(100) NOT NULL,
-    description TEXT,
-    selection_type ENUM('SINGLE', 'MULTIPLE', 'OPTIONAL') DEFAULT 'SINGLE',
-    max_selections INT DEFAULT 1,
-    is_required BOOLEAN DEFAULT FALSE,
-    display_order INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_category_code (category_code),
-    INDEX idx_display_order (display_order)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Individual add-ons (specific flavors, decorations, etc.)
-CREATE TABLE IF NOT EXISTS addons (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    addon_code VARCHAR(50) NOT NULL UNIQUE,
-    category_code VARCHAR(50) NOT NULL,
-    addon_name VARCHAR(200) NOT NULL,
-    description TEXT,
-    price_modifier DECIMAL(10, 2) DEFAULT 0.00 COMMENT 'Additional cost for this addon',
-    price_type ENUM('FLAT', 'PERCENTAGE', 'PER_SERVING') DEFAULT 'FLAT',
-    image_path VARCHAR(500),
-    is_active BOOLEAN DEFAULT TRUE,
-    is_premium BOOLEAN DEFAULT FALSE,
-    stock_limited BOOLEAN DEFAULT FALSE,
-    stock_quantity INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_code) REFERENCES addon_categories(category_code) ON DELETE CASCADE,
-    INDEX idx_addon_code (addon_code),
-    INDEX idx_category_code (category_code),
-    INDEX idx_active (is_active),
-    INDEX idx_premium (is_premium)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Product-addon compatibility (which addons work with which products)
-CREATE TABLE IF NOT EXISTS product_addon_compatibility (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    product_code VARCHAR(50) NOT NULL,
-    addon_category_code VARCHAR(50) NOT NULL,
-    is_required BOOLEAN DEFAULT FALSE,
-    display_order INT DEFAULT 0,
-    FOREIGN KEY (product_code) REFERENCES custom_order_base_products(product_code) ON DELETE CASCADE,
-    FOREIGN KEY (addon_category_code) REFERENCES addon_categories(category_code) ON DELETE CASCADE,
-    INDEX idx_product_code (product_code),
-    INDEX idx_addon_category (addon_category_code),
-    UNIQUE KEY unique_product_addon (product_code, addon_category_code)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Main custom orders table
-CREATE TABLE IF NOT EXISTS custom_orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number VARCHAR(50) NOT NULL UNIQUE COMMENT 'Format: CO-YYYYMMDD-XXXX',
-    customer_id VARCHAR(50) NOT NULL,
-    product_code VARCHAR(50) NOT NULL,
-    order_type VARCHAR(50) NOT NULL COMMENT 'CUSTOM_CAKE, BULK_ORDER, etc.',
-    servings INT NOT NULL,
-    message_on_item TEXT COMMENT 'Message to write on cake/item',
-    special_instructions TEXT,
-    base_price DECIMAL(10, 2) NOT NULL,
-    addons_total DECIMAL(10, 2) DEFAULT 0.00,
-    subtotal DECIMAL(10, 2) NOT NULL,
-    discount_amount DECIMAL(10, 2) DEFAULT 0.00,
-    tax_amount DECIMAL(10, 2) DEFAULT 0.00,
-    delivery_fee DECIMAL(10, 2) DEFAULT 0.00,
-    total_amount DECIMAL(10, 2) NOT NULL,
-    deposit_required DECIMAL(10, 2) DEFAULT 0.00,
-    deposit_paid DECIMAL(10, 2) DEFAULT 0.00,
-    deposit_payment_method VARCHAR(50),
-    deposit_paid_at TIMESTAMP NULL,
-    balance_due DECIMAL(10, 2) DEFAULT 0.00,
-    payment_status ENUM('PENDING', 'DEPOSIT_PAID', 'FULLY_PAID', 'REFUNDED') DEFAULT 'PENDING',
-    fulfillment_type ENUM('PICKUP', 'DELIVERY') NOT NULL DEFAULT 'PICKUP',
-    pickup_datetime DATETIME NOT NULL,
-    delivery_address_id INT,
-    delivery_datetime DATETIME,
-    order_status ENUM('PENDING', 'CONFIRMED', 'IN_PRODUCTION', 'READY', 'COMPLETED', 'CANCELLED') DEFAULT 'PENDING',
-    admin_notes TEXT,
-    cancellation_reason TEXT,
-    cancelled_at TIMESTAMP NULL,
-    cancelled_by VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    confirmed_at TIMESTAMP NULL,
-    completed_at TIMESTAMP NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    assigned_baker VARCHAR(100),
-    assigned_decorator VARCHAR(100),
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
-    FOREIGN KEY (product_code) REFERENCES custom_order_base_products(product_code),
-    FOREIGN KEY (delivery_address_id) REFERENCES customer_addresses(id) ON DELETE SET NULL,
-    INDEX idx_order_number (order_number),
-    INDEX idx_customer_id (customer_id),
-    INDEX idx_product_code (product_code),
-    INDEX idx_order_status (order_status),
-    INDEX idx_payment_status (payment_status),
-    INDEX idx_fulfillment_type (fulfillment_type),
-    INDEX idx_pickup_datetime (pickup_datetime),
-    INDEX idx_created_at (created_at),
-    INDEX idx_confirmed_at (confirmed_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Custom order add-ons (selected add-ons for each order)
-CREATE TABLE IF NOT EXISTS custom_order_addons (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number VARCHAR(50) NOT NULL,
-    addon_code VARCHAR(50) NOT NULL,
-    addon_category VARCHAR(50) NOT NULL,
-    quantity INT DEFAULT 1,
-    price_modifier DECIMAL(10, 2) NOT NULL,
-    total_addon_price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (order_number) REFERENCES custom_orders(order_number) ON DELETE CASCADE,
-    FOREIGN KEY (addon_code) REFERENCES addons(addon_code),
-    INDEX idx_order_number (order_number),
-    INDEX idx_addon_code (addon_code)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Custom order attachments (reference images, design files, etc.)
-CREATE TABLE IF NOT EXISTS custom_order_attachments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number VARCHAR(50) NOT NULL,
-    file_name VARCHAR(255) NOT NULL,
-    file_path VARCHAR(500) NOT NULL,
-    file_type VARCHAR(50),
-    file_size_kb INT,
-    description TEXT,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_number) REFERENCES custom_orders(order_number) ON DELETE CASCADE,
-    INDEX idx_order_number (order_number)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Custom order status history
-CREATE TABLE IF NOT EXISTS custom_order_status_history (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number VARCHAR(50) NOT NULL,
-    old_status VARCHAR(50),
-    new_status VARCHAR(50) NOT NULL,
-    notes TEXT,
-    changed_by VARCHAR(100),
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_number) REFERENCES custom_orders(order_number) ON DELETE CASCADE,
-    INDEX idx_order_number (order_number),
-    INDEX idx_changed_at (changed_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Order reviews
-CREATE TABLE IF NOT EXISTS custom_order_reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number VARCHAR(50) NOT NULL,
-    customer_id VARCHAR(50) NOT NULL,
-    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-    review_title VARCHAR(200),
-    review_text TEXT,
-    would_recommend BOOLEAN DEFAULT TRUE,
-    image_path VARCHAR(500),
-    admin_response TEXT,
-    responded_at TIMESTAMP NULL,
-    is_approved BOOLEAN DEFAULT FALSE,
-    is_featured BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_number) REFERENCES custom_orders(order_number) ON DELETE CASCADE,
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
-    INDEX idx_order_number (order_number),
-    INDEX idx_customer_id (customer_id),
-    INDEX idx_rating (rating),
-    INDEX idx_approved (is_approved),
-    INDEX idx_featured (is_featured)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ========================================
--- CUSTOM ORDERS SAMPLE DATA
--- ========================================
-
--- Insert custom order categories
-INSERT INTO custom_order_categories (category_code, category_name, description, min_order_lead_time_days) VALUES
-('CUSTOM_CAKE', 'Custom Cakes', 'Personalized cakes for any occasion', 3),
-('BULK_PASTRIES', 'Bulk Pastries', 'Large quantity pastries for events', 2),
-('BULK_BREADS', 'Bulk Breads', 'Wholesale bread orders', 1),
-('CUSTOM_DESSERT', 'Custom Desserts', 'Specialty dessert platters', 2)
-ON DUPLICATE KEY UPDATE category_name=category_name;
-
--- Insert base products
-INSERT INTO custom_order_base_products (product_code, category_code, product_name, description, base_price, price_per_serving, min_servings, max_servings, preparation_time_hours) VALUES
-('CAKE_ROUND_BASIC', 'CUSTOM_CAKE', 'Round Basic Cake', 'Classic round cake with basic decoration', 800.00, 50.00, 10, 100, 24),
-('CAKE_ROUND_PREMIUM', 'CUSTOM_CAKE', 'Round Premium Cake', 'Premium round cake with elaborate decoration', 1500.00, 80.00, 10, 100, 48),
-('CAKE_TIERED_2', 'CUSTOM_CAKE', '2-Tier Cake', 'Elegant 2-tier cake', 2500.00, 100.00, 20, 150, 48),
-('BULK_CUPCAKES', 'BULK_PASTRIES', 'Cupcake Assortment', 'Assorted cupcakes in bulk', 50.00, 50.00, 12, 500, 12)
-ON DUPLICATE KEY UPDATE product_name=product_name;
-
--- Insert addon categories
-INSERT INTO addon_categories (category_code, category_name, description, selection_type, max_selections, is_required) VALUES
-('FLAVOR', 'Cake Flavor', 'Choose your cake flavor', 'SINGLE', 1, TRUE),
-('FILLING', 'Cake Filling', 'Select cake filling', 'SINGLE', 1, TRUE),
-('FROSTING', 'Frosting Type', 'Choose frosting style', 'SINGLE', 1, TRUE),
-('DECORATION', 'Decoration Theme', 'Select decoration theme', 'SINGLE', 1, FALSE)
-ON DUPLICATE KEY UPDATE category_name=category_name;
-
--- Insert addons
-INSERT INTO addons (addon_code, category_code, addon_name, description, price_modifier, price_type) VALUES
-('FLAVOR_VANILLA', 'FLAVOR', 'Classic Vanilla', 'Traditional vanilla cake', 0.00, 'FLAT'),
-('FLAVOR_CHOCOLATE', 'FLAVOR', 'Rich Chocolate', 'Decadent chocolate cake', 50.00, 'FLAT'),
-('FLAVOR_UBE', 'FLAVOR', 'Ube (Purple Yam)', 'Filipino ube flavored cake', 120.00, 'FLAT'),
-('FILLING_BUTTERCREAM', 'FILLING', 'Buttercream', 'Classic buttercream filling', 0.00, 'FLAT'),
-('FILLING_CHOCOLATE_GANACHE', 'FILLING', 'Chocolate Ganache', 'Rich chocolate ganache', 100.00, 'FLAT'),
-('FROSTING_BUTTERCREAM', 'FROSTING', 'Buttercream', 'Classic buttercream frosting', 0.00, 'FLAT'),
-('FROSTING_FONDANT', 'FROSTING', 'Fondant', 'Smooth fondant covering', 200.00, 'FLAT')
-ON DUPLICATE KEY UPDATE addon_name=addon_name;
-
--- Insert sample customer
-INSERT INTO customers (customer_id, email, password_hash, first_name, last_name, phone, customer_type) VALUES
-('CUST-20250101-0001', 'customer@example.com', 'password123', 'John', 'Doe', '09171234567', 'REGULAR')
-ON DUPLICATE KEY UPDATE email=email;
-
--- ========================================
--- CUSTOM ORDERS VIEWS
--- ========================================
-
--- Active custom orders view for admin dashboard
-CREATE OR REPLACE VIEW v_active_custom_orders AS
-SELECT 
-    co.order_number,
-    co.customer_id,
-    CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
-    c.phone AS customer_phone,
-    bp.product_name,
-    co.servings,
-    co.total_amount,
-    co.payment_status,
-    co.order_status,
-    co.pickup_datetime,
-    DATEDIFF(co.pickup_datetime, NOW()) AS days_until_pickup
-FROM custom_orders co
-JOIN customers c ON co.customer_id = c.customer_id
-JOIN custom_order_base_products bp ON co.product_code = bp.product_code
-WHERE co.order_status IN ('PENDING', 'CONFIRMED', 'IN_PRODUCTION', 'READY')
-ORDER BY co.pickup_datetime ASC;
-
--- ========================================
--- CUSTOM ORDERS TRIGGERS
--- ========================================
-
--- Update customer stats when order is completed
-DELIMITER //
-CREATE TRIGGER IF NOT EXISTS after_custom_order_complete
-AFTER UPDATE ON custom_orders
-FOR EACH ROW
-BEGIN
-    IF NEW.order_status = 'COMPLETED' AND OLD.order_status != 'COMPLETED' THEN
-        UPDATE customers
-        SET 
-            total_orders = total_orders + 1,
-            total_spent = total_spent + NEW.total_amount,
-            loyalty_points = loyalty_points + FLOOR(NEW.total_amount / 100)
-        WHERE customer_id = NEW.customer_id;
-    END IF;
-END//
-DELIMITER ;
-
--- Track order status changes
-DELIMITER //
-CREATE TRIGGER IF NOT EXISTS after_order_status_change
-AFTER UPDATE ON custom_orders
-FOR EACH ROW
-BEGIN
-    IF NEW.order_status != OLD.order_status THEN
-        INSERT INTO custom_order_status_history (order_number, old_status, new_status, notes)
-        VALUES (NEW.order_number, OLD.order_status, NEW.order_status, 
-                CONCAT('Status changed from ', OLD.order_status, ' to ', NEW.order_status));
-    END IF;
-END//
-DELIMITER ;
-
--- ========================================
 -- VERIFICATION & COMPLETION
 -- ========================================
 
@@ -949,13 +572,7 @@ SELECT 'admin_users', COUNT(*) FROM admin_users
 UNION ALL
 SELECT 'help_requests', COUNT(*) FROM help_requests
 UNION ALL
-SELECT 'system_settings', COUNT(*) FROM system_settings
-UNION ALL
-SELECT 'customers', COUNT(*) FROM customers
-UNION ALL
-SELECT 'custom_orders', COUNT(*) FROM custom_orders;
+SELECT 'system_settings', COUNT(*) FROM system_settings;
 
 SELECT '✅ Database setup completed successfully!' AS Status,
-       'All tables, views, procedures, and triggers created.' AS Details,
-       'Includes core inventory, sales, admin, and custom orders systems.' AS Info;
-
+       'All tables, views, procedures, and triggers created.' AS Details;
